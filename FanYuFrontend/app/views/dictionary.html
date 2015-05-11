@@ -1,0 +1,31 @@
+<nav class="col-lg-2 sidebar" id="leftNavbar">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-label="...">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-search"></span> <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a href="#">词头匹配</a></li>
+                    <li><a href="#">词尾匹配</a></li>
+                    <li><a href="#">模糊匹配</a></li>
+                    <li><a href="#">变形匹配</a></li>
+                    <li><a href="#">全文匹配</a></li>
+                    <li><a href="#">对应词匹配</a></li>
+                </ul>
+            </div><!-- /btn-group -->
+        </div><!-- /input-group -->
+        <ul class="nav nav-sidebar">
+            <li><a id="linkHome" ui-sref=".showWord({word: 'about'})">about</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'cat'})">cat</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'non-absolutely'})">non-absolutely</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'word'})">word</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'good'})">good</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'destroy'})">destroy</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'right now'})">right now</a></li>
+            <li><a id="linkHome" ui-sref=".showWord({word: 'supper'})">supper</a></li>
+        </ul>
+    </nav>
+    <div class="col-lg-10 col-lg-offset-2 main" role="main">
+        <div ui-view></div>
+    </div>
