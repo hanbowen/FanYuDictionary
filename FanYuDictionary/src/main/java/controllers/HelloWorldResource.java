@@ -9,6 +9,7 @@ import org.apache.wink.common.annotations.Workspace;
 @Path("/helloworld")  
 public class HelloWorldResource {  
   
+	// liubingchuan join
     @GET  
     public String getMessage() {  
         return "Hello Rest API";  
