@@ -21,11 +21,7 @@ angular
     .config(function($stateProvider, $urlRouterProvider){
 
             // For any unmatched url, send to /route1
-
-
-
             $urlRouterProvider.otherwise("/dictionary")
-
             $stateProvider
                 .state('dictionary', {
                     url:'/dictionary',
