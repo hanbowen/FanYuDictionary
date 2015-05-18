@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc function
  * @name fanYuFrontendApp.controller:UsersCtrl
@@ -7,11 +5,11 @@
  * # UsersCtrl
  * Controller of the fanYuFrontendApp
  */
-angular.module('fanYuFrontendApp')
-  .controller('UsersCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+(function () {
+    'use strict';
+    angular.module('fanYuFrontendApp')
+        .controller('UsersCtrl', function ($scope) {
+            var vm = this;
+            vm.name = "liubingchuan";
+        });
+})();

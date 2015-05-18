@@ -1,1 +1,4 @@
-<p>This is the users view.</p>
+<div ng-controller="UsersCtrl as vm">
+    <input type="text" ng-model="vm.name">
+<p>This is the user:{{vm.name}} view.</p>
+</div>

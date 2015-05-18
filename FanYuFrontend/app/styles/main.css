@@ -158,3 +158,11 @@ body {
 .navbar-fixed-top {
     border: 0;
 }
+
+.mt0{
+    margin-top: 0;
+}
+
+.pa10{
+    margin: 10px;
+}
