@@ -14,7 +14,7 @@
 	</listener>
 
 	<!-- 核心控制器 -->
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
@@ -31,7 +31,7 @@
 	<servlet-mapping>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 	<servlet>
 		<servlet-name>restSdkService</servlet-name>
 		<servlet-class>org.apache.wink.server.internal.servlet.RestServlet</servlet-class>
@@ -43,13 +43,21 @@
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 	
-	<context-param>  
+	<!-- <context-param>  
 	    <param-name>contextConfigLocation</param-name>  
 	    <param-value>  
 	        classpath:META-INF/server/wink-core-context.xml,
 	        /WEB-INF/applicationContext.xml
 	    </param-value>  
-	</context-param>  
+	</context-param> -->  
+  
+	  <context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>classpath:META-INF/server/wink-core-context.xml,classpath*:/spring-context/*.xml</param-value>
+	  </context-param>
+	  <listener>
+	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	  </listener>
   
 
 </web-app>
