@@ -21,18 +21,37 @@
                     <li><a ng-href="#/">关于我们</a></li>
                     <li><a ng-href="#/">联系我们</a></li>
                     <li>
-                        <a id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer">
-                            <span class="glyphicon glyphicon-user" ></span>
+                        <a id="userDropdownMenu" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer">
+                            <span class="glyphicon glyphicon-user"></span>
                             <span id="activeUserName">韩博闻</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">登录</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注销</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">修改密码</a></li>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li role="presentation"><a data-toggle="modal" data-target="#loginModal">登录</a></li>
+                            <li role="presentation"><a>注销</a></li>
+                            <li role="presentation"><a>修改密码</a></li>
                         </ul>
                     </li>
+                    <li><a class="btn" data-toggle="collapse" data-target="#customSettingContainer"><span
+                            class="glyphicon glyphicon-cog"></span></a></li>
                 </ul>
 
+            </div>
+        </div>
+
+        <div class="collapse" id="customSettingContainer">
+            <div class="customSettingContainer">
+                <div class="col-xs-6 col-sm-3" style="padding: 10px;" ng-repeat="dictionaryGroup in dictionaryList | orderBy:'dicGroupId'">
+                    <div class="dicGroupContainer">
+                        <div class="pull-right"><span ng-bind="dictionaryGroup.dicGroup"></span></div>
+                        <div ng-repeat="dictionary in dictionaryGroup.dictionaries | orderBy:'dicSequence'" >
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> {{dictionary.dicDisplayName}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

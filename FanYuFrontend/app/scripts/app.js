@@ -26,7 +26,8 @@
             'ngRoute',
             'ngSanitize',
             'ngTouch',
-            'ui.router'
+            'ui.router',
+            'ui.tinymce'
         ])
         .run(function ($rootScope, $location, $state, AuthenticationService) {
             AuthenticationService.setPermissionList(permissionList);

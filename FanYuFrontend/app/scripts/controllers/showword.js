@@ -8,13 +8,18 @@
 (function () {
     'use strict';
     angular.module('fanYuFrontendApp')
-        .controller('ShowwordCtrl', function ($scope, $state, $stateParams) {
-            $scope.word = $stateParams.word;
-            console.log($scope.word);
-            $scope.awesomeThings = [
-                'HTML5 Boilerplate',
-                'AngularJS',
-                'Karma'
-            ];
+        .controller('ShowwordCtrl', function ($scope, $state, $stateParams,WordService) {
+            var vm = this;
+            vm.word = $stateParams.word;
+            vm.wordDetail = {};
+
+            getWordDetail();
+
+            function getWordDetail(){
+                WordService.getWordDetail().then(function(data) {
+                    vm.wordDetail = data;
+                });
+            }
+
         });
 })();

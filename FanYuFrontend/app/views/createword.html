@@ -1,35 +1,181 @@
-<div ng-controller="CreatewordCtrl as vm">
+<div ng-controller="CreatewordCtrl as createVM">
     <div class="col-xs-12"><h2 class="mt0">创建词条</h2></div>
-    <div class="form-group col-xs-10 col-sm-5">
-        <input type="text" class="form-control" id="wordNameInput" placeholder="词汇名称">
-        <div class="dropdown col-xs-10 col-sm-5">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                Dropdown
+    <div class="form-group col-xs-12 mt20">
+        <div class="col-xs-12 col-sm-5 pl0">
+            <input type="text" class="form-control" id="wordNameInput" placeholder="词汇名称" ng-model="createVM.word.word">
+        </div>
+        <div class="dropdown col-xs-10 col-sm-5 pl0">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-expanded="true">
+                <span ng-bind="createVM.word.dictionary.dicDisplayName"></span>
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+            <ul class="dropdown-menu" role="menu">
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">梵</li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in fan_dictionaryList">
+                    <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a></li>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">巴利</li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in ba_dictionaryList">
+                    <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a></li>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">藏</li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in zang_dictionaryList">
+                    <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">汉</li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in han_dictionaryList">
+                    <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
             </ul>
         </div>
     </div>
-    <div role="tabpanel" class="col-xs-12">
-
+    <div role="tabpanel" class="col-xs-12 mt20">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#patternEditTab" role="tab" data-toggle="tab">模板编辑</a></li>
             <li role="presentation"><a href="#freeEditTab" role="tab" data-toggle="tab">自由编辑</a></li>
         </ul>
-
         <!-- Tab panes -->
         <div class="tab-content pa10">
+            <!-- 模板编辑-->
             <div role="tabpanel" class="tab-pane active" id="patternEditTab">
+                {{createVM.word}}
+                <div class="form-group form-group-sm mt20">
+                    <label class="text-info" for="duiyingciInput">【对应词】</label>
 
+                    <div class="row">
+                        <div class="col-sm-1 pr0">
+                            <select class="form-control pl3" ng-model="createVM.newDuiyingciName">
+                                <option ng-repeat="option in createVM.duiyingciOptionList" value="{{option}}">
+                                    {{option}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-5 pr0">
+                            <input type="text" class="form-control" id="duiyingciInput" placeholder="对应词"
+                                   ng-model="createVM.newDuiyingciValue">
+                        </div>
+                        <div class="col-sm-1">
+                            <button class="btn btn-info btn-sm" ng-click="createVM.addDuiyingci()">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-sm-6">
+                            <table class="table table-condensed table-bordered">
+                                <tr ng-repeat="duiyingci in createVM.word.duiyingciList">
+                                    <td class="col-md-2">{{duiyingci.name}}</td>
+                                    <td class="col-md-9">{{duiyingci.value}}</td>
+                                    <td class="col-md-1 text-center">
+                                        <button type="button" class="close" style="width: 30px;">&times;</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt30">
+                    <label class="text-info">【释义】</label>
+                    <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.shiyi"></textarea>
+
+                    <div class="well collapse" id="shiyiSoftKeys"></div>
+                </div>
+
+                <div class="form-group form-group-sm mt20 mb20">
+                    <label class="text-info" for="duiyingciInput">【关联词】</label>
+
+                    <div class="row">
+                        <div class="col-sm-5 pr0">
+                            <input type="text" class="form-control" id="guanlianciInput" placeholder="关联词"
+                                   ng-model="createVM.newGuanlianci">
+                        </div>
+                        <div class="col-sm-1">
+                            <button class="btn btn-info btn-sm" ng-click="createVM.addGuanlianci()">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt10 mb20">
+                        <div class="col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="pull-left mr20" ng-repeat="guanlianci in createVM.word.guanlianciList">
+                                        {{guanlianci}}
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt30">
+                    <label class="text-info">【例句】</label>
+                    <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.liju"></textarea>
+                </div>
+                <div class="form-group mt30">
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <label class="text-info">【变形】</label>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>单</th>
+                                    <th>双</th>
+                                    <th>复</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                </tr>
+                                <tr>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                </tr>
+                                <tr>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                </tr>
+                                <tr>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                    <td>fdjsaj</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt30">
+                    <label class="text-info">【百科与参考】</label>
+                    <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.baike"></textarea>
+                </div>
             </div>
-            <div role="tabpanel" class="tab-pane " id="freeEditTab">
-                <textarea id="freestyleInput" ng-model="vm.freeDescription"></textarea>
+            <!-- 自由编辑-->
+            <div role="tabpanel" class="tab-pane" id="freeEditTab">
+                <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.freeDescription"></textarea>
             </div>
         </div>
 
