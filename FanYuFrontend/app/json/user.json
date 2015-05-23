@@ -1,0 +1,16 @@
+{
+    "username": "韩博闻",
+    "password":"JUFoiuewonj320",
+    "role":"Admin",
+    "dicSequence":{
+        "fan":{
+            "fanhan":1,
+            "fanying":2,
+            "fande":3
+        },
+        "ba":[],
+        "zang":[],
+        "han":[]
+    },
+    "lastCheckNewWordDatetime":"4382840930443409"
+}

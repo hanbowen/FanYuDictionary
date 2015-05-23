@@ -1,0 +1,11 @@
+{
+    "dicName":"fanhan",
+    "dicCNName":"梵汉大词典",
+    "creator":{
+        "username":"hanbowen",
+        "userId":"fdjsalker3u2"
+    },
+    "dicGroup": "fan",//ba, zang, han
+    "status": "active",//disabled,deleted
+    "createDatetime":"483083240932"
+}
