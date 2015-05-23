@@ -25,7 +25,8 @@
                 .state('dictionary.showWord', {
                     url: '/{word:(.)}',
                     templateUrl: 'views/showword.html',
-                    controller: 'ShowwordCtrl'
+                    controller: 'ShowwordCtrl',
+                    controllerAs: 'showWordVM'
                 })
                 .state('manage', {
                     url: '/manage',
@@ -51,7 +52,8 @@
                 .state('manage.createWord', {
                     url: '/createWord',
                     templateUrl: 'views/createword.html',
-                    controller: 'CreatewordCtrl'
+                    controller: 'CreatewordCtrl',
+                    controllerAs: 'createVM'
                 })
         });
 

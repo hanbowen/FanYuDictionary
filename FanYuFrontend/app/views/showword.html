@@ -1,4 +1,4 @@
-<div ng-controller="ShowwordCtrl as showWordVM">
+<div>
     <div class="col-xs-12"><h2 class="mt0"><span ng-bind="showWordVM.word"></span></h2></div>
     <div class="col-xs-12">
         <div class="panel panel-default" ng-repeat="word in showWordVM.wordDetail | orderBy: 'dictionary.dicSequence'">

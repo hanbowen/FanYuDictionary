@@ -31,13 +31,13 @@
         ])
         .run(function ($rootScope, $location, $state, AuthenticationService) {
             AuthenticationService.setPermissionList(permissionList);
-            $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+           /* $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
                 if (toState.authenticate && !AuthenticationService.isUrlAuthenticated()) {
                     // User isn’t authenticated
                     $state.transitionTo("dictionary");
                     event.preventDefault();
                 }
-            });
+            });*/
         });
 
 })();

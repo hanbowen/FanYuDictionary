@@ -13,6 +13,7 @@
         CreatewordCtrl.$inject = ['$scope','$rootScope','$sce','DictionaryService'];
 
         function CreatewordCtrl($scope, $rootScope, $sce, DictionaryService) {
+            console.log("CreatewordCtrl");
             var vm = this;
 
             vm.addDuiyingci = addDuiyingci;

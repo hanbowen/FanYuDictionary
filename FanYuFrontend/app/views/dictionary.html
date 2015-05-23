@@ -1,5 +1,5 @@
 <div ng-controller="DictionaryCtrl as dicVM">
-    <nav class="col-lg-2 sidebar" id="leftNavbar" style="padding: 25px 10px">
+    <nav class="col-lg-2 sidebar" id="leftNavbar">
         <div class="input-group input-group-sm">
             <input type="text" id="searchInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
                    ng-model="dicVM.search.searchWord">
@@ -27,8 +27,7 @@
 
                 <div class="radio">
                     <label ng-repeat="code in dicVM.codeList">
-                        <input name="code" type="radio" style="margin: 2px 0 0 -13px"
-                               ng-click="dicVM.setSearchCode(code.codeValue)" ng-checked="code.checked">{{code.codeName}}
+                        <input name="code" type="radio" ng-click="dicVM.setSearchCode(code.codeValue)" ng-checked="code.checked">{{code.codeName}}
                     </label>
                 </div>
                 <span class="disabled">匹配：</span>
