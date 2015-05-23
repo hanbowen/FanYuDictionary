@@ -17,13 +17,13 @@
         "bianxing": {},
         "baike": ""
     },
-    "dicGroup":"fan", // ba, zang, han
+    "dicGroup":"fan", 
     "dictionary": {
         "dicName":"fanhan",
         "dicId": "fdjslkjrujf3ljfrljslkj"
     },
     "template": "freestyle",
-    "importFlag": false //false 人工创建
+    "importFlag": false
 },
 
 {"word": "rūpa",
