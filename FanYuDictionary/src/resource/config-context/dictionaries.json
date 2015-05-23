@@ -1,0 +1,20 @@
+[{"dicGroup":"fan", 
+    "dictionaries": [{
+        "dicName":"fanhan",
+        "dicId": "fdjslkjrujf3ljfrljslkj"
+    },{
+        "dicName":"fanhan",
+"dicDisplayName":"梵汉大字典",
+        "dicId": "fdjslkjrujf3ljfrljslkj"
+    }]},
+{"dicGroup":"ba", 
+    "dictionaries": [{
+        "dicName":"fanhan",
+ "dicDisplayName":"梵汉大字典",
+        "dicId": "fdjslkjrujf3ljfrljslkj"
+    },{
+        "dicName":"fanhan",
+        "dicId": "fdjslkjrujf3ljfrljslkj"
+    }]
+}
+]

@@ -1,0 +1,18 @@
+{
+"userId": "_reuirjflr3nfsnfdojoi",
+    "username": "hanbowen",
+    "password":"JUFoiuewonj320",
+ "dsplayName":"韩博闻",
+    "role":"Admin",
+    "dicSequence":{
+        "fan":{
+            "fanhan":1,
+            "fanying":2,
+            "fande":3
+        },
+        "ba":{},
+        "zang":{},
+        "han":{}
+    },
+    "lastCheckNewWordDatetime":"4382840930443409"
+}
