@@ -11,7 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -20,8 +21,7 @@ import utils.FileUtil;
 @Path("/user")
 public class UserResource {
 	
-	private final static String CLASS_NAME = UserResource.class.toString();
-	static final Logger LOGGER = Logger.getLogger(CLASS_NAME);
+	private static final Log LOGGER = LogFactory.getLog(UserResource.class);
 	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 	
 	
@@ -37,7 +37,7 @@ public class UserResource {
 			e.printStackTrace();
 		}
 
-		LOGGER.info("成功返回用户列表");
+		LOGGER.info("return userlist successfully");
 		return Response.status(200).entity(jsonContext).type("application/json").build();
 	}
 	
@@ -46,7 +46,7 @@ public class UserResource {
 	@Produces("text/plain")
 	public Response saveUser(String body) {
 		
-		LOGGER.info("成功保存用户信息");
+		LOGGER.info("save user successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
@@ -56,7 +56,7 @@ public class UserResource {
 	@Path("{userid}")
 	public Response updateUser(@PathParam("userid") String userId , String body) {
 		
-		LOGGER.info("成功更新用户信息");
+		LOGGER.info("update user successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
@@ -75,7 +75,7 @@ public class UserResource {
 			e.printStackTrace();
 		}
 		
-		LOGGER.info("成功返回个人用户信息");
+		LOGGER.info("return userinfo successfully");
 		return Response.status(200).entity(jsonContext).type("application/json").build();
 	}
 	
@@ -84,7 +84,7 @@ public class UserResource {
 	@Path("{userid}")
 	public Response delUser(@PathParam("userid") String userId) {
 		
-		LOGGER.info("成功删除用户信息");
+		LOGGER.info("delete userinfo succesfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
@@ -92,7 +92,7 @@ public class UserResource {
 	@Produces("text/plain")
 	public Response login(@HeaderParam("Authenrization") String authenrization) {
 		
-		LOGGER.info("用户登录成功");
+		LOGGER.info("login successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
@@ -102,7 +102,7 @@ public class UserResource {
 	@Produces("text/plain")
 	public Response logout(@PathParam("userid") String userId) {
 		
-		LOGGER.info("用户退出成功");
+		LOGGER.info("logout successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	

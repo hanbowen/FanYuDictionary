@@ -10,7 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -19,8 +20,7 @@ import utils.FileUtil;
 @Path("/dictionary")
 public class DictionaryResource {
 	
-	private final static String CLASS_NAME = DictionaryResource.class.toString();
-	static final Logger LOGGER = Logger.getLogger(CLASS_NAME);
+	private static final Log LOGGER = LogFactory.getLog(DictionaryResource.class);
 	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 	
 	

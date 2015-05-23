@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"> 
+	<!-- 所有控制台日志控制器 -->
+	<appender name="stdout_console" class="org.apache.log4j.ConsoleAppender">
+		<param name="target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%p][%t][%c{1}]%d{yyyy-MM-dd HH\:mm\:ss} \:%m%n" />
+		</layout>
+		
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="INFO" />
+			<param name="LevelMax" value="FATAL" />
+		</filter>
+	</appender>
+	
+	<!-- 数据操作日志控制器 -->
+	<appender name="database_console" class="org.apache.log4j.ConsoleAppender">
+       <layout class="org.apache.log4j.PatternLayout">
+        	<param name="ConversionPattern" value="[%p][%t][%c{1}]%d{yyyy-MM-dd HH\:mm\:ss} \:%m%n" />
+       </layout>
+       <filter class="org.apache.log4j.varia.LevelRangeFilter">
+        <param name="LevelMin" value="DEBUG" />
+        <param name="LevelMax" value="FATAL" />
+       </filter>
+    </appender>
+
+
+	<appender name="stdout_jdbc" class="com.ht808.utils.Log4jAppender">
+	    <param name="dirver" value="oracle.jdbc.driver.OracleDriver" />
+		<param name="URL" value="jdbc:oracle:thin:@10.123.210.1:1521:ietm" />
+		<param name="user" value="equipment" />
+		<param name="password" value="equipment" />
+		<param name="sql" value="insert into TB_SYSTEM_LOG (LOGLEVEL,CLASS,MOTHED,CREATETIME,MSG)  values ('%p','%C','%M',to_date('%d{yyyy-MM-dd HH:mm:ss}','yyyy-mm-dd hh24:mi:ss'),'%m')" />
+		
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="INFO" />
+			<param name="LevelMax" value="FATAL" />
+		</filter>
+	</appender>
+
+	<!-- 数据库操作日志 -->
+	<logger name="com.ibatis" additivity="true">
+		<level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.Connection" additivity="true">
+       <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.Statement" additivity="true">
+       <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" additivity="true">
+       <level value="DEBUG" />
+       <appender-ref ref="database_console" />
+    </logger>
+
+    <logger name="java.sql.ResultSet" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="database_console" />
+    </logger>
+    
+    
+    <logger name="com.ht808.action.LoginNotExtAction" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="stdout_console" />
+    </logger>
+    
+	<!-- 根日志显示在控制台中 -->
+	<root>
+		<priority value="info"/> 
+	  	<appender-ref ref="stdout_console" />
+ 	</root>
+</log4j:configuration>

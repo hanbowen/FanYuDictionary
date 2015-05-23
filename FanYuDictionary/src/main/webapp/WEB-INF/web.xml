@@ -8,6 +8,10 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
+	<context-param>
+    	<param-name>log4jConfigLocation</param-name>
+    	<param-value>classpath:/config-context/log4j.xml</param-value>
+  	</context-param>
 	<!-- Spring的log4j监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
