@@ -22,13 +22,15 @@
 		</property>
 		<property name="instances">
 			<set>
-				<ref local="helloWorldResource" />
+				<ref local="wordResource" />
 				<ref local="userResource" />
+				<ref local="dictionaryResource" />
 			</set>
 		</property>
 	</bean>
 	
-	<bean id="helloWorldResource" class="controller.HelloWorldResource" />  
+	<bean id="wordResource" class="controller.WordResource" />  
 	<bean id="userResource" class="controller.UserResource" />  
+	<bean id="dictionaryResource" class="controller.DictionaryResource" />  
 	
 </beans>
