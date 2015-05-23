@@ -28,7 +28,7 @@
 		</property>
 	</bean>
 	
-	<bean id="helloWorldResource" class="controllers.HelloWorldResource" />  
-	<bean id="userResource" class="controllers.UserResource" />  
+	<bean id="helloWorldResource" class="controller.HelloWorldResource" />  
+	<bean id="userResource" class="controller.UserResource" />  
 	
 </beans>

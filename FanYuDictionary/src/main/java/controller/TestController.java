@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import java.text.SimpleDateFormat;
 
@@ -17,8 +17,8 @@ public class TestController {
 	@RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
  
-        model.addAttribute("message", "Spring3 MVC Àý×Ó");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ");
+        model.addAttribute("message", "Spring3 MVC ï¿½ï¿½ï¿½ï¿½");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyï¿½ï¿½MMï¿½ï¿½ddï¿½ï¿½");
         model.addAttribute("date", dateFormat.format(new java.util.Date()));
         return "hello";
     }
