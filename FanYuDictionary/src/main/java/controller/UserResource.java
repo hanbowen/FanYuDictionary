@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
-import Utils.FileUtil;
+import utils.FileUtil;
 
 @Path("/user")
 public class UserResource {
