@@ -13,9 +13,12 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
+import entity.User;
+import service.UserService;
 import utils.FileUtil;
 
 @Path("/user")
@@ -23,7 +26,8 @@ public class UserResource {
 	
 	private static final Log LOGGER = LogFactory.getLog(UserResource.class);
 	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
-	
+	@Autowired  
+    UserService userService;
 	
 	@GET
 	@Produces("application/json")
@@ -55,7 +59,6 @@ public class UserResource {
 	@Produces("text/plain")
 	@Path("{userid}")
 	public Response updateUser(@PathParam("userid") String userId , String body) {
-		
 		LOGGER.info("update user successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
@@ -90,6 +93,7 @@ public class UserResource {
 	
 	@POST
 	@Produces("text/plain")
+	@Path("/login")
 	public Response login(@HeaderParam("Authenrization") String authenrization) {
 		
 		LOGGER.info("login successfully");
