@@ -12,6 +12,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -26,6 +28,7 @@ public class DictionaryResource {
 	
 	@GET
 	@Produces("application/json")
+	@RequiresRoles(value={"Reader","Admin"},logical=Logical.OR)
 	public Response getDictionaries() {
 		
 		String jsonContext = "";

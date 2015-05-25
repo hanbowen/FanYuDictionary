@@ -3,7 +3,6 @@ package controller;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -13,11 +12,11 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
-import entity.User;
 import service.UserService;
 import utils.FileUtil;
 
@@ -31,6 +30,7 @@ public class UserResource {
 	
 	@GET
 	@Produces("application/json")
+	@RequiresRoles("Admin")
 	public Response getUsers() {
 		
 		String jsonContext = "";
@@ -91,24 +91,24 @@ public class UserResource {
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
-	@POST
+/*	@POST
 	@Produces("text/plain")
 	@Path("/login")
 	public Response login(@HeaderParam("Authenrization") String authenrization) {
 		
 		LOGGER.info("login successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
-	}
+	}*/
 	
 	
-	@POST
+/*	@POST
 	@Path("/logout/{userId}")
 	@Produces("text/plain")
 	public Response logout(@PathParam("userid") String userId) {
 		
 		LOGGER.info("logout successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
-	}
+	}*/
 	
 	
 	

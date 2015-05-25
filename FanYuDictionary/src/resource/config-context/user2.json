@@ -1,13 +1,13 @@
 {
 "userId": "_reuirjflr3nfsnfdojoi",
-    "username": "hanbowen",
+    "username": "chenyang",
     "password":"JUFoiuewonj320",
- "displayName":"韩博闻",
-    "role":"Admin",
+ "displayName":"陈洋",
+    "role":"Reader",
     "dicSequence":{
         "fan":{
-            "fanhan":1,
-            "fanying":2,
+            "fanhan":2,
+            "fanying":1,
             "fande":3
         },
         "ba":{},

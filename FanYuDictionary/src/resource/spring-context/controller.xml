@@ -24,6 +24,7 @@
 			<set>
 				<ref local="wordResource" />
 				<ref local="userResource" />
+				<ref local="loginResource" />
 				<ref local="dictionaryResource" />
 			</set>
 		</property>
@@ -31,6 +32,7 @@
 	
 	<bean id="wordResource" class="controller.WordResource" />  
 	<bean id="userResource" class="controller.UserResource" />  
+	<bean id="loginResource" class="controller.LoginResource" />   
 	<bean id="dictionaryResource" class="controller.DictionaryResource" />  
 	
 </beans>
