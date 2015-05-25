@@ -10,9 +10,22 @@
         .directive('login', login);
 
     function login() {
-        return {
+        var loginController = ['$scope','AuthenticationService', function ($scope,AuthenticationService) {
+                $scope.username = "";
+                $scope.password = "";
+                $scope.login = login;
+                function login(){
+                    console.log( $scope.username+" " + $scope.password);
+                    AuthenticationService.login($scope.username,$scope.password).then(function(data){
+                        console.log(data);
+                    });
+                }
+            }];
+
+            return {
             templateUrl: 'scripts/directives/templates/login.html',
-            restrict: 'E'
+            restrict: 'E',
+            controller: loginController
         };
     }
 })();
