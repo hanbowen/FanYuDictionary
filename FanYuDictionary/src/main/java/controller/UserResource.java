@@ -12,10 +12,12 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import service.UserService;
 import utils.FileUtil;
@@ -31,6 +33,7 @@ public class UserResource {
 	@GET
 	@Produces("application/json")
 	@RequiresRoles("Admin")
+	@ExceptionHandler({UnauthorizedException.class})  
 	public Response getUsers() {
 		
 		String jsonContext = "";

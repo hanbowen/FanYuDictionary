@@ -15,26 +15,27 @@
 		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 	<context:component-scan base-package="service" />
-      
-       <!-- 注解支持 -->
+
+	<!-- 注解支持 -->
 	<context:annotation-config />
-       
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	
+
 	<!-- read the json files -->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:config-context/*.json</value>
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="customAuthenticationFilter" class="utils.CustomAuthenticationFilter"></bean>
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
@@ -61,6 +62,7 @@
 		your back-end -->
 	<!-- security datasource: -->
 	<bean id="myRealm" class="utils.MongoRealm"></bean>
+	
 	<!-- Enable Shiro Annotations for Spring-configured beans. Only run after -->
 	<!-- the lifecycleBeanProcessor has run: -->
 	<bean
@@ -71,4 +73,13 @@
 		<property name="securityManager" ref="securityManager" />
 	</bean>
 	
+	<bean class="org.apache.wink.spring.Registrar">
+		<property name="classes">
+			<set value-type="java.lang.Class">
+				<value>exception.UnauthorizedExceptionMapper</value>
+			</set>
+		</property>
+		<!-- <property name="instances"> <set> <ref bean="testException" /> </set> 
+			</property> -->
+	</bean>
 </beans>
