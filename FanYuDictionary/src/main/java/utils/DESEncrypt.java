@@ -22,8 +22,13 @@ public class DESEncrypt {
     public static void main(String[] args) throws Exception {
         String data = "123 456";
         String key = "hanbowenKey&*)^%";
-        System.err.println(encrypt(data, key));
-        System.err.println(decrypt(encrypt(data, key), key));
+        long st = new Date().getTime();
+        for(int i=0; i<100000; i++)
+        	decrypt(encrypt(data, key), key);
+        /*System.err.println(encrypt(data, key));
+        System.err.println(decrypt(encrypt(data, key), key));*/
+        long et = new Date().getTime();
+        System.err.println((et-st)/1000);
  
     }
      
