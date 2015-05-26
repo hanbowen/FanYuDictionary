@@ -56,5 +56,5 @@
                     controllerAs: 'createVM'
                 })
         });
-
+   // $httpProvider.responseInterceptors.push('SecurityHttpInterceptor');
 })();
