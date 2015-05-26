@@ -39,6 +39,10 @@
                         // alert("您没有权限进行此操作，重新登录重试，或联系管理员");
                     }
                 });
+
+                $http.get('http://localhost:8080/FanYuDictionary/rest/user').then(function(data){
+                    console.log(data.data);
+                });
             }
 
         });

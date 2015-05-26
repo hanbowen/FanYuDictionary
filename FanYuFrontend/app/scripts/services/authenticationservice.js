@@ -40,6 +40,7 @@
             login: function (username, password) {
                 var authentication = base64_encode(username + " " + password);
                 $http.defaults.headers.post["Content-Type"] = "text/plain";
+               // $http.defaults.headers.common.authentication = authentication;
                 return $http.post(loginURI + "?authentication=" + authentication, {headers: {'authentication': authentication}}).success(loginSuccess).error(loginFailed);
 
                 function loginSuccess(data, status, headers, config) {
