@@ -1,0 +1,84 @@
+<!--<div ng-controller="UsersCtrl as vm">
+  <input type="text" ng-model="vm.name">
+
+  <p>This is the user:{{vm.name}} view.</p>
+</div>-->
+<div class="row">
+  <div class="col-xs-9 mb20">
+    <h2 class=" mt0">词典管理</h2>
+  </div>
+  <div class="col-xs-3">
+    <button class="btn btn-info pull-right" data-toggle="modal" data-target="#dictionaryModal">
+      <span class="glyphicon glyphicon-plus"></span> 添加</button>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="dictionaryModal" aria-hidden="true">
+  <!-- /.modal-dialog -->
+  <div class="modal-dialog">
+    <!-- /.modal-content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加词典</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="input-group input-group-sm col-xs-12">
+          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">词典名:</label></div>
+          <div class="col-xs-6"><input type="text" class="form-control" placeholder="输入词典名"/></div>
+          <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">如: 梵英大字典</label></div>
+        </div>
+
+        <div class="input-group col-xs-12 mt10">
+          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">词典类:</label></div>
+          <div class="col-xs-6 selectContainer" >
+            <select name="role" class="form-control">
+              <!--<div class="col-xs-12" ng-repeat="dictionayGroup in dictionaryList">
+                <option value="arabic">{{dictionayGroup.dicGroup}}</option>
+              </div>-->
+              <option value="arabic">梵</option>
+              <option value="arabic">巴</option>
+              <option value="english">藏</option>
+              <option value="french">汉</option>
+            </select>
+          </div>
+          <label class="col-xs-4 control-label text-info" style="margin-top: 4px">选择词典类</label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6" ng-repeat="dictionayGroup in dictionaryList">
+    <div class="panel panel-default">
+      <div class="panel-heading">{{dictionayGroup.dicGroup}}</div>
+      <div class="panel-body" style="height: 200px">
+        <table class="table table-bordered table-hover table-condensed">
+          <tbody>
+            <tr ng-repeat="dictionay in dictionayGroup.dictionaries">
+              <td class="col-xs-6">{{dictionay.dicDisplayName}}</td>
+              <td class="col-xs-2">
+                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default btn-warning">编辑</button>
+                  <button type="button" class="btn btn-default btn-danger">删除</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

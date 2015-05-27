@@ -42,7 +42,8 @@
                 .state('manage.users', {
                     url: 'users',
                     templateUrl: 'views/users.html',
-                    controller: 'UsersCtrl'
+                    controller: 'UsersCtrl',
+                    controllerAs: 'userVM'
                 })
                 .state('manage.myWords', {
                     url: 'myWords',
@@ -54,6 +55,12 @@
                     templateUrl: 'views/createword.html',
                     controller: 'CreatewordCtrl',
                     controllerAs: 'createVM'
+                })
+                .state('manage.managedictionary', {
+                  url: 'managerDict',
+                  templateUrl: 'views/managedictionary.html',
+                  controller: 'ManagedictionaryCtrl',
+                  controllerAs: 'dictionaysVM'
                 })
         });
    // $httpProvider.responseInterceptors.push('SecurityHttpInterceptor');
