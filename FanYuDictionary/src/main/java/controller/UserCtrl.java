@@ -35,7 +35,7 @@ public class UserCtrl {
            
         logger.info("save:"+user);  
            
-        userService.saveUser(user);  
+//        userService.saveUser(user);  
            
         return mav;  
     }  
@@ -45,7 +45,7 @@ public class UserCtrl {
            
         ModelAndView mav = new ModelAndView("/user/index");  
            
-        user = userService.findUserByName(user.getName());  
+//        user = userService.findUserByName(user.getName());  
            
         logger.info("find:"+user);  
            
