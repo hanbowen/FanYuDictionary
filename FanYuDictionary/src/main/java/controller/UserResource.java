@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -19,6 +20,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import entity.User;
 import service.UserService;
 import utils.FileUtil;
 
@@ -49,10 +51,15 @@ public class UserResource {
 	}
 	
 	@POST
-	@Consumes("application/json")
+//	@Consumes("application/json")
 	@Produces("text/plain")
-	public Response saveUser(String body) {
+	public Response saveUser(String userJson) {
 		
+		User user = userService.getEntity(userJson, User.class);
+		// md5 编码 password
+		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+		
+		userService.save(user);
 		LOGGER.info("save user successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
