@@ -9,20 +9,20 @@
  */
 
 (function () {
-  'use strict';
-  angular.module('fanYuFrontendApp')
-    .controller('ManagedictionaryCtrl', function ($scope, DictionaryService) {
-      var vm = this;
-      vm.dictionaryList
-      vm.dictionaryList = {};
+    'use strict';
+    angular.module('fanYuFrontendApp')
+        .controller('ManagedictionaryCtrl', function ($scope, DictionaryService) {
+            var vm = this;
+            vm.dictionaryList
+            vm.dictionaryList = {};
 
-      getDictionaryList();
+            getDictionaryList();
 
-      function getDictionaryList(){
-        DictionaryService.getDictionaryList().then(function(data) {
-          vm.dictionaryList = data;
+            function getDictionaryList() {
+                DictionaryService.getDictionaryList().then(function (data) {
+                    vm.dictionaryList = data;
+                });
+            }
+
         });
-      }
-
-    });
 })();

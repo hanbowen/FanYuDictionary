@@ -19,6 +19,7 @@
             vm.addDuiyingci = addDuiyingci;
             vm.addGuanlianci = addGuanlianci;
             vm.setDictionary = setDictionary;
+            vm.setCiXing = setCiXing;
 
             vm.word = {};
             vm.word.dictionary = {};
@@ -26,10 +27,13 @@
             vm.word.duiyingciList = [];
             vm.word.shiyi = "shiyi";
             vm.word.liju = "liju";
+            vm.word.bianxing = "bianxing"
             vm.word.guanlianciList = [];
             vm.word.baike = "baike";
             vm.word.importFlag = false;
             vm.word.template = "pattern";
+            vm.word.cixing = "词性";
+            vm.word.xici = "";
             vm.freeDescription = "init text";
 
             //vm.trustHtml =  $sce.trustAsHtml( vm.word.shiyi );
@@ -67,62 +71,13 @@
             function addGuanlianci(){
                 vm.word.guanlianciList.push(vm.newGuanlianci);
             }
-          /*  function richEditorInit() {
-                tinymce.init({
-                    plugins: "textcolor,link,table",
-                    menubar: false,
-                    language: 'zh_CN',
-                    height: 300,
-                    statusbar: false,
-                    selector: '#freestyleInput',
-                    theme: "modern",
-                    skin: 'light',
-                    toolbar: [
-                        "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright"
-                    ]
-                });
-                tinymce.init({
-                    plugins: "textcolor,link,table",
-                    menubar: false,
-                    language: 'zh_CN',
-                    height: 100,
-                    statusbar: false,
-                    selector: '#shiyiTextArea',
-                    theme: "modern",
-                    skin: 'light',
-                    toolbar: [
-                        "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright"
-                    ]
-                });
-                tinymce.init({
-                    plugins: "textcolor,link,table",
-                    menubar: false,
-                    language: 'zh_CN',
-                    height: 100,
-                    statusbar: false,
-                    selector: '#lijvArea',
-                    theme: "modern",
-                    skin: 'light',
-                    toolbar: [
-                        "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright"
-                    ]
-                });
-                tinymce.init({
-                    plugins: "textcolor,link,table",
-                    menubar: false,
-                    language: 'zh_CN',
-                    height: 100,
-                    statusbar: false,
-                    selector: '#baikeArea',
-                    theme: "modern",
-                    skin: 'light',
-                    toolbar: [
-                        "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright"
-                    ]
-                });
-            }*/
+
             function setDictionary(dictionary){
                 vm.word.dictionary = dictionary;
+            }
+
+            function setCiXing(cixing){
+                vm.word.cixing = cixing;
             }
         }
 })();

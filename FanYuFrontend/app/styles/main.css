@@ -221,7 +221,11 @@ body {
 }
 
 .pl0 {
-    padding-left: 0;
+     padding-left: 0;
+ }
+
+.pt0{
+    padding-top: 0;
 }
 
 .pl3 {

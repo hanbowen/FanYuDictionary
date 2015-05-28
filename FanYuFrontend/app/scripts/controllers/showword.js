@@ -32,7 +32,7 @@
                     console.log(data.data);
                 });*/
 
-                $http.get('http://localhost:8080/FanYuDictionary/rest/dictionary').then(function(data){
+                $http.get(baseURL+'dictionary').then(function(data){
                     console.log(data.data);
                 }).catch(function(error){
                     if(error.status == 0){
@@ -40,7 +40,7 @@
                     }
                 });
 
-                $http.get('http://localhost:8080/FanYuDictionary/rest/user').then(function(data){
+                $http.get(baseURL+'user').then(function(data){
                     console.log(data.data);
                 });
             }
