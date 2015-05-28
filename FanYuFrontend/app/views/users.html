@@ -41,7 +41,7 @@
       <!--<tr ng-repeat="user in userVM.users">-->
       <tr ng-repeat="user in userVM.userList">
         <td><input type="checkbox" autocomplete="off" ng-checked="user.checked"/></td>
-        <td>{{user.name}}</td>
+        <td>{{user.username}}</td>
         <td>{{user.nichen}}</td>
         <td>{{user.juese}}</td>
         <td>
@@ -86,47 +86,47 @@
       </div>
 
       <div class="modal-body">
+        {{userVM.user}}
         <div class="input-group input-group-sm col-xs-12">
           <!--<span class="input-group-addon glyphicon glyphicon-user"></span>-->
           <div class="col-xs-2"><label class="text-info mt3" style="margin-top: 4px">用户名:</label></div>
-          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.userName" placeholder="用户名"/></div>
+          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.username" placeholder="用户名"/></div>
           <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">检查用户名是否可用</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">密码:</label></div>
-          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.password" placeholder="密码"/></div>
+          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.user.password" placeholder="密码"/></div>
           <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">密码长度8-16位</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">确认密码:</label></div>
-          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.password" placeholder="再次输入密码"/></div>
+          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.passwordConfirm" placeholder="再次输入密码"/></div>
           <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">密码长度8-16位</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">昵称:</label></div>
-          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.nichen" placeholder="昵称"/></div>
+          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.displayName" placeholder="昵称"/></div>
           <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">支持中英文字符和数字</label></div>
         </div>
 
         <div class="input-group col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">角色:</label></div>
           <div class="col-xs-6 selectContainer" >
-            <select name="role" class="form-control" ng-model-options="userVM.roles">
+            <select name="role" class="form-control" ng-model="userVM.user.role">
               <option value=""></option>
-              <option value="arabic">Admin</option>
-              <option value="english">Editor</option>
-              <option value="french">Reader</option>
+              <option value="Admin">管理员</option>
+              <option value="Editor">编辑者</option>
+              <option value="Reader">读者</option>
             </select>
           </div>
           <label class="col-xs-4 control-label text-info" style="margin-top: 4px">选择用户角色</label>
         </div>
 
-
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary">提交</button>
+        <button type="button" class="btn btn-primary" ng-click="userVM.commitUser()">提交</button>
       </div>
     </div>
   </div>

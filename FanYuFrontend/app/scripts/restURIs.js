@@ -3,3 +3,4 @@
  */
 var baseURL = "http://localhost:8080/FanYuDictionary/rest/";
 var loginURI = baseURL+"login";
+var userURL = baseURL+"user";
