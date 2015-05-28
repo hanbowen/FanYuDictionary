@@ -17,7 +17,7 @@ public class UserService extends GeneralService{
 	public User findUserByName(String name) {
 
 		return mongoTemplate.findOne(
-				new Query(Criteria.where("name").is(name)), User.class);
+				new Query(Criteria.where("username").is(name)), User.class);
 
 	}
 
