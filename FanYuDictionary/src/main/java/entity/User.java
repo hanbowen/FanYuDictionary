@@ -52,7 +52,7 @@ public class User extends Entity {
 	
 	@Override  
     public String toString() {  
-        return "{USER:{id:"+this.id+",username:"+this.username+",displayName:"+this.displayName+",role:" +this.role +"}}";  
+        return "{\"USER\":{\"id\":\""+this.id+"\",\"username\":\""+this.username+"\",\"displayName\":\""+this.displayName+"\",\"role\":\"" +this.role +"\"}}";  
     }
 	
        

@@ -9,9 +9,9 @@
 	</welcome-file-list>
 
 	<context-param>
-    	<param-name>log4jConfigLocation</param-name>
-    	<param-value>classpath:/config-context/log4j.xml</param-value>
-  	</context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:/config-context/log4j.xml</param-value>
+	</context-param>
 	<!-- Spring的log4j监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
@@ -25,7 +25,11 @@
 		</init-param>
 		<init-param>
 			<param-name>Access-Control-Allow-Methods</param-name>
-			<param-value>GET,POST,DELETE,PUT,OPTIONS</param-value>
+			<param-value>GET,POST,DELETE,PUT</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Access-Control-Max-Age</param-name>
+			<param-value>60</param-value>
 		</init-param>
 		<init-param>
 			<param-name>Access-Control-Allow-Headers</param-name>
@@ -60,24 +64,12 @@
 	</filter-mapping>
 
 	<!-- 核心控制器 -->
-	<!-- <servlet>
-		<servlet-name>mvc-dispatcher</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/applicationContext.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	
-	<servlet-mapping>
-		<servlet-name>mvc-dispatcher</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping> -->
+	<!-- <servlet> <servlet-name>mvc-dispatcher</servlet-name> <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 
+		<init-param> <param-name>contextConfigLocation</param-name> <param-value>/WEB-INF/applicationContext.xml</param-value> 
+		</init-param> <load-on-startup>1</load-on-startup> </servlet> <listener> 
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
+		</listener> <servlet-mapping> <servlet-name>mvc-dispatcher</servlet-name> 
+		<url-pattern>/</url-pattern> </servlet-mapping> -->
 	<servlet>
 		<servlet-name>restSdkService</servlet-name>
 		<servlet-class>org.apache.wink.server.internal.servlet.RestServlet</servlet-class>
@@ -88,22 +80,18 @@
 		<servlet-name>restSdkService</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-	
-	<!-- <context-param>  
-	    <param-name>contextConfigLocation</param-name>  
-	    <param-value>  
-	        classpath:META-INF/server/wink-core-context.xml,
-	        /WEB-INF/applicationContext.xml
-	    </param-value>  
-	</context-param> -->  
-  
-	  <context-param>
-	    <param-name>contextConfigLocation</param-name>
-	    <param-value>classpath:META-INF/server/wink-core-context.xml,classpath*:/spring-context/*.xml</param-value>
-	  </context-param>
-	  <listener>
-	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	  </listener>
-  
+
+	<!-- <context-param> <param-name>contextConfigLocation</param-name> <param-value> 
+		classpath:META-INF/server/wink-core-context.xml, /WEB-INF/applicationContext.xml 
+		</param-value> </context-param> -->
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:META-INF/server/wink-core-context.xml,classpath*:/spring-context/*.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
 
 </web-app>

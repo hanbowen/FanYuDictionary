@@ -58,14 +58,15 @@ public class UserResource {
 		User user = userService.getEntity(userJson, User.class);
 		// md5 编码 password
 		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-		
+		user.setDisplayName("rūāīūṛṝḷḹṃḥṅñṭḍṇśṣaae");
+		System.err.println(user.getDisplayName());
 		userService.save(user);
 		LOGGER.info("save user successfully");
-		return Response.status(200).entity("success").type("text/plain").build();
+		return Response.status(200).entity(user.toString()).type("text/plain").build();
 	}
 	
 	@PUT
-	@Consumes("application/json")
+	//@Consumes("application/json")
 	@Produces("text/plain")
 	@Path("{userid}")
 	public Response updateUser(@PathParam("userid") String userId , String body) {

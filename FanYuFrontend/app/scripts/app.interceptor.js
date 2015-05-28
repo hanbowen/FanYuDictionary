@@ -11,7 +11,8 @@
     angular
         .module('fanYuFrontendApp').
         config(["$httpProvider", function($httpProvider){
-            console.log("interceptor");
+            $httpProvider.defaults.headers.put ={ 'Content-Type': 'text/plain; charset=unicode' };
+            $httpProvider.defaults.headers.post ={ 'Content-Type': 'text/plain; charset=unicode' };
             $httpProvider.interceptors.push(function($q) {
                 return {
                     'request': function(config) {
