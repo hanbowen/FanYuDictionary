@@ -12,7 +12,8 @@
     WordService.$inject = ["$http"];
     function WordService($http) {
         var wordService = {
-            getWordDetail: getWordDetail
+            getWordDetail: getWordDetail,
+            getNewWords: getNewWords
         };
         // Public API here
         return wordService;
@@ -31,6 +32,19 @@
             }
         }
 
+        function getNewWords(peroid){
+            return $http.get('json/newword.json')
+                .then(getNewWordsComplete)
+                .catch(getNewWordsFailed);
+
+            function getNewWordsComplete(response) {
+                return response.data;
+            }
+
+            function getNewWordsFailed(error) {
+                console.error('XHR Failed for getNewWordsFailed.' + error.data);
+            }
+        }
 
     }
 })();
