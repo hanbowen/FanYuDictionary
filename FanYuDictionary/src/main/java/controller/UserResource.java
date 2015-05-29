@@ -1,6 +1,5 @@
 package controller;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,19 +15,16 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import entity.User;
 import service.UserService;
-import utils.FileUtil;
+import utils.Pagination;
+import entity.User;
 
 @Path("/user")
 public class UserResource {
 	
 	private static final Log LOGGER = LogFactory.getLog(UserResource.class);
-	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 	@Autowired  
     UserService userService;
 	
@@ -38,38 +34,37 @@ public class UserResource {
 	@ExceptionHandler({UnauthorizedException.class})  
 	public Response getUsers() {
 		
-		String jsonContext = "";
-		try {
-			Resource resource = defaultResourceLoader.getResource("config-context/users.json");
-			jsonContext = FileUtil.getInstance().readFile(resource.getFile());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		//if(***)   // 返回总页数
+		Pagination<User> pagination = new Pagination<User>(userService.queryCount());
+		int totalPages = pagination.getTotalPage();
+		
+		// else 按 pageNo, pageSize查询， 也可以只按pageNo查询
+//		Pagination<User> page = userService.getPageUser(pageNo, pageSize)
+//		Pagination<User> page = userService.getPageUser(2, 10);
 		LOGGER.info("return userlist successfully");
-		return Response.status(200).entity(jsonContext).type("application/json").build();
+//		return Response.status(200).entity(userService.list2Json(page.getDatas())).type("application/json").build();
+		String json = "{\"totalPages\":" +totalPages +"}"; 
+		return Response.status(200).entity(json).type("application/json").build();
 	}
 	
 	@POST
-//	@Consumes("application/json")
 	@Produces("text/plain")
 	public Response saveUser(String userJson) {
 		
-		User user = userService.getEntity(userJson, User.class);
+		User user = userService.jsonToEntity(userJson, User.class);
 		// md5 编码 password
 		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-		user.setDisplayName("rūāīūṛṝḷḹṃḥṅñṭḍṇśṣaae");
-		System.err.println(user.getDisplayName());
 		userService.save(user);
 		LOGGER.info("save user successfully");
 		return Response.status(200).entity(user.toString()).type("text/plain").build();
+		
 	}
 	
 	@PUT
-	//@Consumes("application/json")
 	@Produces("text/plain")
 	@Path("{userid}")
 	public Response updateUser(@PathParam("userid") String userId , String body) {
+		// 此处我再看看
 		LOGGER.info("update user successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
@@ -81,16 +76,11 @@ public class UserResource {
 	@Path("{userid}")
 	public Response getUserById(@PathParam("userid") String userId) {
 		
-		String jsonContext = "";
-		try {
-			Resource resource = defaultResourceLoader.getResource("config-context/user.json");
-			jsonContext = FileUtil.getInstance().readFile(resource.getFile());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		User user = userService.findUserById(userId);
 		
 		LOGGER.info("return userinfo successfully");
-		return Response.status(200).entity(jsonContext).type("application/json").build();
+		return Response.status(200).entity(userService.entityToJson(user)).type("application/json").build();
 	}
 	
 	@DELETE
@@ -98,28 +88,11 @@ public class UserResource {
 	@Path("{userid}")
 	public Response delUser(@PathParam("userid") String userId) {
 		
+		userService.removeById(userId);
 		LOGGER.info("delete userinfo succesfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
-/*	@POST
-	@Produces("text/plain")
-	@Path("/login")
-	public Response login(@HeaderParam("Authenrization") String authenrization) {
-		
-		LOGGER.info("login successfully");
-		return Response.status(200).entity("success").type("text/plain").build();
-	}*/
-	
-	
-/*	@POST
-	@Path("/logout/{userId}")
-	@Produces("text/plain")
-	public Response logout(@PathParam("userid") String userId) {
-		
-		LOGGER.info("logout successfully");
-		return Response.status(200).entity("success").type("text/plain").build();
-	}*/
 	
 	
 	
