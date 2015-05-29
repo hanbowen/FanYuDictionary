@@ -19,7 +19,7 @@
         // Public API here
         return {
             setUserRole: function (userRole) {
-                role = userRole;
+                role = "Admin";//userRole;
             },
             isUrlAuthenticated: function () {
                 console.log("isUrlAuthenticated : " + role);

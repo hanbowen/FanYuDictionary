@@ -35,12 +35,13 @@
                     authenticate: true
                 })
                 .state('manage.newWords', {
-                    url: 'newWords',
+                    url: '/newWords',
                     templateUrl: 'views/newwords.html',
-                    controller: 'NewwordsCtrl'
+                    controller: 'NewwordsCtrl',
+                    controllerAs: 'vm'
                 })
                 .state('manage.users', {
-                    url: 'users',
+                    url: '/users',
                     templateUrl: 'views/users.html',
                     controller: 'UsersCtrl',
                     controllerAs: 'userVM'
@@ -57,7 +58,7 @@
                     controllerAs: 'createVM'
                 })
                 .state('manage.managedictionary', {
-                  url: 'managerDict',
+                  url: '/managerDict',
                   templateUrl: 'views/managedictionary.html',
                   controller: 'ManagedictionaryCtrl',
                   controllerAs: 'dictionaysVM'
