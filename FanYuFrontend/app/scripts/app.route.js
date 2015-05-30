@@ -15,6 +15,7 @@
                     url: '/dictionary',
                     templateUrl: 'views/dictionary.html',
                     controller: 'DictionaryCtrl',
+                    controllerAs: 'dicVM',
                     authenticate: false
                 })
                 .state('about', {

@@ -17,8 +17,13 @@
                 return {
                     'request': function(config) {
                         //拦截每次请求，添加token；
-                        if($.cookie('token') != null && config.url.indexOf(loginURI)<0)
-                            config.url = config.url+"?token=" + encodeURIComponent($.cookie('token'));
+                        if($.cookie('token') != null && config.url.indexOf(loginURI)<0  && config.url.indexOf("rest")>=0){
+                            if(config.url.indexOf("?")<0)
+                                config.url = config.url+"?token=" + encodeURIComponent($.cookie('token'));
+                            else
+                                config.url = config.url+"&token=" + encodeURIComponent($.cookie('token'));
+                        }
+
                         return config;
                     },
 

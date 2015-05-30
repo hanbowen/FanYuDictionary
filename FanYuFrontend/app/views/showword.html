@@ -5,7 +5,7 @@
             <div class="panel-heading"><span ng-bind="word.dictionary.dicDisplayName"></span></div>
             <div class="panel-body">
 
-                <div class="form-group form-group-sm mt20">
+                <div class="form-group form-group-sm mt20"  ng-hide="word.template =='freeStyle'">
                     <label class="text-info">【析词】</label>
                     <div class="col-xs-12">
                         <span ng-bind-html="word.xici"></span>

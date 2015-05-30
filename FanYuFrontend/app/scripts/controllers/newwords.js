@@ -12,12 +12,14 @@
     NewwordsCtrl.$inject = ['$scope','WordService'];
     function NewwordsCtrl($scope,WordService) {
         var vm = this;
+
+        vm.initNewWordList = initNewWordList;
         vm.newWordList = [];
 
-        initNewWordList();
+        initNewWordList('Month',1);
 
-        function initNewWordList(){
-            WordService.getNewWords().then(function(data){
+        function initNewWordList(period, periodCount) {
+            WordService.getNewWords(period, periodCount).then(function (data) {
                 vm.newWordList = data;
                 console.warn(data);
             });

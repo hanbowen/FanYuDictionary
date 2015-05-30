@@ -13,13 +13,15 @@
     function WordService($http) {
         var wordService = {
             getWordDetail: getWordDetail,
-            getNewWords: getNewWords
+            getNewWords: getNewWords,
+            createNewWord: createNewWord,
+            searchWord: searchWord
         };
         // Public API here
         return wordService;
 
-        function getWordDetail(){
-            return $http.get('json/word.json')
+        function getWordDetail(word){
+            return $http.get(wordURL+'/'+word)
                 .then(getWordDetailComplete)
                 .catch(getWordDetailFailed);
 
@@ -32,8 +34,22 @@
             }
         }
 
-        function getNewWords(peroid){
-            return $http.get('json/newword.json')
+        function createNewWord(word){
+            return $http.post(wordURL,word)
+                .then(createNewWordComplete)
+                .catch(createNewWordFailed);
+
+            function createNewWordComplete(response) {
+                return response.data;
+            }
+
+            function createNewWordFailed(error) {
+                console.error('XHR Failed for createNewWordFailed.' + error.data);
+            }
+        }
+
+        function getNewWords(period, periodCount){
+            return $http.get(wordURL+"?period="+period+"&periodCount="+periodCount)
                 .then(getNewWordsComplete)
                 .catch(getNewWordsFailed);
 
@@ -45,6 +61,22 @@
                 console.error('XHR Failed for getNewWordsFailed.' + error.data);
             }
         }
+
+        function searchWord(search){
+           // search={wordName}&match=prefix/mid/suffix&domain=duiyingci/bianxing/liju/quanwen
+            return $http.get(wordURL+"?search="+search.searchWord+"&match="+search.match+"&domain="+search.domain)
+                .then(searchWordComplete)
+                .catch(searchWordFailed);
+
+            function searchWordComplete(response) {
+                return response.data;
+            }
+
+            function searchWordFailed(error) {
+                console.error('XHR Failed for searchWordFailed.' + error.data);
+            }
+        }
+
 
     }
 })();

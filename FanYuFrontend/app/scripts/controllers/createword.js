@@ -10,9 +10,9 @@
     angular.module('fanYuFrontendApp')
         .controller('CreatewordCtrl', CreatewordCtrl);
 
-        CreatewordCtrl.$inject = ['$scope','$rootScope','$sce','DictionaryService'];
+        CreatewordCtrl.$inject = ['$scope','$rootScope','$sce','DictionaryService','WordService'];
 
-        function CreatewordCtrl($scope, $rootScope, $sce, DictionaryService) {
+        function CreatewordCtrl($scope, $rootScope, $sce, DictionaryService, WordService) {
             console.log("CreatewordCtrl");
             var vm = this;
 
@@ -20,6 +20,7 @@
             vm.addGuanlianci = addGuanlianci;
             vm.setDictionary = setDictionary;
             vm.setCiXing = setCiXing;
+            vm.saveWord = saveWord;
 
             vm.word = {};
             vm.word.dictionary = {};
@@ -34,7 +35,8 @@
             vm.word.template = "pattern";
             vm.word.cixing = "词性";
             vm.word.xici = "";
-            vm.freeDescription = "init text";
+            vm.word.author = $rootScope.currentUser;
+           // vm.freeDescription = "init text"
 
             //vm.trustHtml =  $sce.trustAsHtml( vm.word.shiyi );
 
@@ -65,7 +67,8 @@
                     "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright xuan zhen yi shen hu an qian chen hun zang",
                     "yang zhong yin xing | bubian | dong shi bei guofen xianfen bifen du | gu yin fo yu shu yue zhe shi shulun shenglun"
                 ],
-                setup:initTinymceButtons
+                //setup:initTinymceButtons,
+                setup: initTinymceButtons
             };
 
             vm.duiyingciOptionList = [
@@ -91,6 +94,11 @@
 
             function setCiXing(cixing){
                 vm.word.cixing = cixing;
+            }
+
+            function saveWord(){
+                vm.word.shiyi = tinyMCE.get('shiyiTiny').getContent();
+                WordService.createNewWord(vm.word);
             }
 
             function initTinymceButtons(editor) {

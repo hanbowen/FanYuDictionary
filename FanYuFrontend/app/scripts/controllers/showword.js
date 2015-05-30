@@ -13,10 +13,10 @@
             vm.word = $stateParams.word;
             vm.wordDetail = {};
             console.log("ShowwordCtrl");
-            getWordDetail();
+            getWordDetail(vm.word);
 
-            function getWordDetail(){
-                WordService.getWordDetail().then(function(data) {
+            function getWordDetail(word){
+                WordService.getWordDetail(word).then(function(data) {
                     vm.wordDetail = data;
                 });
 

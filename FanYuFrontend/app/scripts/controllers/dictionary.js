@@ -9,12 +9,17 @@
     'use strict';
     angular.module('fanYuFrontendApp')
         .controller('DictionaryCtrl', DictionaryCtrl);
-    function DictionaryCtrl($scope) {
+    DictionaryCtrl.$inject = ['$scope','WordService'];
+    function DictionaryCtrl($scope,WordService) {
         var vm = this;
+
+        vm.searchResult = [];
+
         vm.typeSpecialChar = typeSpecialChar;
         vm.setSearchCode = setSearchCode;
         vm.setSearchMatch = setSearchMatch;
         vm.setSearchDomain = setSearchDomain;
+        vm.searchWord = searchWord;
 
         vm.search = {};
         vm.search.searchWord = "";
@@ -111,6 +116,13 @@
         function setSearchDomain(domianValue){
             vm.search.domain = domianValue;
             console.log(vm.search.domain);
+        }
+
+        function searchWord(){
+            WordService.searchWord(vm.search).then(function(data){
+                console.log(data);
+                vm.searchResult = data;
+            });
         }
     }
 })();

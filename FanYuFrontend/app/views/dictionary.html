@@ -1,11 +1,11 @@
-<div ng-controller="DictionaryCtrl as dicVM">
+<div>
     <nav class="col-lg-2 sidebar" id="leftNavbar">
         <div class="input-group input-group-sm">
             <input type="text" id="searchInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
                    ng-model="dicVM.search.searchWord">
 
             <div class="input-group-btn">
-                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                <button type="button" class="btn btn-default" ng-click="dicVM.searchWord()"><span class="glyphicon glyphicon-search"></span></button>
                 <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseSearchSettings">
                     <span class="caret"></span></button>
             </div>
@@ -49,20 +49,15 @@
                 </div>
             </div>
         </div>
+
         <ul class="nav nav-sidebar">
-            <li><a id="linkHome" ui-sref=".showWord({word: 'about'})">about</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'cat'})">cat</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'non-absolutely'})">non-absolutely</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'word'})">word</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'good'})">good</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'destroy'})">destroy</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'right now'})">right now</a></li>
-            <li><a id="linkHome" ui-sref=".showWord({word: 'supper'})">supper</a></li>
+            <li><a ui-sref=".showWord({word: 'about'})">about</a></li>
+            <li><a ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>
+            <li ng-repeat="word in dicVM.searchResult"><a ui-sref=".showWord({word: '{{word}}'})">{{word}}</a></li>
         </ul>
     </nav>
     <div class="col-lg-10 col-lg-offset-2 main" role="main">
+        {{dicVM.search}}
         <div ui-view></div>
     </div>
 </div>
