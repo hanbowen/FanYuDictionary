@@ -29,7 +29,7 @@
                         eval('$rootScope.'+$rootScope.dictionaryList[i].dicGroup+'_dictionaryList= $rootScope.dictionaryList[i].dictionaries');
                     }
 
-
+                    console.warn($rootScope.fan_dictionaryList);
                 });
             }
     };

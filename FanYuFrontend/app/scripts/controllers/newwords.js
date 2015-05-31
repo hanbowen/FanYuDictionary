@@ -14,6 +14,7 @@
         var vm = this;
 
         vm.initNewWordList = initNewWordList;
+        vm.isEdit = false;
         vm.newWordList = [];
 
         initNewWordList('Month',1);

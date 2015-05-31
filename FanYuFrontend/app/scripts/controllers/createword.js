@@ -13,14 +13,8 @@
         CreatewordCtrl.$inject = ['$scope','$rootScope','$sce','DictionaryService','WordService'];
 
         function CreatewordCtrl($scope, $rootScope, $sce, DictionaryService, WordService) {
-            console.log("CreatewordCtrl");
             var vm = this;
 
-            vm.addDuiyingci = addDuiyingci;
-            vm.addGuanlianci = addGuanlianci;
-            vm.setDictionary = setDictionary;
-            vm.setCiXing = setCiXing;
-            vm.saveWord = saveWord;
 
             vm.word = {};
             vm.word.dictionary = {};
@@ -40,7 +34,16 @@
 
             //vm.trustHtml =  $sce.trustAsHtml( vm.word.shiyi );
 
-            vm.newDuiyingciName = "";
+            /*
+
+             vm.addDuiyingci = addDuiyingci;
+             vm.addGuanlianci = addGuanlianci;
+             vm.setDictionary = setDictionary;
+             vm.setCiXing = setCiXing;
+             vm.saveWord = saveWord;
+
+
+             vm.newDuiyingciName = "";
             vm.newDuiyingciValue = "";
             vm.newGuanlianci = "";
             vm.tinymceOptions= {
@@ -136,6 +139,6 @@
                 function insertContent() {
                     editor.insertContent(this.settings.text);
                 }
-            }
+            }*/
         }
 })();

@@ -30,7 +30,7 @@
                 </div>
                 <div class="text-primary col-xs-2">
                     <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-upload"></span></button>
-                    <button class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></button>
+                    <button class="btn btn-warning btn-xs" ng-click="vm.isEdit = !vm.isEdit"><span class="glyphicon glyphicon-edit"></span></button>
                     <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
                 </div>
                 <div class="clearfix"></div>
@@ -38,7 +38,7 @@
         </div>
         <div id="collapse{{word.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
-                <div>
+                <div ng-hide="vm.isEdit">
                     <div class="form-group form-group-sm mt20">
                         <label class="text-info">【析词】</label>
 
@@ -112,8 +112,8 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
-                <div>
-
+                <div ng-hide="!vm.isEdit">
+                    <create-word word="word"></create-word>
                 </div>
             </div>
         </div>
