@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -12,6 +13,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import utils.Pagination;
 
 import com.google.gson.Gson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 
 public abstract class BaseService<T> {
 
@@ -178,6 +181,14 @@ public abstract class BaseService<T> {
 	}
 	
 	/**
+	 * 用原生的mongodb API去update 一条entry
+	 * @param id
+	 */
+	protected void updateById(String id , String jsonToUpdate) {
+		mongoTemplate.getCollection(getCollectionName()).update(new BasicDBObject("id",id), new BasicDBObject(new Gson().fromJson(jsonToUpdate, Map.class)));
+	}
+	
+	/**
 	 * 保存一个对象到mongodb
 	 * 
 	 * @param bean
@@ -195,6 +206,7 @@ public abstract class BaseService<T> {
 	 * @return
 	 */
 	protected T findById(String id) {
+		
 		return mongoTemplate.findById(id, this.getEntityClass());
 	}
 
@@ -210,13 +222,6 @@ public abstract class BaseService<T> {
 		return mongoTemplate.findById(id, this.getEntityClass(), collectionName);
 	}	
 	
-	/**
-	 * 根据id删除对象
-	 * @param id
-	 */
-	protected void removeById(String id) {
-		mongoTemplate.remove(findById(id));
-	}
 	
 	/**
 	 * 获取需要操作的实体类class
@@ -224,5 +229,9 @@ public abstract class BaseService<T> {
 	 * @return
 	 */
 	protected abstract Class<T> getEntityClass();
+	
+	protected String getCollectionName() {
+		return getEntityClass().getSimpleName().toLowerCase();
+	}
 	
 }

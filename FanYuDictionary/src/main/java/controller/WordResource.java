@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,45 +16,53 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 
-import utils.FileUtil;
+import service.WordService;
+import entity.Word;
 
 @Path("/word")
 public class WordResource {
 	
+	@Autowired
+	private WordService wordService;
 	private static final Log LOGGER = LogFactory.getLog(WordResource.class);
-	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 	
 	
 	@GET
 	@Produces("application/json")
-	public Response getWords(@QueryParam("search") String search, @QueryParam("match") String match, @QueryParam("domain") String domain ) {
+	public Response getWords(@QueryParam("search") String word, @QueryParam("match") String match, @QueryParam("domain") String domain,  @QueryParam("period") String period, @QueryParam("periodCount") String periodCount) {
 		
-		String jsonContext = "";
-		try {
-			Resource resource = defaultResourceLoader.getResource("config-context/words.json");
-			jsonContext = FileUtil.getInstance().readFile(resource.getFile());
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(word != null && !"".equals(word)) {
+			List<String> list = wordService.findByParams(word , match, domain);
+			LOGGER.info("成功返回词条列表");
+			return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
 		}
-
-		LOGGER.info("成功返回词条列表");
-		return Response.status(200).entity(jsonContext).type("application/json").build();
+		
+		if(period != null && !"".equals(period) && periodCount != null && !"".equals(periodCount)) {
+			List<Word> list = wordService.findByDate(period, periodCount);
+			LOGGER.info("成功返回新词条列表");
+			return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
+		}
+		
+		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
 	@POST
-	@Consumes("application/json")
 	@Produces("text/plain")
-	public Response saveWord(String body) {
+	public Response saveWord(String wordJson) {
 		
+		Word word = wordService.jsonToEntity(wordJson, Word.class);
+		Date date = new Date();
+		word.setCreateDateTime(date.getTime());;
+		word.setLastEditDateTime(date.getTime());;;
+		wordService.save(word);
 		LOGGER.info("成功保存词条信息");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 	
 	@PUT
-	@Consumes("application/json")
 	@Produces("text/plain")
 	@Path("{wordId}")
 	public Response updateWord(@PathParam("wordId") String wordId , String body) {
@@ -63,21 +74,14 @@ public class WordResource {
 	
 	
 	@GET
-	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("{wordName}")
-	public Response getWordByName(@PathParam("wordName") String wordName , String body) {
+	public Response getWordByName(@PathParam("wordName") String wordName) {
 		
-		String jsonContext = "";
-		try {
-			Resource resource = defaultResourceLoader.getResource("config-context/word.json");
-			jsonContext = FileUtil.getInstance().readFile(resource.getFile());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<Word> list = wordService.findWordByName(wordName);
 		
 		LOGGER.info("成功返回词条详情");
-		return Response.status(200).entity(jsonContext).type("application/json").build();
+		return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
 	}
 	
 	@DELETE

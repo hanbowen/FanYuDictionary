@@ -50,6 +50,14 @@ public class User extends Entity {
 	}
 	
 	
+	public Map<String, Object> getDicSequence() {
+		return dicSequence;
+	}
+
+	public void setDicSequence(Map<String, Object> dicSequence) {
+		this.dicSequence = dicSequence;
+	}
+
 	@Override  
     public String toString() {  
         return "{\"id\":\""+this.id+"\",\"username\":\""+this.username+"\",\"displayName\":\""+this.displayName+"\",\"role\":\"" +this.role +"\"}";  

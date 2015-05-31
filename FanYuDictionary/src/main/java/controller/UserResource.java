@@ -26,7 +26,7 @@ public class UserResource {
 	
 	private static final Log LOGGER = LogFactory.getLog(UserResource.class);
 	@Autowired  
-    UserService userService;
+    private UserService userService;
 	
 	@GET
 	@Produces("application/json")
@@ -40,11 +40,11 @@ public class UserResource {
 		
 		// else 按 pageNo, pageSize查询， 也可以只按pageNo查询
 //		Pagination<User> page = userService.getPageUser(pageNo, pageSize)
-//		Pagination<User> page = userService.getPageUser(2, 10);
+		Pagination<User> page = userService.getPageUser(1, 20);
 		LOGGER.info("return userlist successfully");
 //		return Response.status(200).entity(userService.list2Json(page.getDatas())).type("application/json").build();
-		String json = "{\"totalPages\":" +totalPages +"}"; 
-		return Response.status(200).entity(json).type("application/json").build();
+//		String json = "{\"totalPages\":" +totalPages +"}"; 
+		return Response.status(200).header("totalPages", totalPages).entity(userService.listToJson(page.getDatas())).type("application/json").build();
 	}
 	
 	@POST
@@ -88,6 +88,9 @@ public class UserResource {
 	@Path("{userid}")
 	public Response delUser(@PathParam("userid") String userId) {
 		
+		if("5555be5764bdfeb79092f728".equals(userId)) {
+			System.out.println(userId);
+		}
 		userService.removeById(userId);
 		LOGGER.info("delete userinfo succesfully");
 		return Response.status(200).entity("success").type("text/plain").build();

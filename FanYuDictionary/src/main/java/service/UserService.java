@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import utils.Pagination;
 import entity.User;
@@ -67,7 +69,7 @@ public class UserService extends BaseService<User>{
 	 * 根据id删除对象
 	 */
 	public void removeById(String id) {
-		super.removeById(id);
+		super.findAndRemove(query(where("id").is(id)));
 	}
 	
 	/**
