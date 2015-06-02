@@ -48,9 +48,10 @@
                     controllerAs: 'userVM'
                 })
                 .state('manage.myWords', {
-                    url: 'myWords',
+                    url: '/myWords',
                     templateUrl: 'views/mywords.html',
-                    controller: 'MywordsCtrl'
+                    controller: 'MywordsCtrl',
+                    controllerAs: 'vm'
                 })
                 .state('manage.createWord', {
                     url: '/createWord',

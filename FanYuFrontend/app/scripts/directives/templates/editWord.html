@@ -67,20 +67,19 @@
     <div role="tabpanel" class="col-xs-12 mt20">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
+            <li role="presentation" ng-class="createVM.word.template=='pattern'?'active':''">
                 <a href="#patternTab_{{createVM.word.id}}" role="tab" data-toggle="tab" ng-click="createVM.word.template='pattern'">模板编辑</a>
             </li>
-            <li role="presentation">
+            <li role="presentation" ng-class="createVM.word.template=='freeStyle'?'active':''">
                 <a href="#freestyleTab_{{createVM.word.id}}" role="tab" data-toggle="tab" ng-click="createVM.word.template='freeStyle'">自由编辑</a>
             </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content pa10">
             <!-- 模板编辑-->
-            <div role="tabpanel" id="patternTab_{{createVM.word.id}}" class="tab-pane active">
-                <div class="form-group form-group-sm mt20 mb20">
+            <div role="tabpanel" id="patternTab_{{createVM.word.id}}" ng-class="createVM.word.template=='pattern'?'tab-pane active':'tab-pane'">
+                <div class="form-group form-group-sm mt20 mb20" >
                     <label class="text-info">【析词】</label>
-
                     <div class="row">
                         <div class="col-sm-6 pr0">
                             <input type="text" class="form-control" placeholder="析词" ng-model="createVM.word.xici">
@@ -89,7 +88,6 @@
                 </div>
                 <div class="form-group form-group-sm mt20">
                     <label class="text-info">【对应词】</label>
-
                     <div class="row">
                         <div class="col-sm-1 pr0">
                             <select class="form-control pl3" ng-model="createVM.newDuiyingciName">
@@ -124,9 +122,13 @@
                 </div>
 
                 <div class="form-group mt30">
+                    <label class="text-info">【词根来源】</label>
+                    <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.cigenlaiyuan"></textarea>
+                </div>
+
+                <div class="form-group mt30">
                     <label class="text-info">【释义】</label>
                     <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.shiyi"></textarea>
-
                     <div style="padding: 5px 10px">
                         <button class="btn btn-xs btn-default" ng-repeat="btn in createVM.shiyiShortcutButtons"
                                 ng-click="createVM.setShiyi(btn)">{{btn}}
@@ -166,7 +168,7 @@
                     <label class="text-info">【例句】</label>
                     <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.liju"></textarea>
                 </div>
-                <div class="form-group mt30">
+                <div class="form-group mt30" ng-hide="createVM.word.cixing == '不变词'">
                     <div data-toggle="collapse" href="#bianxingEdit_{{createVM.word.id}}">
                         <label class="text-info">【变形】</label>
                     </div>
@@ -182,7 +184,7 @@
                 </div>
             </div>
             <!-- 自由编辑-->
-            <div role="tabpanel" id="freestyleTab_{{createVM.word.id}}" class="tab-pane">
+            <div role="tabpanel" id="freestyleTab_{{createVM.word.id}}"  ng-class="createVM.word.template=='freeStyle'?'tab-pane active':'tab-pane'">
                 <textarea ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.shiyi"></textarea>
             </div>
         </div>

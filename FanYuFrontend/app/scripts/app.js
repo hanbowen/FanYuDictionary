@@ -35,7 +35,8 @@
             'ngSanitize',
             'ngTouch',
             'ui.router',
-            'ui.tinymce'
+            'ui.tinymce',
+            'toastr'
         ])
         .run(function ($rootScope, $location, $state, AuthenticationService) {
             AuthenticationService.setUserRole(currentUserRole);

@@ -10,16 +10,16 @@
     angular.module('fanYuFrontendApp')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http','$rootScope']
+    AuthenticationService.$inject = ['$http','$rootScope','toastr']
 
-    function AuthenticationService($http,$rootScope) {
+    function AuthenticationService($http,$rootScope,toastr) {
         // Service logic
         // ...
         var role = "";
         // Public API here
         return {
             setUserRole: function (userRole) {
-                role = "Admin";//userRole;
+                role = userRole;
             },
             isUrlAuthenticated: function () {
                 console.log("isUrlAuthenticated : " + role);
@@ -54,7 +54,8 @@
                 }
 
                 function loginFailed(error) {
-                    console.error(error.data);
+                    console.error(error);
+                    toastr.error(error,"登录错误");
                 }
             }
 

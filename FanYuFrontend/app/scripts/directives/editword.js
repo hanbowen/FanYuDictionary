@@ -39,7 +39,7 @@ angular.module('fanYuFrontendApp')
             vm.word.cixing = "词性";
             vm.word.xici = "";
             vm.word.author = $rootScope.currentUser;*/
-            vm.word.author = $rootScope.currentUser;
+           // vm.word.author = $rootScope.currentUser;
             // vm.freeDescription = "init text"
 
             //vm.trustHtml =  $sce.trustAsHtml( vm.word.shiyi );
@@ -105,9 +105,15 @@ angular.module('fanYuFrontendApp')
 
             function saveWord() {
                // vm.word.shiyi = tinyMCE.get('shiyiTiny').getContent();
-                WordService.createNewWord(vm.word);
+                if (vm.word.id === undefined) {
+                    WordService.createNewWord(vm.word);
+                } else {
+                    WordService.updateWord(vm.word).then(success);
+                }
+                function success(){
+                    $scope.$emit('updateNewWordList', '');
+                }
             }
-
 
             /*function initTinymceButtons(editor) {
                 editor.addButton('yang', {text: '[阳]', icon: false, style: 'padding: -10px', onclick: insertContent});

@@ -29,6 +29,7 @@
             vm.word.template = "pattern";
             vm.word.cixing = "词性";
             vm.word.xici = "";
+            vm.word.cigenlaiyuan = '';
             vm.word.author = $rootScope.currentUser;
            // vm.freeDescription = "init text"
 
