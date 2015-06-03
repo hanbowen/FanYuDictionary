@@ -16,8 +16,11 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import service.WordService;
 import entity.Word;
@@ -64,9 +67,19 @@ public class WordResource {
 	
 	@PUT
 	@Produces("text/plain")
+	@RequiresRoles("Editor")
+	@ExceptionHandler({UnauthorizedException.class})
+	@Path("{wordId}/publish")
+	public Response publishWord(@PathParam("wordId") String wordId) {
+//		wordService.updateById(wordId, body);
+		LOGGER.info("成功更新词条信息");
+		return Response.status(200).entity("success").type("text/plain").build();
+	}
+	@PUT
+	@Produces("text/plain")
 	@Path("{wordId}")
 	public Response updateWord(@PathParam("wordId") String wordId , String body) {
-		
+		wordService.updateById(wordId, body);
 		LOGGER.info("成功更新词条信息");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}

@@ -43,7 +43,7 @@ public class WordService extends BaseService<Word>{
 		cal.setTime(now);
 		if(period != null && !"".equals(period) && pCount != null && !"".equals(pCount)) {
 			if(period.equals("Week")) {
-				cal.add(Calendar.DAY_OF_MONTH, -Integer.valueOf(pCount));
+				cal.add(Calendar.DAY_OF_WEEK_IN_MONTH, -Integer.valueOf(pCount));
 			}else if(period.equals("Month")) {
 				cal.add(Calendar.MONTH, -Integer.valueOf(pCount));
 			}else if(period.equals("Year")) {
@@ -52,6 +52,10 @@ public class WordService extends BaseService<Word>{
 			return mongoTemplate.find(query(where("lastEditDateTime").gte(cal.getTimeInMillis())), getEntityClass());
 		}
 		return null;
+	}
+	
+	public void updateById(String id , String jsonToUpdate) {
+		super.updateById(id, jsonToUpdate);
 	}
 	
 	public List<Word> findWordByName(String word) {

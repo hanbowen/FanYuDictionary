@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
-
 import utils.Pagination;
 import entity.User;
 
@@ -44,6 +44,13 @@ public class UserService extends BaseService<User>{
 		Map<String , String> criteria = new HashMap<String , String> ();
 		criteria.put("id", id);
 		return super.findOne(criteria);
+	}
+	
+	/**
+	 * 根据ID更新对象
+	 */
+	public void updateById(String id , String jsonToUpdate) {
+		super.updateById(id, jsonToUpdate);
 	}
 	
 	/**

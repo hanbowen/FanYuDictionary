@@ -37,6 +37,18 @@ public class Word extends Entity{
 	
 	private String template;
 	
+	private String cigenlaiyuan;
+	
+	
+	
+
+	public String getCigenlaiyuan() {
+		return cigenlaiyuan;
+	}
+
+	public void setCigenlaiyuan(String cigenlaiyuan) {
+		this.cigenlaiyuan = cigenlaiyuan;
+	}
 
 	public String getCixing() {
 		return cixing;

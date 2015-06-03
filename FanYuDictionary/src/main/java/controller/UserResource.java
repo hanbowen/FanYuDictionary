@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -64,7 +67,7 @@ public class UserResource {
 	@Produces("text/plain")
 	@Path("{userid}")
 	public Response updateUser(@PathParam("userid") String userId , String body) {
-		// 此处我再看看
+		userService.updateById(userId, body);
 		LOGGER.info("update user successfully");
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
@@ -73,24 +76,20 @@ public class UserResource {
 	
 	@GET
 	@Produces("application/json")
-	@Path("{userid}")
-	public Response getUserById(@PathParam("userid") String userId) {
+	@Path("{username}")
+	public Response getUserByName(@PathParam("username") String username) {
 		
-		
-		User user = userService.findUserById(userId);
-		
+		User user = userService.findUserByName(username);
+		List<User> list = new ArrayList<User>();
+		list.add(user);
 		LOGGER.info("return userinfo successfully");
-		return Response.status(200).entity(userService.entityToJson(user)).type("application/json").build();
+		return Response.status(200).entity(userService.listToJson(list)).type("application/json").build();
 	}
 	
 	@DELETE
 	@Produces("text/plain")
 	@Path("{userid}")
 	public Response delUser(@PathParam("userid") String userId) {
-		
-		if("5555be5764bdfeb79092f728".equals(userId)) {
-			System.out.println(userId);
-		}
 		userService.removeById(userId);
 		LOGGER.info("delete userinfo succesfully");
 		return Response.status(200).entity("success").type("text/plain").build();

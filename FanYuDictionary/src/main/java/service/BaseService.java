@@ -1,5 +1,8 @@
 package service;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +18,9 @@ import utils.Pagination;
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+
+import entity.User;
+import entity.Word;
 
 public abstract class BaseService<T> {
 
@@ -184,8 +190,15 @@ public abstract class BaseService<T> {
 	 * 用原生的mongodb API去update 一条entry
 	 * @param id
 	 */
+	@SuppressWarnings("unchecked")
 	protected void updateById(String id , String jsonToUpdate) {
-		mongoTemplate.getCollection(getCollectionName()).update(new BasicDBObject("id",id), new BasicDBObject(new Gson().fromJson(jsonToUpdate, Map.class)));
+		@SuppressWarnings("rawtypes")
+		Map map = new Gson().fromJson(jsonToUpdate, Map.class);
+		StringBuilder sb = new StringBuilder(getCollectionName());
+		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+		String str = sb.toString();
+		map.put("_class", "entity." + str );
+		mongoTemplate.getCollection(getCollectionName()).update(new BasicDBObject("_id",new ObjectId(id)), new BasicDBObject(map));
 	}
 	
 	/**
@@ -206,7 +219,6 @@ public abstract class BaseService<T> {
 	 * @return
 	 */
 	protected T findById(String id) {
-		
 		return mongoTemplate.findById(id, this.getEntityClass());
 	}
 
