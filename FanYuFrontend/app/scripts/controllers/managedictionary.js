@@ -11,18 +11,66 @@
 (function () {
   'use strict';
   angular.module('fanYuFrontendApp')
-    .controller('ManagedictionaryCtrl', function ($scope, DictionaryService) {
+    .controller('ManagedictionaryCtrl', function ($scope, $rootScope, DictionaryService) {
       var vm = this;
-      vm.dictionaryList
       vm.dictionaryList = {};
+      vm.isEdit = false;
+
+      vm.dictionary = {};
+      vm.dictionary.displayName = '';
+      vm.dictionary.dicGroup = '';
+      vm.dictionary.author = $rootScope.currentUser;
+
+      vm.addDict = addDict;
+
+      vm.createDictionary = createDictionary;
+      vm.editDictionary = editDictionary;
+      vm.deleteDictionary = deleteDictionary;
+      vm.updateDictionary = updateDictionary;
 
       getDictionaryList();
 
-      function getDictionaryList(){
+      function getDictionaryList() {
         DictionaryService.getDictionaryList().then(function(data) {
           vm.dictionaryList = data;
         });
       }
+
+      function createDictionary() {
+        DictionaryService.createDictionary(vm.dictionary).then(function(data) {
+          console.log(data);
+          getDictionaryList();
+        });
+      }
+
+      function editDictionary(dictionary) {
+        vm.isEdit = true;
+        vm.dictionary.displayName = dictionary.displayName;
+        vm.dictionary.dicGroup = dictionary.dicGroup;
+      }
+
+      function updateDictionary() {
+        DictionaryService.updateDictionary(vm.dictionary).then(function(data) {
+          console.log(data);
+          getDictionaryList();
+        });
+      }
+
+      function deleteDictionary(dictionaryId) {
+        DictionaryService.deleteDictionary(dictionaryId).then(function(data) {
+          console.log(data);
+          getDictionaryList();
+        });
+      }
+
+      function addDict(dicGroup) {
+        vm.isEdit = false;
+        //vm.dictionary.displayName = '';
+        vm.dictionary = {};
+        vm.dictionary.dicGroup = dicGroup;
+      }
+
+
 
     });
 })();

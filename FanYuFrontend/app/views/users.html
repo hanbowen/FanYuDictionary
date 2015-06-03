@@ -7,7 +7,7 @@
     <h2 class=" mt0">用户管理</h2>
   </div>
   <div class="col-xs-3">
-    <button class="btn btn-info pull-right" data-toggle="modal" data-target="#addUserModal">
+    <button class="btn btn-info pull-right" data-toggle="modal" data-target="#addUserModal" ng-click="userVM.add()">
       <span class="glyphicon glyphicon-plus"></span> 添加</button>
   </div>
 </div>
@@ -16,9 +16,9 @@
 <div class="row pl2">
   <div class="input-group input-group-sm col-sm-9">
     <div class="col-sm-6"><input type="text" id="searchUserInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
-                                 ng-model="userVM.searchUser" placeholder="输入用户名"/></div>
+                                 ng-model="userVM.userName" placeholder="输入用户名"/></div>
     <div class="col-sm-1 ml20">
-      <button class="btn btn-info pull-right"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+      <button class="btn btn-info pull-right" ng-click="userVM.searchUser()"><span class="glyphicon glyphicon-search"></span> 搜索</button>
     </div>
   </div>
 </div>
@@ -42,12 +42,20 @@
       <tr ng-repeat="user in userVM.userList">
         <td><input type="checkbox" autocomplete="off" ng-checked="user.checked"/></td>
         <td>{{user.username}}</td>
-        <td>{{user.nichen}}</td>
-        <td>{{user.juese}}</td>
+        <td>{{user.displayName}}</td>
+        <td>{{user.role}}</td>
         <td>
+<!--          <div class="btn-group btn-group-sm" role="group" aria-label="...">
+            <button type="button" class="btn btn-default btn-warning" data-toggle="modal" data-target="#addUserModal" ng-click="userVM.editUser(user.userId, userVM.isUserEdit())"><span class="glyphicon glyphicon-edit"></span></button>
+            <button type="button" class="btn btn-default btn-danger" ng-click="userVM.deleteUser('5555be5764bdfeb79092f728')"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>-->
           <div class="btn-group btn-group-sm" role="group" aria-label="...">
-            <button type="button" class="btn btn-default btn-warning">编辑</button>
-            <button type="button" class="btn btn-default btn-danger">删除</button>
+            <button type="button" class="btn btn-default btn-warning" data-toggle="modal" data-target="#addUserModal" ng-click="userVM.editUser(user)">
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-danger" ng-click="userVM.deleteUser(user.id)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
           </div>
         </td>
       </tr>
@@ -75,42 +83,45 @@
 </div>
 
 <!-- Add User Modal -->
-<div class="modal fade" id="addUserModal"  aria-labelledby="myModalLabel" aria-hidden="true">
+<!--<div class="modal fade" id="addUserModal"  aria-labelledby="myModalLabel" aria-hidden="true">-->
+<div class="modal fade" id="addUserModal">
   <!-- /.modal-dialog -->
   <div class="modal-dialog">
     <!-- /.modal-content -->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">用户注册</h4>
+        <h4 class="modal-title" ng-hide="userVM.isUserEdit">用户注册</h4>
+        <!--<h4 class="modal-title" id="myModalLabel">用户注册</h4>-->
+        <h4 class="modal-title" ng-hide="!userVM.isUserEdit">用户信息修改</h4>
       </div>
 
       <div class="modal-body">
         {{userVM.user}}
         <div class="input-group input-group-sm col-xs-12">
           <!--<span class="input-group-addon glyphicon glyphicon-user"></span>-->
-          <div class="col-xs-2"><label class="text-info mt3" style="margin-top: 4px">用户名:</label></div>
-          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.username" placeholder="用户名"/></div>
-          <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">检查用户名是否可用</label></div>
+          <div class="col-xs-2"><label class="text-info mt4">用户名:</label></div>
+          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.username" ng-disabled="userVM.isUserEdit" placeholder="用户名"/></div>
+          <div class="col-xs-4"><label class="text-info mt4">检查用户名是否可用</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
-          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">密码:</label></div>
+          <div class="col-xs-2"><label class="text-info mt4">密码:</label></div>
           <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.user.password" placeholder="密码"/></div>
-          <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">密码长度8-16位</label></div>
+          <div class="col-xs-4"><label class="text-info mt4">密码长度8-16位</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
-          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">确认密码:</label></div>
+          <div class="col-xs-2"><label class="text-info mt4">确认密码:</label></div>
           <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.passwordConfirm" placeholder="再次输入密码"/></div>
-          <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">密码长度8-16位</label></div>
+          <div class="col-xs-4"><label class="text-info mt4">密码长度8-16位</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
-          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">昵称:</label></div>
+          <div class="col-xs-2"><label class="text-info mt4">昵称:</label></div>
           <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.displayName" placeholder="昵称"/></div>
-          <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">支持中英文字符和数字</label></div>
+          <div class="col-xs-4"><label class="text-info mt4">支持中英文字符和数字</label></div>
         </div>
 
         <div class="input-group col-xs-12 mt10">
-          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">角色:</label></div>
+          <div class="col-xs-2"><label class="text-info mt4">角色:</label></div>
           <div class="col-xs-6 selectContainer" >
             <select name="role" class="form-control" ng-model="userVM.user.role">
               <option value=""></option>
@@ -119,14 +130,15 @@
               <option value="Reader">读者</option>
             </select>
           </div>
-          <label class="col-xs-4 control-label text-info" style="margin-top: 4px">选择用户角色</label>
+          <label class="col-xs-4 control-label text-info mt4">选择用户角色</label>
         </div>
 
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" ng-click="userVM.commitUser()">提交</button>
+        <button type="button" class="btn btn-primary" ng-click="userVM.commitUser()" ng-hide="userVM.isUserEdit">提交</button>
+        <button type="button" class="btn btn-primary" ng-click="userVM.saveUser()" ng-hide="!userVM.isUserEdit">保存</button>
       </div>
     </div>
   </div>

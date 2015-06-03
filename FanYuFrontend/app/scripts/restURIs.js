@@ -5,3 +5,4 @@ var baseURL = "http://localhost:8080/FanYuDictionary/rest/";
 var loginURI = baseURL+"login";
 var userURL = baseURL+"user";
 var wordURL = baseURL + "word";
+var dictURL = baseURL+"dictionary";

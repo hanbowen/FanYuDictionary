@@ -18,7 +18,9 @@
     var service = {
       getUserList: getUserList,
       createUser: createUser,
-      deleteUser: deleteUser
+      deleteSingleUser: deleteSingleUser,
+      updateUser: updateUser,
+      searchUser: searchUser
     };
     return service;
 
@@ -27,11 +29,9 @@
       return $http.get(userURL)
         .then(getUserListComplete)
         .catch(getUserListFailed);
-
       function getUserListComplete(response) {
         return response.data;
       }
-
       function getUserListFailed(error) {
         console.error('XHR Failed for getUserListFailed.' + error.data);
       }
@@ -41,27 +41,47 @@
       return $http.post(userURL, user)
         .then(createUserComplete)
         .catch(createUserFailed);
-
       function createUserComplete(response){
         return response.data;
       }
-
       function createUserFailed(error){
         console.error('XHR Failed for createUserFailed.' + error.data);
       }
     }
 
-    function deleteUser(){
-      return $http.delete()
+    function deleteSingleUser(userId){
+      return $http.delete(userURL + '/' + userId)
         .then(deleteUserComplete)
         .catch(deleteUserFailed);
-
       function deleteUserComplete(response){
         return response.data;
       }
-
       function deleteUserFailed(error){
         console.error('XHR Failed for deleteUserFailed.' + error.data);
+      }
+    }
+
+    function updateUser(user){
+      return $http.put(userURL + '/' + user.id, user)
+        .then(updateUserComplete)
+        .catch(updateUserFailed);
+      function updateUserComplete(response){
+        return response.data;
+      }
+      function updateUserFailed(error){
+        console.error('XHR Failed for updateUserFailed.' + error.data);
+      }
+    }
+
+    function searchUser(username){
+      return $http.get(userURL + '/' + username)
+        .then(searchUserComplete)
+        .catch(searchUserFailed);
+      function searchUserComplete(response){
+        return response.data;
+      }
+      function searchUserFailed(error){
+        console.error('XHR Failed for searchUserFailed.' + error.data);
       }
     }
 

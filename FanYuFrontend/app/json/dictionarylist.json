@@ -1,6 +1,6 @@
 [
     {
-        "dicGroup": "fan",
+        "dicGroup": "梵",
         "dictionaries": [
             {
                 "dicName": "fanhan",
@@ -27,7 +27,7 @@
         "dicGroupId": 1
     },
     {
-        "dicGroup": "ba",
+        "dicGroup": "巴",
         "dictionaries": [
             {
                 "dicName": "baying",
@@ -40,7 +40,7 @@
         "dicGroupId": 2
     },
     {
-        "dicGroup": "zang",
+        "dicGroup": "藏",
         "dictionaries": [
             {
                 "dicName": "baying",
@@ -53,7 +53,7 @@
         "dicGroupId": 3
     },
     {
-        "dicGroup": "han",
+        "dicGroup": "汉",
         "dictionaries": [
             {
                 "dicName": "baying",
