@@ -8,8 +8,14 @@
 (function () {
     'use strict';
     angular.module('fanYuFrontendApp')
-        .controller('NewwordsCtrl', NewwordsCtrl);
+        .controller('NewwordsCtrl', NewwordsCtrl).filter('addEditFlag',addEditFlag);
+
     NewwordsCtrl.$inject = ['$scope', 'WordService'];
+
+    function addEditFlag(){
+
+    }
+
     function NewwordsCtrl($scope, WordService) {
         var vm = this;
 
