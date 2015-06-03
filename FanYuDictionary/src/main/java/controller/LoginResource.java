@@ -42,9 +42,9 @@ public class LoginResource {
 		System.out.println("userService username:"+username);
 		User loginUser = userService.findUserByName(username);
 		
-		if(!password.equals(loginUser.getPassword())){
+		if(loginUser ==  null || !password.equals(loginUser.getPassword())){
 			LOGGER.info("login failed: password not correct");
-			return Response.status(301).entity("failed").type("text/plain").build();
+			return Response.status(401).entity("用户名或密码不正确").type("text/plain").build();
 		}
 			
 		System.out.println("username:" + username + " password:" + password);

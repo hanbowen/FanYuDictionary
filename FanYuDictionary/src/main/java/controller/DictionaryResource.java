@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,64 +17,67 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 
-import utils.FileUtil;
+import service.DictionaryService;
+import entity.Dictionary;
 
 @Path("/dictionary")
 public class DictionaryResource {
-	
-	private static final Log LOGGER = LogFactory.getLog(DictionaryResource.class);
+
+	@Autowired
+	private DictionaryService dictionaryService;
+	private static final Log LOGGER = LogFactory
+			.getLog(DictionaryResource.class);
 	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
-	
-	
+
 	@GET
 	@Produces("application/json")
-	@RequiresRoles(value={"Reader","Admin"},logical=Logical.OR)
+	@RequiresRoles(value = { "Reader", "Admin" }, logical = Logical.OR)
 	public Response getDictionaries() {
-		
-		String jsonContext = "";
-		try {
-			Resource resource = defaultResourceLoader.getResource("config-context/dictionaries.json");
-			jsonContext = FileUtil.getInstance().readFile(resource.getFile());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<Dictionary> dictionaryList = dictionaryService.findAll();
 
 		LOGGER.info("成功返回字典列表");
-		return Response.status(200).entity(jsonContext).type("application/json").build();
+		return Response.status(200).entity(dictionaryService.listToJson(dictionaryList))
+				.type("application/json").build();
 	}
-	
+
 	@POST
-	@Consumes("application/json")
+	// @Consumes("application/json")
 	@Produces("text/plain")
-	public Response saveDictionary(String body) {
-		
+	public Response saveDictionary(String dictionaryJson) {
+		Dictionary dictionary = dictionaryService.jsonToEntity(dictionaryJson,
+				Dictionary.class);
+		Date date = new Date();
+		dictionary.setCreateDateTime(date.getTime());
+		dictionary.setStatus("active");
+		dictionaryService.save(dictionary);
 		LOGGER.info("成功保存字典信息");
-		return Response.status(200).entity("success").type("text/plain").build();
+		return Response.status(200).entity("success").type("text/plain")
+				.build();
 	}
-	
+
 	@PUT
-	@Consumes("application/json")
+	//@Consumes("application/json")
 	@Produces("text/plain")
 	@Path("{dictionaryId}")
-	public Response updateDictionary(@PathParam("dictionaryId") String dictionaryId , String body) {
-		
+	public Response updateDictionary(
+			@PathParam("dictionaryId") String dictionaryId, String body) {
+		dictionaryService.updateById(dictionaryId, body);
 		LOGGER.info("成功更新词典信息");
-		return Response.status(200).entity("success").type("text/plain").build();
+		return Response.status(200).entity("success").type("text/plain")
+				.build();
 	}
-	
-	
-	
+
 	@DELETE
 	@Produces("text/plain")
 	@Path("{dictionaryId}")
 	public Response delDictionary(@PathParam("dictionaryId") String dictionaryId) {
-		
+		dictionaryService.removeById(dictionaryId);
 		LOGGER.info("成功删除词典信息");
-		return Response.status(200).entity("success").type("text/plain").build();
+		return Response.status(200).entity("success").type("text/plain")
+				.build();
 	}
-	
 
 }

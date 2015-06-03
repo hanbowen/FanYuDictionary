@@ -30,7 +30,7 @@
             vm.period = period;
             vm.periodCount = periodCount;
             refreshNewWordList(vm.period, vm.periodCount);
-            $scope.$on('updateNewWordList', updateNewWordList);
+            $scope.$on('updateWordSuccess', updateWordSuccess);
         }
 
         function refreshNewWordList(period, periodCount) {
@@ -41,8 +41,13 @@
             });
         }
 
-        function updateNewWordList(){
-            vm.isEdit = false;
+        function updateWordSuccess(d,wordId){
+            console.log(wordId);
+            for (var i in vm.newWordList) {
+                if (vm.newWordList[i].id === wordId) {
+                    vm.newWordList[i].isEdit = false;
+                }
+            }
         }
     }
 })();

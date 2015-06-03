@@ -25,24 +25,6 @@ angular.module('fanYuFrontendApp')
 
            // vm.dictionaryList = dictionaryList;
             vm.word = $scope.word;
-           /* vm.word = {};
-            vm.word.dictionary = {};
-            vm.word.dictionary.dicDisplayName = "归属字典";
-            vm.word.duiyingciList = [];
-            vm.word.shiyi = "shiyi";
-            vm.word.liju = "liju";
-            vm.word.bianxing = "bianxing"
-            vm.word.guanlianciList = [];
-            vm.word.baike = "baike";
-            vm.word.importFlag = false;
-            vm.word.template = "pattern";
-            vm.word.cixing = "词性";
-            vm.word.xici = "";
-            vm.word.author = $rootScope.currentUser;*/
-           // vm.word.author = $rootScope.currentUser;
-            // vm.freeDescription = "init text"
-
-            //vm.trustHtml =  $sce.trustAsHtml( vm.word.shiyi );
 
             vm.newDuiyingciName = "";
             vm.newDuiyingciValue = "";
@@ -59,21 +41,6 @@ angular.module('fanYuFrontendApp')
                     "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright"
                 ]
             };
-  /*          vm.tinymceShiyiOptions = {
-                plugins: "textcolor,link,table",
-                menubar: false,
-                language: 'zh_CN',
-                height: 100,
-                statusbar: false,
-                theme: "modern",
-                skin: 'light',
-                toolbar: [
-                    "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright xuan zhen yi shen hu an qian chen hun zang",
-                    "yang zhong yin xing | bubian | dong shi bei guofen xianfen bifen du | gu yin fo yu shu yue zhe shi shulun shenglun"
-                ]
-                //setup:initTinymceButtons,
-                //setup: initTinymceButtons
-            };*/
 
             vm.duiyingciOptionList = [
                 "<巴>", "<犍>", "<藏>", "<于>", "<蒙>", "<夏>", "<古>", "<现>", "<英>", "<法>", "<德>", "<日>"
@@ -111,7 +78,8 @@ angular.module('fanYuFrontendApp')
                     WordService.updateWord(vm.word).then(success);
                 }
                 function success(){
-                    $scope.$emit('updateNewWordList', '');
+                    //编辑词条成功，发布成功事件。
+                    $scope.$emit('updateWordSuccess', vm.word.id);
                 }
             }
 

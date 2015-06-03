@@ -50,9 +50,9 @@
             </div>
         </div>
 
-        <ul class="nav nav-sidebar">
-            <li><a ui-sref=".showWord({word: 'about'})">about</a></li>
-            <li><a ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>
+        <ul class="nav nav-sidebar mt20">
+           <!-- <li><a ui-sref=".showWord({word: 'about'})">about</a></li>
+            <li><a ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>-->
             <li ng-repeat="word in dicVM.searchResult"><a ui-sref=".showWord({word: '{{word}}'})">{{word}}</a></li>
         </ul>
     </nav>
