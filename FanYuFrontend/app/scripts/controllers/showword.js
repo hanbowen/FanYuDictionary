@@ -12,7 +12,9 @@
             var vm = this;
             vm.word = $stateParams.word;
             vm.wordDetail = [];
-            console.log("ShowwordCtrl");
+            vm.deleteWord = deleteWord;
+            vm.publishWord = publishWord;
+
             getWordDetail(vm.word);
 
             //通过事件订阅，当更新词条成功，则关闭编辑模式。
@@ -24,6 +26,22 @@
                 });
             }
 
+            function deleteWord(wordId){
+                WordService.deleteWord(wordId).then(function(data){
+                    if (data === 'success') {
+                        getWordDetail(vm.word);
+                    }
+                });
+            }
+
+            function publishWord(wordId){
+                console.error(wordId);
+                WordService.publishWord(wordId).then(function(data){
+                    if (data === 'success') {
+                        getWordDetail(vm.word);
+                    }
+                });
+            }
 
             //更新词条成功，关闭编辑模式
             function updateWordSuccess(d,wordId){

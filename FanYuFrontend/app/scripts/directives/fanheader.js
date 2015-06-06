@@ -16,6 +16,14 @@
             templateUrl: 'scripts/directives/templates/fanHeader.html',
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
+                scope.sortableOptions = {
+                    update: function(e, ui) {
+                       console.log(scope.list);
+                    },
+                    stop: function(e, ui) {
+                        console.log(scope.list);
+                    }
+                };
                 DictionaryService.getDictionaryList();
             }
         };

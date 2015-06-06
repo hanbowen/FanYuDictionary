@@ -105,23 +105,20 @@
 
         function setSearchCode(codeValue){
             vm.search.code = codeValue;
-            console.log(vm.search.code);
         }
 
         function setSearchMatch(matchValue){
             vm.search.match = matchValue;
-            console.log(vm.search.match);
         }
 
         function setSearchDomain(domianValue){
             vm.search.domain = domianValue;
-            console.log(vm.search.domain);
         }
 
         function searchWord(){
             WordService.searchWord(vm.search).then(function(data){
-                console.log(data);
                 vm.searchResult = data;
+                //$('.searchResult').first().trigger('click');
             });
         }
     }

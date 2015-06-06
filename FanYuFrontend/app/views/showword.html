@@ -3,101 +3,19 @@
     <div class="col-xs-12">
         <div class="panel panel-default" ng-repeat="word in showWordVM.wordDetail | orderBy: 'dictionary.dicSequence'">
             <div class="panel-heading">
-                <span ng-bind="word.status=='published'?word.dictionary.dicDisplayName:word.author.displayName"></span>
-
+                <span ng-bind="word.status=='published'?word.dictionary.displayName:word.author.displayName"></span>
                 <div class="text-primary pull-right">
-                    <button is-editable="{{word}}" has-permission="Admin" class="btn btn-success btn-xs hide"><span
+                    <button is-editable="{{word}}" has-permission="Admin" class="btn btn-success btn-xs hide" ng-click="showWordVM.publishWord(word.id)"><span
                             class="glyphicon glyphicon-upload"></span></button>
                     <button is-editable="{{word}}" has-permission="Admin Editor" class="btn btn-warning btn-xs hide" ng-init="word.isEdit=false"
                             ng-click="word.isEdit = !word.isEdit"><span class="glyphicon glyphicon-edit"></span></button>
-                    <button is-editable="{{word}}" has-permission="Admin Editor" class="btn btn-danger btn-xs hide">
+                    <button is-editable="{{word}}" has-permission="Admin Editor" class="btn btn-danger btn-xs hide" ng-click="showWordVM.deleteWord(word.id)">
                         <span class="glyphicon glyphicon-remove"></span></button>
                 </div>
             </div>
             <div class="panel-body">
-
                 <div ng-hide="word.isEdit">
-                    <div class="form-group form-group-sm mt20" ng-hide="word.template =='freeStyle'">
-                        <label class="text-info">【析词】</label>
-
-                        <div class="col-xs-12">
-                            <span ng-bind-html="word.xici"></span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="form-group form-group-sm mt20" ng-hide="word.template =='freeStyle'">
-                        <label class="text-info">【对应词】</label>
-
-                        <div class="row mt10">
-                            <div class="col-sm-6">
-                                <table class="table table-condensed table-bordered">
-                                    <tr ng-repeat="duiyingci in word.duiyingciList">
-                                        <td class="col-md-2">{{duiyingci.name}}</td>
-                                        <td class="col-md-9">{{duiyingci.value}}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-sm mt20" ng-hide="word.template =='freeStyle'">
-                        <label class="text-info">【词根来源】</label>
-
-                        <div class="col-xs-12">
-                            <span ng-bind-html="word.cigenlaiyuan"></span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="form-group form-group-sm mt20">
-                        <label class="text-info">【释义】</label>
-
-                        <div class="col-xs-12">
-                            <span ng-bind-html="word.shiyi"></span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="form-group form-group-sm mt20" ng-hide="word.template =='freeStyle'">
-                        <label class="text-info">【关联词条】</label>
-
-                        <div class="col-xs-12">
-                            <div class="pull-left mr20" ng-repeat="guanlianci in word.guanlianciList">
-                                <span ng-bind="guanlianci"></span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="form-group form-group-sm mt20" ng-hide="word.template =='freeStyle'">
-                        <label class="text-info">【例句】</label>
-
-                        <div class="col-xs-12">
-                            <span ng-bind-html="word.liju"></span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="form-group form-group-sm mt20" ng-hide="word.template =='freeStyle'">
-                        <div data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                            <label class="text-info">【变形】</label>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <span ng-bind-html="word.bianxing"></span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="form-group form-group-sm mt20" ng-hide="word.template =='freeStyle'">
-                        <label class="text-info">【百科与参考】</label>
-
-                        <div class="col-xs-12">
-                            <span ng-bind-html="word.baike"></span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+                    <show-word word="word"></show-word>
                 </div>
                 <div ng-hide="!word.isEdit">
                     <create-word word="word"></create-word>

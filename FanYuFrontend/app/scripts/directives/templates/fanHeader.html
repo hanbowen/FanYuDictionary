@@ -43,13 +43,15 @@
                 <div class="col-xs-6 col-sm-3" style="padding: 10px;" ng-repeat="dictionaryGroup in dictionaryList | orderBy:'dicGroupId'">
                     <div class="dicGroupContainer">
                         <div class="pull-right"><span ng-bind="dictionaryGroup.dicGroup"></span></div>
-                        <div ng-repeat="dictionary in dictionaryGroup.dictionaries | orderBy:'dicSequence'" >
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> {{dictionary.displayName}}
-                                </label>
-                            </div>
-                        </div>
+                        <ul ui-sortable="sortableOptions">
+                            <li ng-repeat="dictionary in dictionaryGroup.dictionaries">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> {{dictionary.displayName}}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
