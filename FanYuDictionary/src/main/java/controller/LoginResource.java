@@ -62,7 +62,7 @@ public class LoginResource {
 			e.printStackTrace();
 		}
 		
-		String jsonContext = loginUser.toString();
+		String jsonContext = userService.entityToJson(loginUser);
 	
 		LOGGER.info("login successfully");
 		return Response.status(200).entity(jsonContext).header("Access-Control-Expose-Headers", "token").header("token",tokenEncrypted).type("text/plain")

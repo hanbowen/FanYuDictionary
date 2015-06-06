@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -109,7 +110,8 @@ public class UserResource {
 		User user = userService.jsonToEntity(body, User.class);
 		// 如果没有传password，则默认只更新dicSequence
 		if(user.getPassword() == null || "".equals(user.getPassword())) {
-			userService.updateDicSequence(user.getId(), user.getDicSequence() != null ? user.getDicSequence().toString() : "");
+			Map<String , Object> map = user.getDicSequence();
+			userService.updateDicSequence(user.getId(), map);
 		} else {
 			// md5 编码 password
 			user.setPassword(DigestUtils.md5Hex(user.getPassword()));

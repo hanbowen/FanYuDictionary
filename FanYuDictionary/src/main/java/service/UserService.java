@@ -52,7 +52,7 @@ public class UserService extends BaseService<User>{
 	 * @param userId
 	 * @param dicSequence
 	 */
-	public void updateDicSequence(String userId , String dicSequence) {
+	public void updateDicSequence(String userId , Map<String ,Object> dicSequence) {
 		super.findAndModify(query(where("id").is(userId)), Update.update("dicSequence", dicSequence));
 	}
 	

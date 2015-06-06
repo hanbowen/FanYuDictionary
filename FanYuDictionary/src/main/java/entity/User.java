@@ -15,7 +15,9 @@ public class User extends Entity {
     
     private String role;
     
-    private Map<String, Object> dicSequence;   
+    private Map<String, Object> dicSequence;
+    
+    private Dictionary dictionary;
        
     public String getUsername() {
 		return username;
@@ -58,10 +60,15 @@ public class User extends Entity {
 		this.dicSequence = dicSequence;
 	}
 
-	@Override  
-    public String toString() {  
-        return "{\"id\":\""+this.id+"\",\"username\":\""+this.username+"\",\"displayName\":\""+this.displayName+"\",\"role\":\"" +this.role +"\"}";  
-    }
+	
+	public Dictionary getDictionary() {
+		return dictionary;
+	}
+
+	public void setDictionary(Dictionary dictionary) {
+		this.dictionary = dictionary;
+	}
+
 	
        
 }
