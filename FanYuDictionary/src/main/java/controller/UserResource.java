@@ -96,7 +96,7 @@ public class UserResource {
 	 * @return
 	 */
 	@PUT
-	@Produces("text/plain")
+	@Produces("application/json")
 	@Path("{userid}")
 	public Response updateUser(@PathParam("userid") String userId , String body) {
 		if( userId == null || "".equals(userId) ) {
@@ -112,7 +112,7 @@ public class UserResource {
 		body = userService.entityToJson(user);
 		userService.updateById(userId, body);
 		LOGGER.info("update user successfully");
-		return Response.status(200).entity("success").type("text/plain").build();
+		return Response.status(200).entity(body).type("application/json").build();
 	}
 	
 	
