@@ -30,7 +30,6 @@ public class DictionaryResource {
 	private DictionaryService dictionaryService;
 	private static final Log LOGGER = LogFactory
 			.getLog(DictionaryResource.class);
-	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 
 	@GET
 	@Produces("application/json")
@@ -64,6 +63,12 @@ public class DictionaryResource {
 	@Path("{dictionaryId}")
 	public Response updateDictionary(
 			@PathParam("dictionaryId") String dictionaryId, String body) {
+		if( dictionaryId == null || "".equals(dictionaryId) ) {
+			return Response.status(412).entity("dictionaryId 不允许为空").type("text/plain").build();
+		}
+		if( body == null || "".equals(body) ) {
+			return Response.status(412).entity("HTTP BODY 不允许为空").type("text/plain").build();
+		}
 		dictionaryService.updateById(dictionaryId, body);
 		LOGGER.info("成功更新词典信息");
 		return Response.status(200).entity("success").type("text/plain")
@@ -74,6 +79,9 @@ public class DictionaryResource {
 	@Produces("text/plain")
 	@Path("{dictionaryId}")
 	public Response delDictionary(@PathParam("dictionaryId") String dictionaryId) {
+		if( dictionaryId == null || "".equals(dictionaryId) ) {
+			return Response.status(412).entity("dictionaryId 不允许为空").type("text/plain").build();
+		}
 		dictionaryService.removeById(dictionaryId);
 		LOGGER.info("成功删除词典信息");
 		return Response.status(200).entity("success").type("text/plain")

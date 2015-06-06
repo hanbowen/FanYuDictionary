@@ -31,7 +31,7 @@ public class Word extends Entity{
 	
 	private long createDateTime;
 	
-	private String states;   //created updated checked published
+	private String status;   //created updated checked published
 
 	private String cixing;
 	
@@ -58,12 +58,12 @@ public class Word extends Entity{
 		this.cixing = cixing;
 	}
 
-	public String getStates() {
-		return states;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setStates(String states) {
-		this.states = states;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Map<String, Object> getDictionary() {

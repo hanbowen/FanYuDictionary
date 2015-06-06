@@ -145,9 +145,6 @@ public class Pagination<T> {
 		this.init();
 	}
 	
-	public Pagination(long totalCount) {
-		this(0, 20, totalCount);
-	}
 
 	/**
 	 * 初始化计算分页

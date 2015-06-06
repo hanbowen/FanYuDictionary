@@ -10,6 +10,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import utils.Pagination;
 import entity.User;
+import entity.Word;
 
 @Service
 public class UserService extends BaseService<User>{
@@ -34,6 +35,17 @@ public class UserService extends BaseService<User>{
 		criteria.put("username", name);
 		return super.findOne(criteria);
 	}
+	
+	/**
+	 * 根据pageNo 及 pageSize 查询每页信息
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public Pagination<User> getPageUser(int pageNo, int pageSize, Query query) {
+		return super.getPage(pageNo, pageSize, query);
+	}
+	
 	
 	/**
 	 * 根据ID查询指定用户

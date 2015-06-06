@@ -1,8 +1,5 @@
 package service;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +13,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import utils.Pagination;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-
-import entity.User;
-import entity.Word;
 
 public abstract class BaseService<T> {
 
@@ -48,7 +42,12 @@ public abstract class BaseService<T> {
 		Gson gson = new Gson();
 		return gson.toJson(list);
 	}
-
+	
+	public List<T> jsonToList(String json) {
+		Gson gson = new Gson();
+		List<T> list = gson.fromJson(json, new TypeToken<List<T>>(){}.getType());
+		return list;
+	}
 	
 	/**
 	 * 通过条件查询,查询分页结果
@@ -234,6 +233,13 @@ public abstract class BaseService<T> {
 		return mongoTemplate.findById(id, this.getEntityClass(), collectionName);
 	}	
 	
+	/**
+	 * 根据条件删除对象
+	 * @param query
+	 */
+	protected void removeByCriteria(Query query) {
+		mongoTemplate.remove(query, this.getEntityClass());
+	}
 	
 	/**
 	 * 获取需要操作的实体类class
