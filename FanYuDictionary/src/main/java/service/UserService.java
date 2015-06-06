@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -46,6 +47,14 @@ public class UserService extends BaseService<User>{
 		return super.getPage(pageNo, pageSize, query);
 	}
 	
+	/**
+	 * 根据userId 单独更新dicSequence
+	 * @param userId
+	 * @param dicSequence
+	 */
+	public void updateDicSequence(String userId , String dicSequence) {
+		super.findAndModify(query(where("id").is(userId)), Update.update("dicSequence", dicSequence));
+	}
 	
 	/**
 	 * 根据ID查询指定用户

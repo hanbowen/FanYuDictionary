@@ -107,10 +107,15 @@ public class UserResource {
 		}
 		
 		User user = userService.jsonToEntity(body, User.class);
-		// md5 编码 password
-		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-		body = userService.entityToJson(user);
-		userService.updateById(userId, body);
+		// 如果没有传password，则默认只更新dicSequence
+		if(user.getPassword() == null || "".equals(user.getPassword())) {
+			userService.updateDicSequence(user.getId(), user.getDicSequence() != null ? user.getDicSequence().toString() : "");
+		} else {
+			// md5 编码 password
+			user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+			body = userService.entityToJson(user);
+			userService.updateById(userId, body);
+		}
 		LOGGER.info("update user successfully");
 		return Response.status(200).entity(body).type("application/json").build();
 	}
