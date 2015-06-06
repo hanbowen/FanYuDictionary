@@ -10,22 +10,70 @@
     angular.module('fanYuFrontendApp')
         .controller('MywordsCtrl',MywordsCtrl);
 
-    MywordsCtrl.$inject = ['$scope','WordService'];
+    MywordsCtrl.$inject = ['$scope','$rootScope','WordService'];
 
-    function MywordsCtrl($scope,WordService) {
+    function MywordsCtrl($scope,$rootScope,WordService) {
         var vm = this;
 
-        vm.initMyWordList = initMyWordList;
-        vm.isEdit = false;
+        vm.refreshMyWordList = refreshMyWordList;
+        vm.nextPage = nextPage;
+        vm.prePage = prePage;
+        vm.specificPage = specificPage;
+        vm.deleteWord = deleteWord;
+
         vm.myWordList = [];
+        vm.page = 1;
+        vm.pageSize = 3;
+        vm.pageCount = 0;
 
-        initMyWordList();
 
-        function initMyWordList() {
-            WordService.getMyWords('Month',1).then(function (data) {
-                vm.myWordList = data;
-                console.warn(data);
+        refreshMyWordList();
+        $scope.$on('updateWordSuccess', updateWordSuccess);
+
+        function refreshMyWordList() {
+            WordService.getMyWords($rootScope.currentUser.id, vm.page, vm.pageSize).then(function (response) {
+                vm.myWordList = response.data;
+                vm.pageCount = response.headers('pageCount');
+                vm.page =  response.headers('page');
+
             });
+        }
+
+        function deleteWord(wordId){
+            WordService.deleteWord(wordId).then(function(data){
+                if (data === 'success') {
+                    refreshMyWordList();
+                }
+            });
+        }
+
+        function nextPage(){
+            if (vm.page < vm.pageCount) {
+                vm.page ++;
+                refreshMyWordList();
+            }
+        }
+
+        function prePage(){
+            if (vm.page > 1) {
+                vm.page --;
+                refreshMyWordList();
+            }
+        }
+
+        function specificPage(page){
+            vm.page = page;
+            refreshMyWordList();
+        }
+
+
+        function updateWordSuccess(d,wordId){
+            console.log(wordId);
+            for (var i in vm.myWordList) {
+                if (vm.myWordList[i].id === wordId) {
+                    vm.myWordList[i].isEdit = false;
+                }
+            }
         }
     }
 })();

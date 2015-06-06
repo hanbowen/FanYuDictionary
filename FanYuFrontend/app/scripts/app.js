@@ -36,7 +36,8 @@
             'ngTouch',
             'ui.router',
             'ui.tinymce',
-            'toastr'
+            'toastr',
+            'ui.sortable'
         ])
         .run(function ($rootScope, $location, $state, AuthenticationService) {
             AuthenticationService.setUserRole(currentUserRole);

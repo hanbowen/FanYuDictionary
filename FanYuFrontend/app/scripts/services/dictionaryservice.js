@@ -45,7 +45,14 @@
           $rootScope.dictionaryList = newResponse;
           for(var i in $rootScope.dictionaryList){
               //利用反射机制，将四个字典拆分成四个list放在rootScope中。分别是fan_dictionaryList,ba__dictionaryList,zang_dictionaryList,han_dictionaryList;
-              eval('$rootScope.'+$rootScope.dictionaryList[i].dicGroup+'_dictionaryList= $rootScope.dictionaryList[i].dictionaries');
+              var dicGroup = '';
+              switch ($rootScope.dictionaryList[i].dicGroup) {
+                  case '梵': dicGroup = 'fan'; break;
+                  case '巴': dicGroup = 'ba'; break;
+                  case '藏': dicGroup = 'zang'; break;
+                  case '汉': dicGroup = 'han'; break;
+              }
+              eval('$rootScope.'+dicGroup+'_dictionaryList= $rootScope.dictionaryList[i].dictionaries');
           }
       });
     }

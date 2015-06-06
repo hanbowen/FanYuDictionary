@@ -15,7 +15,6 @@ function isEditable($rootScope) {
     return {
         restrict: 'A',
         link: function postLink(scope, element, attrs) {
-            console.log( attrs.isEditable);
             var word = eval('('+attrs.isEditable+')');
             hideAndShowElements();
             function hideAndShowElements() {

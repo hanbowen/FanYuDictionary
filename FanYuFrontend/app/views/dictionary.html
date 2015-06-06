@@ -1,19 +1,22 @@
 <div>
     <nav class="col-lg-2 sidebar" id="leftNavbar">
         <div class="input-group input-group-sm">
-            <input type="text" id="searchInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
-                   ng-model="dicVM.search.searchWord">
+            <form>
+                <input type="text" id="searchInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
+                       ng-model="dicVM.search.searchWord">
 
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="dicVM.searchWord()"><span class="glyphicon glyphicon-search"></span></button>
-                <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseSearchSettings">
-                    <span class="caret"></span></button>
-            </div>
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default" ng-click="dicVM.searchWord()"><span
+                            class="glyphicon glyphicon-search"></span></button>
+                    <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseSearchSettings">
+                        <span class="caret"></span></button>
+                </div>
+            </form>
             <!-- /btn-group -->
         </div>
         <!-- /input-group -->
         <div class="collapse" id="collapseSoftKeys">
-            <div class="well" style="padding: 10px 10px;">
+            <div class="well" style="padding: 10px 10px">
                 <button class="btn btn-default btn-xs" ng-repeat="softKey in dicVM.softKeys"
                         ng-click="dicVM.typeSpecialChar($event)">
                     {{softKey}}
@@ -27,7 +30,8 @@
 
                 <div class="radio">
                     <label ng-repeat="code in dicVM.codeList">
-                        <input name="code" type="radio" ng-click="dicVM.setSearchCode(code.codeValue)" ng-checked="code.checked">{{code.codeName}}
+                        <input name="code" type="radio" ng-click="dicVM.setSearchCode(code.codeValue)"
+                               ng-checked="code.checked" style="margin: 2px 0 0 -13px">{{code.codeName}}
                     </label>
                 </div>
                 <span class="disabled">匹配：</span>
@@ -51,9 +55,7 @@
         </div>
 
         <ul class="nav nav-sidebar mt20">
-           <!-- <li><a ui-sref=".showWord({word: 'about'})">about</a></li>
-            <li><a ui-sref=".showWord({word: 'absolutely'})">absolutely</a></li>-->
-            <li ng-repeat="word in dicVM.searchResult"><a ui-sref=".showWord({word: '{{word}}'})">{{word}}</a></li>
+            <li ng-repeat="word in dicVM.searchResult"><a class="searchResult" ui-sref=".showWord({word: '{{word}}'})">{{word}}</a></li>
         </ul>
     </nav>
     <div class="col-lg-10 col-lg-offset-2 main" role="main">

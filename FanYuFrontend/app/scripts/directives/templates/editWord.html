@@ -26,9 +26,8 @@
             </div>
 
             <div class="dropdown pl3 pull-left">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                        aria-expanded="true">
-                    <span ng-bind="createVM.word.dictionary.dicDisplayName"></span>
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-expanded="true" ng-model="createVM.word.dictionary.displayName">
+                    {{createVM.word.dictionary.displayName}}
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -36,28 +35,28 @@
                     <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">梵</li>
                     <li role="presentation" class="divider" style="margin-top: 0"></li>
                     <li role="presentation" ng-repeat="dictionary in $root.fan_dictionaryList">
-                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a></li>
+                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.displayName}}</a></li>
                     </li>
                     <li role="presentation" class="dropdown-header"></li>
 
                     <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">巴利</li>
                     <li role="presentation" class="divider" style="margin-top: 0"></li>
                     <li role="presentation" ng-repeat="dictionary in $root.ba_dictionaryList">
-                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a></li>
+                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.displayName}}</a></li>
                     </li>
                     <li role="presentation" class="dropdown-header"></li>
 
                     <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">藏</li>
                     <li role="presentation" class="divider" style="margin-top: 0"></li>
                     <li role="presentation" ng-repeat="dictionary in $root.zang_dictionaryList">
-                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a>
+                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.displayName}}</a>
                     </li>
                     <li role="presentation" class="dropdown-header"></li>
 
                     <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">汉</li>
                     <li role="presentation" class="divider" style="margin-top: 0"></li>
                     <li role="presentation" ng-repeat="dictionary in $root.han_dictionaryList">
-                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.dicDisplayName}}</a>
+                        <a ng-click="createVM.setDictionary(dictionary)">{{dictionary.displayName}}</a>
                     </li>
                     <li role="presentation" class="dropdown-header"></li>
                 </ul>
@@ -78,7 +77,6 @@
         <div class="tab-content pa10">
             <!-- 模板编辑-->
             <div role="tabpanel" id="patternTab_{{createVM.word.id}}" ng-class="createVM.word.template=='pattern'?'tab-pane active':'tab-pane'">
-                {{createVM.word}}
                 <div class="form-group form-group-sm mt20 mb20" >
                     <label class="text-info">【析词】</label>
                     <div class="row">
