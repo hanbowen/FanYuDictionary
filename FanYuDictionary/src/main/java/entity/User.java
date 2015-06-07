@@ -2,22 +2,24 @@ package entity;
 
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
+
    
    
 public class User extends Entity {  
    
       
-    private String username;  
+    @Expose private String username;  
     
-    private String password;  
+    @Expose(deserialize = false) private String password;  
     
-    private String displayName;
+    @Expose private String displayName;
     
-    private String role;
+    @Expose private String role;
     
-    private Map<String, Object> dicSequence;
+    @Expose private Map<String, Object> dicSequence;
     
-    private Dictionary dictionary;
+    @Expose private Dictionary dictionary;
        
     public String getUsername() {
 		return username;

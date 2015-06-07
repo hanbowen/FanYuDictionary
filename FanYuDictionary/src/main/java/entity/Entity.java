@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
 
+import com.google.gson.annotations.Expose;
+
 public class Entity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id  
-    String id;
+    @Expose String id;
 
 	public String getId() {
 		return id;

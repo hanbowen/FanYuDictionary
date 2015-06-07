@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import utils.Pagination;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 
@@ -24,7 +25,7 @@ public abstract class BaseService<T> {
 	public T jsonToEntity(String jsonString, Class<T> clazz) {
 		T t = null;
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
             t = gson.fromJson(jsonString, clazz);
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,18 +34,18 @@ public abstract class BaseService<T> {
 	}
 	
 	public String entityToJson(Object entity) {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		String str = gson.toJson(entity);
 		return str;
 	}
 	
 	public String listToJson(List<?> list) {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		return gson.toJson(list);
 	}
 	
 	public List<T> jsonToList(String json) {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		List<T> list = gson.fromJson(json, new TypeToken<List<T>>(){}.getType());
 		return list;
 	}
@@ -251,5 +252,6 @@ public abstract class BaseService<T> {
 	protected String getCollectionName() {
 		return getEntityClass().getSimpleName().toLowerCase();
 	}
+	
 	
 }

@@ -3,41 +3,43 @@ package entity;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
+
 public class Word extends Entity{
 
-	private Map<String , Object> dictionary;
+	@Expose private Map<String , Object> dictionary;
 	
-	private List<Map<String , String>> duiyingciList;
+	@Expose private List<Map<String , String>> duiyingciList;
 	
-	private String shiyi;
+	@Expose private String shiyi;
 	
-	private List<String> guanlianciList;
+	@Expose private List<String> guanlianciList;
 	
-	private String baike;
+	@Expose private String baike;
 	
-	private boolean importflag;
+	@Expose private boolean importflag;
 	
-	private String word;
+	@Expose private String word;
 	
-	private String bianxing;
+	@Expose private String bianxing;
 	
-	private String xici;
+	@Expose private String xici;
 	
-	private Map<String , Object> author;
+	@Expose private Map<String , Object> author;
 	
-	private long lastEditDateTime;
+	@Expose private long lastEditDateTime;
 	
-	private String liju;
+	@Expose private String liju;
 	
-	private long createDateTime;
+	@Expose private long createDateTime;
 	
-	private String status;   //created updated checked published
+	@Expose private String status;   //created updated checked published
 
-	private String cixing;
+	@Expose private String cixing;
 	
-	private String template;
+	@Expose private String template;
 	
-	private String cigenlaiyuan;
+	@Expose private String cigenlaiyuan;
 	
 	
 	

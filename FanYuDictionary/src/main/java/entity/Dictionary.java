@@ -2,16 +2,18 @@ package entity;
 
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
+
 public class Dictionary extends Entity{
-	private String dicGroup;  
+	@Expose private String dicGroup;  
 	    
-	private String displayName;
+	@Expose private String displayName;
 	  
-	private Map<String , Object> author; 
+	@Expose private Map<String , Object> author; 
 	  
-	private String status;
+	@Expose private String status;
 	  
-	private long createDateTime;
+	@Expose private long createDateTime;
 
 	public String getDicGroup() {
 		return dicGroup;
