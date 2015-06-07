@@ -8,17 +8,21 @@
   </div>
   <div class="col-xs-3">
     <button class="btn btn-info pull-right" data-toggle="modal" data-target="#addUserModal" ng-click="userVM.add()">
-      <span class="glyphicon glyphicon-plus"></span> 添加</button>
+      <span class="glyphicon glyphicon-plus"></span> 添加
+    </button>
   </div>
 </div>
 
 <!--search user-->
 <div class="row pl2">
   <div class="input-group input-group-sm col-sm-9">
-    <div class="col-sm-6"><input type="text" id="searchUserInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
+    <div class="col-sm-6"><input type="text" id="searchUserInput" class="form-control" data-toggle="collapse"
+                                 href="#collapseSoftKeys"
                                  ng-model="userVM.userName" placeholder="输入用户名"/></div>
     <div class="col-sm-1 ml20">
-      <button class="btn btn-info pull-right" ng-click="userVM.searchUser()"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+      <button class="btn btn-info pull-right" ng-click="userVM.searchUser()"><span
+        class="glyphicon glyphicon-search"></span> 搜索
+      </button>
     </div>
   </div>
 </div>
@@ -29,7 +33,8 @@
     <table class="table table-bordered table-hover table-condensed">
       <thead>
       <tr class="bg-info">
-        <th class="col-sm-1"><input type="checkbox" autocomplete="off" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll()"/></th>
+        <th class="col-sm-1"><input type="checkbox" autocomplete="off" ng-model="userVM.checkAllValue"
+                                    ng-click="userVM.checkAll()"/></th>
         <th class="col-sm-3">用户名</th>
         <th class="col-sm-4">昵称</th>
         <th class="col-sm-2">角色</th>
@@ -44,19 +49,22 @@
         <td>{{user.username}}</td>
         <td>{{user.displayName}}</td>
         <td>{{user.role}}</td>
+        <!--<td>{{user.dictionary}}</td>-->
+
+        <!--add dictionary edit authority-->
+
         <td>
-<!--          <div class="btn-group btn-group-sm" role="group" aria-label="...">
-            <button type="button" class="btn btn-default btn-warning" data-toggle="modal" data-target="#addUserModal" ng-click="userVM.editUser(user.userId, userVM.isUserEdit())"><span class="glyphicon glyphicon-edit"></span></button>
-            <button type="button" class="btn btn-default btn-danger" ng-click="userVM.deleteUser('5555be5764bdfeb79092f728')"><span class="glyphicon glyphicon-remove"></span></button>
-          </div>-->
-          <div class="btn-group btn-group-sm" role="group" aria-label="...">
-            <button type="button" class="btn btn-default btn-warning" data-toggle="modal" data-target="#addUserModal" ng-click="userVM.editUser(user)">
-              <span class="glyphicon glyphicon-edit"></span>
-            </button>
-            <button type="button" class="btn btn-default btn-danger" ng-click="userVM.deleteUser(user.id)">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-          </div>
+          <!--          <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                      <button type="button" class="btn btn-default btn-warning" data-toggle="modal" data-target="#addUserModal" ng-click="userVM.editUser(user.userId, userVM.isUserEdit())"><span class="glyphicon glyphicon-edit"></span></button>
+                      <button type="button" class="btn btn-default btn-danger" ng-click="userVM.deleteUser('5555be5764bdfeb79092f728')"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>-->
+          <button type="button" class="btn btn-default btn-warning btn-xs" data-toggle="modal"
+                  data-target="#addUserModal" ng-click="userVM.editUser(user)">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-danger btn-xs" ng-click="userVM.deleteUser(user.id)">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
         </td>
       </tr>
       </tbody>
@@ -65,6 +73,7 @@
 
 </div>
 
+<!--
 <div class="row pl2">
   <div class="col-sm-9 pull-right">
     <nav>
@@ -81,6 +90,28 @@
     </nav>
   </div>
 </div>
+-->
+
+<div class="row pl2" ng-hide="(userVM.pageCount>0)?false:true">
+  <div class="col-sm-9 pull-right">
+    <ul class="pagination">
+      <li style="cursor: pointer;">
+        <a ng-click="userVM.prePage()">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li ng-repeat="i in [] | range:userVM.pageCount" ng-class="(i==userVM.page)?'active':''" style="cursor: pointer;">
+        <a ng-click="userVM.specificPage(i)">{{i}}</a>
+      </li>
+
+      <li style="cursor: pointer;">
+        <a ng-click="userVM.nextPage()">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
 
 <!-- Add User Modal -->
 <!--<div class="modal fade" id="addUserModal"  aria-labelledby="myModalLabel" aria-hidden="true">-->
@@ -90,39 +121,43 @@
     <!-- /.modal-content -->
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" ng-hide="userVM.isUserEdit">用户注册</h4>
         <!--<h4 class="modal-title" id="myModalLabel">用户注册</h4>-->
         <h4 class="modal-title" ng-hide="!userVM.isUserEdit">用户信息修改</h4>
       </div>
 
       <div class="modal-body">
-        {{userVM.user}}
         <div class="input-group input-group-sm col-xs-12">
           <!--<span class="input-group-addon glyphicon glyphicon-user"></span>-->
           <div class="col-xs-2"><label class="text-info mt4">用户名:</label></div>
-          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.username" ng-disabled="userVM.isUserEdit" placeholder="用户名"/></div>
+          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.username"
+                                       ng-disabled="userVM.isUserEdit" placeholder="用户名"/></div>
           <div class="col-xs-4"><label class="text-info mt4">检查用户名是否可用</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info mt4">密码:</label></div>
-          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.user.password" placeholder="密码"/></div>
+          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.user.password"
+                                       placeholder="密码"/></div>
           <div class="col-xs-4"><label class="text-info mt4">密码长度8-16位</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info mt4">确认密码:</label></div>
-          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.passwordConfirm" placeholder="再次输入密码"/></div>
+          <div class="col-xs-6"><input type="password" class="form-control" ng-model="userVM.passwordConfirm"
+                                       placeholder="再次输入密码"/></div>
           <div class="col-xs-4"><label class="text-info mt4">密码长度8-16位</label></div>
         </div>
         <div class="input-group input-group-sm col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info mt4">昵称:</label></div>
-          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.displayName" placeholder="昵称"/></div>
+          <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.displayName"
+                                       placeholder="昵称"/></div>
           <div class="col-xs-4"><label class="text-info mt4">支持中英文字符和数字</label></div>
         </div>
 
         <div class="input-group col-xs-12 mt10">
           <div class="col-xs-2"><label class="text-info mt4">角色:</label></div>
-          <div class="col-xs-6 selectContainer" >
+          <div class="col-xs-6 selectContainer">
             <select name="role" class="form-control" ng-model="userVM.user.role">
               <option value=""></option>
               <option value="Admin">管理员</option>
@@ -133,12 +168,206 @@
           <label class="col-xs-4 control-label text-info mt4">选择用户角色</label>
         </div>
 
+        <!--&lt;!&ndash;add assign dictionary edit authority&ndash;&gt;
+        <div class="input-group col-xs-12 mt10">
+          <div class="col-xs-2"><label class="text-info mt4">编辑词典:</label></div>
+          <div class="dropdown col-xs-6">
+            <div class="col-xs-10 panel panel-default">
+              <div class="panel-body">
+                {{dictionary.displayName}}
+              </div>
+            </div>
+            <div class="col-xs-2" style="padding-left: 10px;">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMen" data-toggle="dropdown"
+                      aria-expanded="true">
+                &lt;!&ndash;<span ng-bind="userVM.user.dictionary.displayName"></span>&ndash;&gt;
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">
+                  <input type="checkbox" autocomplete="off" ng-model="userVM.checkAllValue"
+                         ng-click="userVM.checkAll_Fan()"/>
+                  &nbsp;梵
+                </li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in fan_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox"/>&nbsp;{{dictionary.displayName}}
+                  </a>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
+
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">
+                  <input type="checkbox" autocomplete="off" ng-model="userVM.checkAllValue"
+                         ng-click="userVM.checkAll_Ba()"/>
+                  &nbsp;巴
+                </li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in ba_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox"/>&nbsp;{{dictionary.displayName}}
+                  </a>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
+
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">
+                  <input type="checkbox" autocomplete="off" ng-model="userVM.checkAllValue"
+                         ng-click="userVM.checkAll_Zang()"/>
+                  &nbsp;藏
+                </li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in zang_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox"/>&nbsp;{{dictionary.displayName}}
+                  </a>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
+
+
+                <li role="presentation" class="dropdown-header" style="color:#337AB7;margin-top:10px;">
+                  <input type="checkbox" autocomplete="off" ng-model="userVM.checkAllValue"
+                         ng-click="userVM.checkAll_Han()"/>
+                  &nbsp;汉
+                </li>
+                <li role="presentation" class="divider" style="margin-top: 0"></li>
+                <li role="presentation" ng-repeat="dictionary in han_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox"/>&nbsp;{{dictionary.displayName}}
+                  </a>
+                </li>
+                <li role="presentation" class="dropdown-header"></li>
+              </ul>
+            </div>
+
+
+          </div>
+        </div>-->
+
+        <!--add assign dictionary edit authority-->
+        <div class="input-group col-xs-12 mt10">
+          <div class="col-xs-2"><label class="text-info mt4">词典类:</label></div>
+
+          <div class="col-xs-6">
+            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">词典类<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><input type="radio" id="IDf" name="NAME" value="VALUE" ng-click="userVM.selectFanList()"><label
+                for="IDf">&nbsp;梵</label></li>
+              <li><input type="radio" id="IDb" name="NAME" value="VALUE" ng-click="userVM.selectBaList()"><label
+                for="IDb">&nbsp;巴</label></li>
+              <li><input type="radio" id="IDz" name="NAME" value="VALUE" ng-click="userVM.selectZangList()"><label
+                for="IDz">&nbsp;藏</label></li>
+              <li><input type="radio" id="IDh" name="NAME" value="VALUE" ng-click="userVM.selectHanList()"><label
+                for="IDh">&nbsp;汉</label></li>
+            </ul>
+
+          </div>
+        </div>
+
+        <div class="input-group col-xs-12 mt10">
+          <div class="col-xs-2"><label class="text-info mt4">词典名:</label></div>
+
+
+          <div class="col-xs-5 panel panel-default ml15">
+            <div class="panel-body">
+              {{userVM.user.dictionary.dictionaryGroup}}
+            </div>
+          </div>
+
+          <div class="btn-group col-xs-4 pull-left">
+            <button class="btn btn-default" data-label-placement>词典名</button>
+            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+              <span ng-bind="userVM.user.dictionary.dictionaryList" class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu">
+              <li ng-repeat="dictionary in userVM.user.dictionary.dictionaryList">
+                <input type="checkbox" id="IDD_{{dictionary.id}}">
+                <label for="IDD_{{dictionary.id}}">{{dictionary.displayName}}</label>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+
+        <!--<div class="btn-group">
+          <button class="btn btn-primary" data-label-placement>词典</button>
+          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            &lt;!&ndash;<li><input type="checkbox" id="ID" name="NAME" value="VALUE"><label for="ID">Label</label></li>&ndash;&gt;
+
+            <li ><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Fan()"/>
+              &nbsp;梵
+              <ul class="dropdown-submenu">
+                <div ng-repeat="dictionary in fan_dictionaryList">
+                  <li ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="'ID1_'+{{dictionary.id}}"/>
+                    <label for="'ID1_'+{{dictionary.id}}">&nbsp;{{dictionary.displayName}}</label>
+                  </li>
+                </div>
+              </ul>
+            </li>
+
+            <li role="presentation" class="divider" style="margin-top: 0"></li>
+
+            <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Ba()"/>
+              &nbsp;巴
+              <ul class="dropdown-submenu">
+                <div class="dropdown-submenu" ng-repeat="dictionary in ba_dictionaryList">
+                  <li ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="ID2"/>
+                    <label for="ID2">&nbsp;{{dictionary.displayName}}</label>
+                  </li>
+                </div>
+              </ul>
+            </li>
+
+            <li role="presentation" class="divider" style="margin-top: 0"></li>
+
+            <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Zang()"/>
+              &nbsp;藏
+              <ul class="dropdown-submenu">
+&lt;!&ndash;                <div class="dropdown-submenu" ng-repeat="dictionary in zang_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="ID3"/>
+                    <label for="ID3">&nbsp;{{dictionary.displayName}}</label>
+                  </a>
+                </div>&ndash;&gt;
+                <li><input type="checkbox" id="ID3"/><label for="ID3">&nbsp;label1</label></li>
+                <li><input type="checkbox" id="ID6"/><label for="ID6">&nbsp;label6</label></li>
+                <li><input type="checkbox" id="ID7"/><label for="ID7">&nbsp;label7</label></li>
+              </ul>
+            </li>
+
+            <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Han()"/>
+              &nbsp;汉
+              <ul class="dropdown-submenu">
+                <div class="dropdown-submenu" ng-repeat="dictionary in han_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="ID4"/>
+                    <label for="ID4">&nbsp;{{dictionary.displayName}}</label>
+                  </a>
+                </div>
+              </ul>
+            </li>
+
+            &lt;!&ndash; Other items &ndash;&gt;
+          </ul>
+        </div>-->
+
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" ng-click="userVM.commitUser()" ng-hide="userVM.isUserEdit">提交</button>
-        <button type="button" class="btn btn-primary" ng-click="userVM.saveUser()" ng-hide="!userVM.isUserEdit">保存</button>
+        <button type="button" class="btn btn-primary" ng-click="userVM.commitUser()" ng-hide="userVM.isUserEdit">提交
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="userVM.saveUser()" ng-hide="!userVM.isUserEdit">保存
+        </button>
       </div>
     </div>
   </div>

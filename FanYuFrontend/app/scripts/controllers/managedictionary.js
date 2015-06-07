@@ -17,6 +17,7 @@
       vm.isEdit = false;
 
       vm.dictionary = {};
+      vm.dictionary.id = '';
       vm.dictionary.displayName = '';
       vm.dictionary.dicGroup = '';
       vm.dictionary.author = $rootScope.currentUser;
@@ -45,6 +46,7 @@
 
       function editDictionary(dictionary) {
         vm.isEdit = true;
+        vm.dictionary.id = dictionary.id;
         vm.dictionary.displayName = dictionary.displayName;
         vm.dictionary.dicGroup = dictionary.dicGroup;
       }

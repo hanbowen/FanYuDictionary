@@ -24,13 +24,13 @@
     };
     return service;
 
-    function getUserList() {
+    function getUserList(page, pageSize) {
       //return $http.get('json/usertest.json')
-      return $http.get(userURL)
+      return $http.get(userURL + '?page=' + page + '&pageSize=' + pageSize)
         .then(getUserListComplete)
         .catch(getUserListFailed);
       function getUserListComplete(response) {
-        return response.data;
+        return response;
       }
       function getUserListFailed(error) {
         console.error('XHR Failed for getUserListFailed.' + error.data);
