@@ -11,7 +11,7 @@ public class User extends Entity {
       
     @Expose private String username;  
     
-    @Expose(deserialize = false) private String password;  
+    @Expose(serialize = false) private String password;  
     
     @Expose private String displayName;
     
