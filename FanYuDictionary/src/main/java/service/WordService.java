@@ -3,7 +3,6 @@ package service;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +16,10 @@ import org.springframework.stereotype.Service;
 import utils.Pagination;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.Bytes;
-import com.mongodb.DBCursor;
 
 import entity.Word;
+import enumeration.DomainProperty;
+import enumeration.MatchProperty;
 
 @Service
 public class WordService extends BaseService<Word>{
@@ -37,13 +36,18 @@ public class WordService extends BaseService<Word>{
 	
 	@SuppressWarnings("unchecked")
 	public List<String> findByParams(String word, String match , String domain) {
-//		Map<String , String> map = new HashMap<String , String> ();
-//		map.put("word", search);
-//		map.put(key, value)
-		// 此处需要详细讨论所有情况
-		if(word != null && !"".equals(word)) {
-			return mongoTemplate.getCollection("word").distinct("word", new BasicDBObject("word", word));
+		// word match domain 的非空性已在controller层校验过
+		
+		for(enumeration.MatchProperty matchEnum : enumeration.MatchProperty.values()) {
+			if(match.equals(matchEnum.getValue())) {
+				for(enumeration.DomainProperty domainEnum : enumeration.DomainProperty.values()) {
+					if(domain.equals(domainEnum.getValue())) {
+						return mongoTemplate.getCollection("word").distinct("word", new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
+					}
+				}
+			}
 		}
+		
 		return null;
 	}
 	
@@ -169,19 +173,6 @@ public class WordService extends BaseService<Word>{
 		return super.find(query(where("word").is(word)));
 	}
 	
-	public List<String> test(String word) {
-		BasicDBObject keys = new BasicDBObject();
-		keys.put("word", 1);
-		List<String> words = new ArrayList<String>();
-		DBCursor cursor = mongoTemplate.getCollection("word").find(new BasicDBObject("word" , word), keys).addOption(Bytes.QUERYOPTION_NOTIMEOUT);
-		
-		while(cursor.hasNext()) {
-			String w = (String) cursor.next().get("word");
-			words.add(w);
-		}
-		
-		return words;
-	}
 	
 	/**
 	 * 获取总共数据条数

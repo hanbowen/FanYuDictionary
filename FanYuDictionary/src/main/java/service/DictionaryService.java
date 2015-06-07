@@ -28,9 +28,13 @@ public class DictionaryService  extends BaseService<Dictionary>{
 		super.updateById(id, jsonToUpdate);
 	}
 	
+	public Dictionary findByDisplayName(String displayName) {
+		
+		return super.findOne(query(where("displayName").is(displayName)));
+	}
+	
 	@Override
 	protected Class<Dictionary> getEntityClass() {
-		// TODO Auto-generated method stub
 		return Dictionary.class;
 	}
 

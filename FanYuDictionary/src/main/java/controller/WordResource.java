@@ -1,12 +1,12 @@
 package controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -51,6 +51,25 @@ public class WordResource {
 				return Response.status(412).entity("HTTP HEADER 中的page 和 pageSize 必须大于0").type("text/plain").build();
 			}
 		} else {
+			
+			if(match == null || "".equals(match)) {
+				return Response.status(412).entity("match 参数不允许为空").type("text/plain").build();
+			}
+			
+			if(domain == null || "".equals(domain)) {
+				return Response.status(412).entity("domain 参数不允许为空").type("text/plain").build();
+			}
+			
+			// 判断match参数是否超出规定的范围， 规定的范围是 shou/zhong/wei/jingque
+			if( !Arrays.asList(enumeration.MatchProperty.getValues()).contains(match) ) {
+				return Response.status(412).entity("match参数已超出规定的范围，请在以下查询范围中选择一种查询方式" + Arrays.asList(enumeration.MatchProperty.getShows())).type("text/plain").build();
+			}
+			
+			// 判断domain参数是否超出规定的范围， 规定的范围是 duiyingci/bianxing/liju/danci/quanwen
+			if( !Arrays.asList(enumeration.DomainProperty.getValues()).contains(domain) ) {
+				return Response.status(412).entity("domain参数已超出规定的范围，请在以下查询范围中选择一种查询方式" + Arrays.asList(enumeration.DomainProperty.getShows())).type("text/plain").build();
+			}
+			
 			List<String> list = wordService.findByParams(word , match, domain);
 			LOGGER.info("成功返回词条列表");
 			return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
@@ -162,13 +181,12 @@ public class WordResource {
 	}
 	
 	
-	/*@GET
-	@Path("{wordName}")
+	@GET
+	@Path("/test/{wordName}")
 	public Response test(@PathParam("wordName") String wordName) {
-		List<String> list = wordService.test(wordName);
+		List<String> list = wordService.findByParams(wordName, null, null);
 		return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build(); 
-	}*/
-	
+	}
 	
 	
 

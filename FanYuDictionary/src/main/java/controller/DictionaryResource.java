@@ -43,11 +43,18 @@ public class DictionaryResource {
 	}
 
 	@POST
-	// @Consumes("application/json")
 	@Produces("text/plain")
 	public Response saveDictionary(String dictionaryJson) {
 		Dictionary dictionary = dictionaryService.jsonToEntity(dictionaryJson,
 				Dictionary.class);
+		
+		String displayName = dictionary.getDisplayName();
+		Dictionary persistedDic = dictionaryService.findByDisplayName(displayName);
+		// 判断是否有重复的Dictionary displayName
+		if(persistedDic != null && persistedDic.getId() != null && !"".equals(persistedDic.getId())) {
+			return Response.status(409).entity("数据库中已经存在该displayName，不允许重复保存").type("text/plain").build();
+		}
+		
 		Date date = new Date();
 		dictionary.setCreateDateTime(date.getTime());
 		dictionary.setStatus("active");

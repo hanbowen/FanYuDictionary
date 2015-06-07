@@ -113,7 +113,7 @@ public abstract class BaseService<T> {
 	 * @return
 	 */
 	@SuppressWarnings("static-access")
-	public T findOne(Map<String, ? extends Object> params) {
+	protected T findOne(Map<String, ? extends Object> params) {
 		Query query = new Query();
 		Criteria criteria = new Criteria();
 		boolean OK = false;

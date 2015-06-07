@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import service.UserService;
 import utils.Pagination;
 import entity.User;
-import entity.Word;
 
 @Path("/user")
 public class UserResource {
@@ -66,7 +65,7 @@ public class UserResource {
 		pagination = userService.getPageUser(Integer.valueOf(page), Integer.valueOf(pageSize));
 		
 		LOGGER.info("成功返回用户列表");
-		return Response.status(200).header("pageCount", pageCount).entity(userService.listToJson(pagination.getDatas())).type("application/json").build();
+		return Response.status(200).header("Access-Control-Expose-Headers", "pageCount").header("pageCount", pageCount).header("Access-Control-Expose-Headers", "page").header("page", page).header("Access-Control-Expose-Headers", "pageSize").header("pageSize", pageSize).entity(userService.listToJson(pagination.getDatas())).type("application/json").build();
 	}
 	
 	
