@@ -24,8 +24,8 @@
         vm.search = {};
         vm.search.searchWord = "";
         vm.search.code = "Unicode";
-        vm.search.match = "prefix";
-        vm.search.domain = "word";
+        vm.search.match = "shou";
+        vm.search.domain = "danci";
 
         vm.softKeys = ["ā","ī","ū","ṛ","ṝ","ḷ","ḹ","ṃ","ḥ","ṅ","ñ","ṭ","ḍ","ṇ","ś","ṣ"];
         vm.codeList = [
@@ -41,7 +41,7 @@
             },
             {
                 codeName: "模糊",
-                codeValue: "vague",
+                codeValue: "mohu",
                 checked: false
             }
         ];
@@ -49,22 +49,22 @@
         vm.matchList = [
             {
                 matchName: "首",
-                matchValue: "prefix",
+                matchValue: "shou",
                 checked: true
             },
             {
                 matchName: "尾",
-                matchValue: "suffix",
+                matchValue: "wei",
                 checked: false
             },
             {
                 matchName: "中",
-                matchValue: "middle",
+                matchValue: "zhong",
                 checked: false
             },
             {
                 matchName: "精确",
-                matchValue: "accurate",
+                matchValue: "jingque",
                 checked: false
             }
         ];
@@ -72,7 +72,7 @@
         vm.domainList = [
             {
                 domainName: "单词",
-                domainValue: "word",
+                domainValue: "danci",
                 checked: true
             },
             {

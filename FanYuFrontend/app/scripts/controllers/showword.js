@@ -15,13 +15,14 @@
             vm.deleteWord = deleteWord;
             vm.publishWord = publishWord;
 
-            getWordDetail(vm.word);
+            getWordDetail();
 
             //通过事件订阅，当更新词条成功，则关闭编辑模式。
             $scope.$on('updateWordSuccess', updateWordSuccess);
+            $rootScope.$on('updateDicSequenceSuccess', getWordDetail);
 
-            function getWordDetail(word) {
-                WordService.getWordDetail(word).then(function (data) {
+            function getWordDetail() {
+                WordService.getWordDetail(vm.word).then(function (data) {
                     vm.wordDetail = data;
                 });
             }
@@ -52,5 +53,6 @@
                     }
                 }
             }
+
         });
 })();

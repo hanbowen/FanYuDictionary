@@ -1,7 +1,7 @@
 <div>
     <nav class="col-lg-2 sidebar" id="leftNavbar">
-        <div class="input-group input-group-sm">
-            <form>
+        <form>
+            <div class="input-group input-group-sm">
                 <input type="text" id="searchInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
                        ng-model="dicVM.search.searchWord">
 
@@ -11,9 +11,9 @@
                     <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseSearchSettings">
                         <span class="caret"></span></button>
                 </div>
-            </form>
-            <!-- /btn-group -->
-        </div>
+                <!-- /btn-group -->
+            </div>
+        </form>
         <!-- /input-group -->
         <div class="collapse" id="collapseSoftKeys">
             <div class="well" style="padding: 10px 10px">
@@ -55,7 +55,8 @@
         </div>
 
         <ul class="nav nav-sidebar mt20">
-            <li ng-repeat="word in dicVM.searchResult"><a class="searchResult" ui-sref=".showWord({word: '{{word}}'})">{{word}}</a></li>
+            <li ng-repeat="word in dicVM.searchResult"><a class="searchResult" ui-sref=".showWord({word: '{{word}}'})">{{word}}</a>
+            </li>
         </ul>
     </nav>
     <div class="col-lg-10 col-lg-offset-2 main" role="main">
