@@ -4,7 +4,7 @@
         <div class="panel panel-default"
              ng-init="word.displaySequence = currentUser.dicSequence.sequence[word.dictionary.id]"
              ng-hide="currentUser.dicSequence.checkList.indexOf(word.dictionary.id)== -1"
-             ng-repeat="word in showWordVM.wordDetail | orderBy: 'displaySequence'">
+             ng-repeat="word in showWordVM.wordDetail | orderBy: ['status','displaySequence']">
             <div class="panel-heading">
                 <span ng-bind="word.status=='published'?word.dictionary.displayName:word.author.displayName"></span>
 

@@ -17,6 +17,7 @@
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
                 scope.updateUserDicCheckList = updateUserDicCheckList;
+                scope.logout = logout;
                 scope.sortableFanOptions = {
                     stop: function (e, ui) {
                         for (var index in $rootScope.fan_dictionaryList) {
@@ -52,6 +53,13 @@
                 DictionaryService.getDictionaryList();
             }
         };
+
+        function logout(){
+            $rootScope.currentUser = {};
+            $.removeCookie("currentUser");
+            $.removeCookie("token");
+            location.reload();
+        }
 
         function updateUserDicSequence() {
             //如果response里面没有dicSequence先初始化
@@ -93,6 +101,10 @@
             }
             if ($rootScope.currentUser.dicSequence.checkList == undefined) {
                 $rootScope.currentUser.dicSequence.checkList = [];
+                //默认梵语字典全选
+                for (var i in $rootScope.fan_dictionaryList) {
+                    addCheckItem($rootScope.fan_dictionaryList[i].id);
+                }
             }
             //选中则添加到checklist
             if (event.target.checked) {
@@ -122,4 +134,6 @@
             }
         }
     };
+
+
 })();

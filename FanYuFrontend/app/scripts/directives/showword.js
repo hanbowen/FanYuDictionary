@@ -17,9 +17,6 @@
         function showWordDirectiveController($scope, $sce) {
             var vm = this;
             vm.word = $scope.word;
-            vm.word.shiyi = $sce.trustAsHtml(vm.word.shiyi);
-            vm.word.bianxing = $sce.trustAsHtml(vm.word.bianxing);
-            vm.word.baike = $sce.trustAsHtml(vm.word.baike);
         }
 
         return {

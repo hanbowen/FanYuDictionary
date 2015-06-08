@@ -22,9 +22,12 @@ angular.module('fanYuFrontendApp')
             vm.setCiXing = setCiXing;
             vm.saveWord = saveWord;
             vm.setShiyi = setShiyi;
+            vm.removeGuanlianci = removeGuanlianci;
+            vm.removeDuiyingci = removeDuiyingci;
 
            // vm.dictionaryList = dictionaryList;
             vm.word = $scope.word;
+            vm.freestyleShiyi = vm.word.shiyi;
 
             vm.newDuiyingciName = "";
             vm.newDuiyingciValue = "";
@@ -54,12 +57,40 @@ angular.module('fanYuFrontendApp')
                     name: vm.newDuiyingciName,
                     value: vm.newDuiyingciValue
                 }
-                console.log(newDuiyingci);
+                for(var i in vm.word.duiyingciList){
+                    if (newDuiyingci.name == vm.word.duiyingciList[i].name) {
+                        vm.word.duiyingciList[i] = newDuiyingci;
+                        return;
+                    }
+                }
                 vm.word.duiyingciList.push(newDuiyingci);
             }
 
+            function removeDuiyingci(duiyingciName) {
+                for(var i in vm.word.duiyingciList){
+                    if (duiyingciName == vm.word.duiyingciList[i].name) {
+                        vm.word.duiyingciList.splice(i,1);
+                        return;
+                    }
+                }
+            }
+
             function addGuanlianci() {
+                for (var i in vm.word.guanlianciList) {
+                    if (vm.newGuanlianci == vm.word.guanlianciList[i]) {
+                        return;
+                    }
+                }
                 vm.word.guanlianciList.push(vm.newGuanlianci);
+            }
+
+            function removeGuanlianci(guanlianci) {
+                for (var i in vm.word.guanlianciList) {
+                    if (guanlianci == vm.word.guanlianciList[i]) {
+                        vm.word.guanlianciList.splice(i,1);
+                        return;
+                    }
+                }
             }
 
             function setDictionary(dictionary) {
@@ -71,7 +102,12 @@ angular.module('fanYuFrontendApp')
             }
 
             function saveWord() {
-               // vm.word.shiyi = tinyMCE.get('shiyiTiny').getContent();
+                //如果是freestyle的编辑方式，将其编辑内容存入shiyi中。（不能讲两个编辑框都绑定到word.shiyi,编辑器会出问题）
+                if (vm.word.template == "freeStyle") {
+                    vm.word.shiyi = vm.freestyleShiyi;
+                }
+
+                //判断是新建还是更新
                 if (vm.word.id === undefined) {
                     WordService.createNewWord(vm.word);
                 } else {
@@ -80,6 +116,7 @@ angular.module('fanYuFrontendApp')
                 function success(){
                     //编辑词条成功，发布成功事件。
                     $scope.$emit('updateWordSuccess', vm.word.id);
+                    $scope.word = vm.word;
                 }
             }
 
