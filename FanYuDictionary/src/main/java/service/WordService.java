@@ -35,6 +35,14 @@ public class WordService extends BaseService<Word>{
 		return super.save(word);
 	}
 	
+	
+	/**
+	 * 模糊查询
+	 * @param word 查询关键词
+	 * @param match 匹配位置
+	 * @param domain 查询范围
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findByParams(String word, String match , String domain) {
 		// word match domain 的非空性已在controller层校验过

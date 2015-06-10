@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.Expose;
@@ -20,8 +21,20 @@ public class User extends Entity {
     @Expose private Map<String, Object> dicSequence;
     
     @Expose private Dictionary dictionary;
-       
-    public String getUsername() {
+    
+    @Expose private List<Map<String , String>> allowedDictionaries;
+    
+    
+    
+    public List<Map<String, String>> getAllowedDictionaries() {
+		return allowedDictionaries;
+	}
+
+	public void setAllowedDictionaries(List<Map<String, String>> allowedDictionaries) {
+		this.allowedDictionaries = allowedDictionaries;
+	}
+
+	public String getUsername() {
 		return username;
 	}
     
