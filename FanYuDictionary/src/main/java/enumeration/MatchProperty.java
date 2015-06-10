@@ -73,19 +73,19 @@ public enum MatchProperty {
 		}
 		else if ( SHOU.equals( name ) )
 		{
-			answer = word + ".*";
+			answer = "^" + word;
 		}
 		else if ( ZHONG.equals( name ) )
 		{
-			answer = ".*" + word + ".*";
+			answer = ".+" + word + ".+";
 		}
 		else if ( WEI.equals( name ) )
 		{
-			answer = ".*" + word;
+			answer = word + "$";
 		}
 		else if ( JINGQUE.equals( name ) )
 		{
-			answer = word;
+			answer = "^" + word + "$";
 		}
 		
 		return answer;

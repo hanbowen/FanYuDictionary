@@ -4,15 +4,15 @@ package enumeration;
 public enum DomainProperty implements BaseEnum{
 
 	
-	DUIYINGCI( "duiyingci", "首" ),
+	DUIYINGCI( "duiyingci", "对应词" ),
 
-	BIANXING( "bianxing", "中" ),
+	BIANXING( "bianxing", "变形" ),
 	
-	LIJU( "liju", "尾 " ),
+	LIJU( "liju", "例句" ),
 	
-	DANCI( "danci", "尾 " ),
+	DANCI( "danci", "单词 " ),
 
-	QUANWEN( "quanwen", "精确" );
+	QUANWEN( "quanwen", "全文" );
 	
 
 	private final String	value;
@@ -85,7 +85,12 @@ public enum DomainProperty implements BaseEnum{
 		}
 		else if ( QUANWEN.equals( name ) )
 		{
-			answer = "quanwen";
+			StringBuilder sb = new StringBuilder();
+			sb.append("duiyingciList.value").append("-");
+			sb.append("bianxing").append("-");
+			sb.append("liju").append("-");
+			sb.append("word");
+			answer = sb.toString();
 		}
 		
 		return answer;

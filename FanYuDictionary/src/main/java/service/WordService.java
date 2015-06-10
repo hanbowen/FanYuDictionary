@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import utils.Pagination;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 import entity.Word;
@@ -42,7 +43,20 @@ public class WordService extends BaseService<Word>{
 			if(match.equals(matchEnum.getValue())) {
 				for(enumeration.DomainProperty domainEnum : enumeration.DomainProperty.values()) {
 					if(domain.equals(domainEnum.getValue())) {
-						return mongoTemplate.getCollection("word").distinct("word", new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
+						String key = "";
+						BasicDBObject queryCondition = new BasicDBObject();
+						// 全文检索需要重新构造查询key
+						if("quanwen".equals(domain)) {
+							BasicDBList values = new BasicDBList();
+							key = DomainProperty.getKey(domainEnum);
+							for(String item : key.split("-")) {
+								values.add(new BasicDBObject(item,new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
+							}
+							queryCondition.put("$or", values);
+						} else {
+							queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word)));
+						}
+						return mongoTemplate.getCollection(getCollectionName()).distinct("word", queryCondition);
 					}
 				}
 			}
