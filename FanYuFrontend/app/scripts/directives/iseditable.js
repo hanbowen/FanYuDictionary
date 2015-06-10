@@ -15,14 +15,14 @@ function isEditable($rootScope) {
     return {
         restrict: 'A',
         link: function postLink(scope, element, attrs) {
-            var word = eval('('+attrs.isEditable+')');
+          /*  var word = eval('('+attrs.isEditable+')');
             hideAndShowElements();
             function hideAndShowElements() {
-                if ($rootScope.currentUser.id === word.author.id)
+                if ($rootScope.currentUser != undefined && $rootScope.currentUser.id === word.author.id)
                     element.removeClass("hide");
                 else
                     element.remove();
-            }
+            }*/
         }
     };
 }
