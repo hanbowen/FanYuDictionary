@@ -62,6 +62,9 @@
     }
 
     function updateUser(user){
+      if (user.id == undefined) {
+          return "";
+      }
       return $http.put(userURL + '/' + user.id, user)
         .then(updateUserComplete)
         .catch(updateUserFailed);

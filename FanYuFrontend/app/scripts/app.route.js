@@ -39,31 +39,36 @@
                     url: '/newWords',
                     templateUrl: 'views/newwords.html',
                     controller: 'NewwordsCtrl',
-                    controllerAs: 'vm'
+                    controllerAs: 'vm',
+                    authenticate: true
                 })
                 .state('manage.users', {
                     url: '/users',
                     templateUrl: 'views/users.html',
                     controller: 'UsersCtrl',
-                    controllerAs: 'userVM'
+                    controllerAs: 'userVM',
+                    authenticate: true
                 })
                 .state('manage.myWords', {
                     url: '/myWords',
                     templateUrl: 'views/mywords.html',
                     controller: 'MywordsCtrl',
-                    controllerAs: 'vm'
+                    controllerAs: 'vm',
+                    authenticate: true
                 })
                 .state('manage.createWord', {
                     url: '/createWord',
                     templateUrl: 'views/createword.html',
                     controller: 'CreatewordCtrl',
-                    controllerAs: 'createVM'
+                    controllerAs: 'createVM',
+                    authenticate: true
                 })
                 .state('manage.managedictionary', {
                   url: '/managerDict',
                   templateUrl: 'views/managedictionary.html',
                   controller: 'ManagedictionaryCtrl',
-                  controllerAs: 'dictionaysVM'
+                  controllerAs: 'dictionaysVM',
+                  authenticate: true
                 })
         });
    // $httpProvider.responseInterceptors.push('SecurityHttpInterceptor');

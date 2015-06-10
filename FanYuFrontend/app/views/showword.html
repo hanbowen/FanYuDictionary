@@ -2,9 +2,9 @@
     <div class="col-xs-12"><h2 class="mt0"><span ng-bind="showWordVM.word"></span></h2></div>
     <div class="col-xs-12">
         <div class="panel panel-default"
-             ng-init="word.displaySequence = currentUser.dicSequence.sequence[word.dictionary.id]"
+             ng-init="word.displaySequence = word.status+currentUser.dicSequence.sequence[word.dictionary.id]"
              ng-hide="currentUser.dicSequence.checkList.indexOf(word.dictionary.id)== -1"
-             ng-repeat="word in showWordVM.wordDetail | orderBy: ['status','displaySequence']">
+             ng-repeat="word in showWordVM.wordDetail | orderBy: ['displaySequence']">
             <div class="panel-heading">
                 <span ng-bind="word.status=='published'?word.dictionary.displayName:word.author.displayName"></span>
 

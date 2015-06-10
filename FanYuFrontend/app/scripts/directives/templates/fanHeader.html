@@ -26,10 +26,10 @@
                             <span id="activeUserName">{{currentUser.displayName}}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li role="presentation" ng-hide="currentUser!=undefined && currentUser!={}" style="cursor:pointer;"><a data-toggle="modal" data-target="#loginModal">登录</a></li>
-                            <li role="presentation" ng-hide="currentUser!=undefined && currentUser!={}" style="cursor:pointer;"><a>注册</a></li>
-                            <li role="presentation" ng-hide="currentUser==undefined || currentUser=={}" ng-click="logout()" style="cursor:pointer;"><a>注销</a></li>
-                            <li role="presentation" ng-hide="currentUser==undefined || currentUser=={}" style="cursor:pointer;"><a>修改密码</a></li>
+                            <li role="presentation" ng-hide="currentUser!=undefined && currentUser.id !=undefined" style="cursor:pointer;"><a data-toggle="modal" data-target="#loginModal">登录</a></li>
+                            <li role="presentation" ng-hide="currentUser!=undefined && currentUser.id !=undefined" style="cursor:pointer;"><a>注册</a></li>
+                            <li role="presentation" ng-hide="currentUser==undefined || currentUser.id ==undefined" ng-click="logout()" style="cursor:pointer;"><a>注销</a></li>
+                            <li role="presentation" ng-hide="currentUser==undefined || currentUser.id ==undefined" style="cursor:pointer;"><a>修改密码</a></li>
                         </ul>
                     </li>
                     <li><a class="btn" data-toggle="collapse" data-target="#customSettingContainer"><span

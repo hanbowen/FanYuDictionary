@@ -4,8 +4,8 @@ import java.util.Date;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -22,7 +22,12 @@ public class CustomAuthenticationFilter extends AuthorizationFilter{
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request,
 			ServletResponse response, Object mappedValue) throws Exception {
-		
+				HttpServletRequest req = (HttpServletRequest) request;
+				String requestMethod = req.getMethod();
+				String requestURL = req.getRequestURL().toString();
+				if(requestMethod.equals("GET") && (requestURL.contains("rest/dictionary") || requestURL.contains("rest/word"))){
+					return true;
+				}
 				//从URL中获取token
 				String tokenString=request.getParameter("token");
 				System.out.println("CustomAuthenticationFilter token:"+tokenString);

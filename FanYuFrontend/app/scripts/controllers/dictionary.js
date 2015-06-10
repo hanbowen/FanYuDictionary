@@ -87,7 +87,7 @@
             },
             {
                 domainName: "例句",
-                domainValue: "lijv",
+                domainValue: "liju",
                 checked: false
             },
             {
