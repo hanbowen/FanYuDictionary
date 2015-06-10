@@ -33,7 +33,7 @@ public class DictionaryResource {
 
 	@GET
 	@Produces("application/json")
-	@RequiresRoles(value = { "Reader", "Admin" }, logical = Logical.OR)
+	//@RequiresRoles(value = { "Reader", "Admin" }, logical = Logical.OR)
 	public Response getDictionaries() {
 		List<Dictionary> dictionaryList = dictionaryService.findAll();
 
