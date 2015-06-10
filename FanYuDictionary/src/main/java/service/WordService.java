@@ -58,7 +58,9 @@ public class WordService extends BaseService<Word>{
 							BasicDBList values = new BasicDBList();
 							key = DomainProperty.getKey(domainEnum);
 							for(String item : key.split("-")) {
-								values.add(new BasicDBObject(item,new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
+//								values.add(new BasicDBObject(item,new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
+								values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")));
+								
 							}
 							queryCondition.put("$or", values);
 						} else {
