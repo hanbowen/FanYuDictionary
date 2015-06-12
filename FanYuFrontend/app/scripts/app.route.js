@@ -21,13 +21,15 @@
                 .state('about', {
                     url: '/about',
                     templateUrl: 'views/about.html',
-                    controller: 'AboutCtrl'
+                    controller: 'AboutCtrl',
+                    authenticate: false
                 })
                 .state('dictionary.showWord', {
                     url: '/{word:(.)}',
                     templateUrl: 'views/showword.html',
                     controller: 'ShowwordCtrl',
-                    controllerAs: 'showWordVM'
+                    controllerAs: 'showWordVM',
+                    authenticate: false
                 })
                 .state('manage', {
                     url: '/manage',

@@ -74,7 +74,6 @@
         }
 
         function updateWordSuccess(d,wordId){
-            console.log(wordId);
             for (var i in vm.newWordList) {
                 if (vm.newWordList[i].id === wordId) {
                     vm.newWordList[i].isEdit = false;

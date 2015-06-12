@@ -10,9 +10,9 @@ angular.module('fanYuFrontendApp')
     .directive('createWord', function () {
         var createWordDirectiveController = createWordDirectiveController;
 
-        createWordDirectiveController.$inject = ['$scope', '$rootScope', '$sce', 'DictionaryService', 'WordService'];
+        createWordDirectiveController.$inject = ['$scope', '$rootScope', '$sce', 'toastr', 'DictionaryService', 'WordService'];
 
-        function createWordDirectiveController($scope, $rootScope, $sce, DictionaryService, WordService) {
+        function createWordDirectiveController($scope, $rootScope, $sce, toastr, DictionaryService, WordService) {
             console.log("EiditwordCtrl");
             var vm = this;
 
@@ -25,8 +25,12 @@ angular.module('fanYuFrontendApp')
             vm.removeGuanlianci = removeGuanlianci;
             vm.removeDuiyingci = removeDuiyingci;
 
-           // vm.dictionaryList = dictionaryList;
-            vm.word = $scope.word;
+            // vm.dictionaryList = dictionaryList;
+
+            vm.wordSource = $scope.word;
+            //备份修改前的word，update失败的时候恢复原来的word。
+            var wordSourceStr = JSON.stringify(vm.wordSource);
+            vm.word = eval('('+wordSourceStr+')');
             vm.freestyleShiyi = vm.word.shiyi;
 
             vm.newDuiyingciName = "";
@@ -50,14 +54,14 @@ angular.module('fanYuFrontendApp')
             ];
 
             vm.shiyiShortcutButtons = ['[阳]', '[中]', '[阴]', '[形]', '[不变]', '[动]', '[使]', '[被]', '[过分]', '[现分]', '[必分]', '(古)', '(音)', '(佛)',
-                '(语)', '(数)', '(乐)', '(哲)', '(诗)', '(数论)', '<玄>', '<真>','<义>','<什>','<护>','<安>','<谦>', '<谶>','<混>','<藏>'];
+                '(语)', '(数)', '(乐)', '(哲)', '(诗)', '(数论)', '<玄>', '<真>', '<义>', '<什>', '<护>', '<安>', '<谦>', '<谶>', '<混>', '<藏>'];
 
             function addDuiyingci() {
                 var newDuiyingci = {
                     name: vm.newDuiyingciName,
                     value: vm.newDuiyingciValue
                 }
-                for(var i in vm.word.duiyingciList){
+                for (var i in vm.word.duiyingciList) {
                     if (newDuiyingci.name == vm.word.duiyingciList[i].name) {
                         vm.word.duiyingciList[i] = newDuiyingci;
                         return;
@@ -67,9 +71,9 @@ angular.module('fanYuFrontendApp')
             }
 
             function removeDuiyingci(duiyingciName) {
-                for(var i in vm.word.duiyingciList){
+                for (var i in vm.word.duiyingciList) {
                     if (duiyingciName == vm.word.duiyingciList[i].name) {
-                        vm.word.duiyingciList.splice(i,1);
+                        vm.word.duiyingciList.splice(i, 1);
                         return;
                     }
                 }
@@ -87,7 +91,7 @@ angular.module('fanYuFrontendApp')
             function removeGuanlianci(guanlianci) {
                 for (var i in vm.word.guanlianciList) {
                     if (guanlianci == vm.word.guanlianciList[i]) {
-                        vm.word.guanlianciList.splice(i,1);
+                        vm.word.guanlianciList.splice(i, 1);
                         return;
                     }
                 }
@@ -111,54 +115,31 @@ angular.module('fanYuFrontendApp')
                 if (vm.word.id === undefined) {
                     WordService.createNewWord(vm.word);
                 } else {
-                    WordService.updateWord(vm.word).then(success);
+                    WordService.updateWord(vm.word).then(success).catch(fail);
                 }
-                function success(){
+                function success(response) {
                     //编辑词条成功，发布成功事件。
+
+                    cloneToWordSource(vm.word);
+                    console.log("success:"+vm.word.shiyi);
+
                     $scope.$emit('updateWordSuccess', vm.word.id);
-                    $scope.word = vm.word;
+                    toastr.success('词条创建成功');
                 }
+
+                function fail(error) {
+                    toastr.error('词条更新失败');
+                }
+
+                function cloneToWordSource(myObj){
+                    for(var i in myObj)
+                        $scope.word[i] = myObj[i];
+                }
+
             }
 
-            /*function initTinymceButtons(editor) {
-                editor.addButton('yang', {text: '[阳]', icon: false, style: 'padding: -10px', onclick: insertContent});
-                editor.addButton('zhong', {text: '[中]', icon: false, onclick: insertContent});
-                editor.addButton('yin', {text: '[阴]', icon: false, onclick: insertContent});
-                editor.addButton('xing', {text: '[形]', icon: false, onclick: insertContent});
-                editor.addButton('bubian', {text: '[不变]', icon: false, onclick: insertContent});
-                editor.addButton('dong', {text: '[动]', icon: false, onclick: insertContent});
-                editor.addButton('shi', {text: '[使]', icon: false, onclick: insertContent});
-                editor.addButton('bei', {text: '[被]', icon: false, onclick: insertContent});
-                editor.addButton('guofen', {text: '[过分]', icon: false, onclick: insertContent});
-                editor.addButton('xianfen', {text: '[现分]', icon: false, onclick: insertContent});
-                editor.addButton('bifen', {text: '[必分]', icon: false, onclick: insertContent});
-                editor.addButton('gu', {text: '(古)', icon: false, onclick: insertContent});
-                editor.addButton('yin', {text: '(音)', icon: false, onclick: insertContent});
-                editor.addButton('fo', {text: '(佛)', icon: false, onclick: insertContent});
-                editor.addButton('yu', {text: '(语)', icon: false, onclick: insertContent});
-                editor.addButton('shu', {text: '(数)', icon: false, onclick: insertContent});
-                editor.addButton('yue', {text: '(乐)', icon: false, onclick: insertContent});
-                editor.addButton('zhe', {text: '(哲)', icon: false, onclick: insertContent});
-                editor.addButton('shi', {text: '(诗)', icon: false, onclick: insertContent});
-                editor.addButton('shulun', {text: '(数论)', icon: false, onclick: insertContent});
-                editor.addButton('xuan', {text: '<玄>', icon: false, onclick: insertContent});
-                editor.addButton('zhen', {text: '<真>', icon: false, onclick: insertContent});
-                editor.addButton('yi', {text: '<义>', icon: false, onclick: insertContent});
-                editor.addButton('shen', {text: '<什>', icon: false, onclick: insertContent});
-                editor.addButton('hu', {text: '<护>', icon: false, onclick: insertContent});
-                editor.addButton('an', {text: '<安>', icon: false, onclick: insertContent});
-                editor.addButton('qian', {text: '<谦>', icon: false, onclick: insertContent});
-                editor.addButton('chen', {text: '<谶>', icon: false, onclick: insertContent});
-                editor.addButton('hun', {text: '<混>', icon: false, onclick: insertContent});
-                editor.addButton('zang', {text: '<藏>', icon: false, onclick: insertContent});
-
-                function insertContent() {
-                    editor.insertContent(this.settings.text);
-                }
-            }*/
-
-            function setShiyi(btnText){
-                vm.word.shiyi =  vm.word.shiyi + btnText;
+            function setShiyi(btnText) {
+                vm.word.shiyi = vm.word.shiyi + btnText;
             }
         }
 

@@ -54,17 +54,7 @@
         }
 
         function updateWord(word) {
-            return $http.put(wordURL + '/' + word.id, word)
-                .then(updateWordComplete)
-                .catch(updateWordFailed);
-
-            function updateWordComplete(response) {
-                return response.data;
-            }
-
-            function updateWordFailed(error) {
-                console.error('XHR Failed for updateWordFailed.' + error.data);
-            }
+            return $http.put(wordURL + '/' + word.id, word);
         }
 
         function publishWord(wordId) {

@@ -44,9 +44,7 @@
 
                     'responseError': function(rejection) {
                         $rootScope.showSplash = false;
-                        if(rejection.status == 403){
-                           console.warn("您没有权限进行此操作，请重新登录或联系管理员");
-                        }
+                        console.error("Interceptor: 您没有权限进行此操作，请重新登录或联系管理员");
                         return $q.reject(rejection);
                     }
                 };

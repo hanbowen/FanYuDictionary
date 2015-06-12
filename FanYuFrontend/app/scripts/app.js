@@ -38,7 +38,12 @@
             'ui.tinymce',
             'toastr',
             'ui.sortable'
-        ])
+        ]).config(function(toastrConfig) {
+            angular.extend(toastrConfig, {
+                positionClass: 'toast-top-center',
+                timeOut: 5000
+            });
+        })
         .run(function ($rootScope, $location, $state, AuthenticationService) {
             AuthenticationService.setUserRole(currentUserRole);
             var currentUser = $.cookie("currentUser");

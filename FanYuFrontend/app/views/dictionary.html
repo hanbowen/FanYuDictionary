@@ -3,12 +3,12 @@
         <form>
             <div class="input-group input-group-sm">
                 <input type="text" id="searchInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
-                       ng-model="dicVM.search.searchWord">
+                       ng-model="dicVM.search.searchWord"  onclick="$('#collapseSearchSettings').collapse('hide');">
 
                 <div class="input-group-btn">
                     <button type="submit" class="btn btn-default" ng-click="dicVM.searchWord()"><span
                             class="glyphicon glyphicon-search"></span></button>
-                    <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseSearchSettings">
+                    <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseSearchSettings" onclick=" $('#collapseSoftKeys').collapse('hide');">
                         <span class="caret"></span></button>
                 </div>
                 <!-- /btn-group -->

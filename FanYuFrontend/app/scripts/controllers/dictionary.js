@@ -9,8 +9,8 @@
     'use strict';
     angular.module('fanYuFrontendApp')
         .controller('DictionaryCtrl', DictionaryCtrl);
-    DictionaryCtrl.$inject = ['$scope','WordService'];
-    function DictionaryCtrl($scope,WordService) {
+    DictionaryCtrl.$inject = ['$scope', 'WordService'];
+    function DictionaryCtrl($scope, WordService) {
         var vm = this;
 
         vm.searchResult = [];
@@ -27,7 +27,7 @@
         vm.search.match = "shou";
         vm.search.domain = "danci";
 
-        vm.softKeys = ["ā","ī","ū","ṛ","ṝ","ḷ","ḹ","ṃ","ḥ","ṅ","ñ","ṭ","ḍ","ṇ","ś","ṣ"];
+        vm.softKeys = ["ā", "ī", "ū", "ṛ", "ṝ", "ḷ", "ḹ", "ṃ", "ḥ", "ṅ", "ñ", "ṭ", "ḍ", "ṇ", "ś", "ṣ"];
         vm.codeList = [
             {
                 codeName: "HK",
@@ -98,28 +98,39 @@
         ];
 
 
-        function typeSpecialChar(event){
+        function typeSpecialChar(event) {
             vm.search.searchWord += $(event.target).text().trim();
             $("#searchInput").focus();
         }
 
-        function setSearchCode(codeValue){
+        function setSearchCode(codeValue) {
             vm.search.code = codeValue;
         }
 
-        function setSearchMatch(matchValue){
+        function setSearchMatch(matchValue) {
             vm.search.match = matchValue;
         }
 
-        function setSearchDomain(domianValue){
+        function setSearchDomain(domianValue) {
             vm.search.domain = domianValue;
         }
 
-        function searchWord(){
-            WordService.searchWord(vm.search).then(function(data){
-                vm.searchResult = data;
-                //$('.searchResult').first().trigger('click');
-            });
+        function searchWord() {
+            $('#collapseSoftKeys').collapse('hide');
+            $('#collapseSearchSettings').collapse('hide');
+            if (searchValidation()) {
+                WordService.searchWord(vm.search).then(function (data) {
+                    vm.searchResult = data;
+                });
+            }
+        }
+
+        function searchValidation() {
+            if (vm.search.searchWord != undefined && vm.search.searchWord != "") {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 })();
