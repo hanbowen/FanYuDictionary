@@ -206,6 +206,12 @@ public class WordService extends BaseService<Word>{
 		return super.queryCount(query);
 	}
 	
+	/**
+	 * 批量保存数据
+	 */
+	public void insertAll(List<Word> objects) {
+		super.insertAll(objects);
+	}
 	
 	/**
 	 * 根据Id删除对象

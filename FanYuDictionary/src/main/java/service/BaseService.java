@@ -243,6 +243,22 @@ public abstract class BaseService<T> {
 	}
 	
 	/**
+	 * 一次保存多条数据
+	 * @param objects
+	 */
+	protected void insertAll(List<T> objects) {
+		mongoTemplate.insertAll(objects);
+	}
+	
+	/**
+	 * 一次保存多条数据
+	 * @param batchToSave
+	 */
+	protected void insert(List<T> batchToSave) {
+		mongoTemplate.insert(batchToSave, getEntityClass());
+	}
+	
+	/**
 	 * 获取需要操作的实体类class
 	 * 
 	 * @return

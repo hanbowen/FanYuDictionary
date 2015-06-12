@@ -2,7 +2,9 @@ package controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,10 +21,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import service.WordService;
+import utils.Context;
 import utils.Pagination;
 import entity.Word;
 
@@ -188,6 +192,11 @@ public class WordResource {
 		return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build(); 
 	}
 	
-	
+	@POST
+	public Response inport() {
+		List<Word> jsonList = wordService.jsonToList(Context.getInstance().getJsonText());
+		wordService.insertAll(jsonList);;
+		return Response.status(200).entity("成功导入" + jsonList.size() + "条数据").type("application/json").build(); 
+	}
 
 }

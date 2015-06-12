@@ -1,0 +1,92 @@
+[
+  {
+    "dictionary": {
+      "dicGroup": "梵",
+      "displayName": "梵日大字典",
+      "status": "active",
+      "createDateTime": 1433506304503,
+      "id": "5571920064877c29c8b06f61"
+    },
+    "duiyingciList": [
+      {
+        "name": "<蒙>",
+        "value": "ads"
+      },
+      {
+        "name": "<藏>",
+        "value": "adsgggg"
+      },
+      {
+        "name": "<藏>",
+        "value": "adsgggyyy"
+      }
+    ],
+    "shiyi": "<p>&nbsp;sfdfd</p>\n<p>sfsfs</p>\n<p>shiyia dsadsafsdy</p>",
+    "guanlianciList": [
+      "sudfd"
+    ],
+    "baike": "<p>baike&nbsp; usdeefe</p>",
+    "importflag": false,
+    "word": "qqquyerjdf7453m",
+    "bianxing": "<p>bianxing</p>",
+    "xici": "qqquyerjdf7453m",
+    "author": {
+      "username": "cy2",
+      "displayName": "茄洋2",
+      "role": "Admin",
+      "id": "5574314f740b661ecc34259f"
+    },
+    "lastEditDateTime": 1433862246206,
+    "liju": "<p>liju&nbsp; audsf&nbsp; skfsdf s</p>",
+    "createDateTime": 1433862246206,
+    "status": "created",
+    "cixing": "名词",
+    "template": "pattern",
+    "cigenlaiyuan": "<p>yerjd;dfg</p>"
+  },
+  {
+    "dictionary": {
+      "dicGroup": "梵",
+      "displayName": "梵日大字典",
+      "status": "active",
+      "createDateTime": 1433506304503,
+      "id": "5571920064877c29c8b06f61"
+    },
+    "duiyingciList": [
+      {
+        "name": "<蒙>",
+        "value": "ads"
+      },
+      {
+        "name": "<藏>",
+        "value": "adsgggg"
+      },
+      {
+        "name": "<藏>",
+        "value": "adsgggyyy"
+      }
+    ],
+    "shiyi": "<p>&nbsp;sfdfd</p>\n<p>sfsfs</p>\n<p>shiyia dsadsafsdy</p>",
+    "guanlianciList": [
+      "sudfd"
+    ],
+    "baike": "<p>baike&nbsp; usdeefe</p>",
+    "importflag": false,
+    "word": "qqquyerjdf7453m",
+    "bianxing": "<p>bianxing</p>",
+    "xici": "qqquyerjdf7453m",
+    "author": {
+      "username": "cy2",
+      "displayName": "茄洋2",
+      "role": "Admin",
+      "id": "5574314f740b661ecc34259f"
+    },
+    "lastEditDateTime": 1433862246206,
+    "liju": "<p>liju&nbsp; audsf&nbsp; skfsdf s</p>",
+    "createDateTime": 1433862246206,
+    "status": "created",
+    "cixing": "名词",
+    "template": "pattern",
+    "cigenlaiyuan": "<p>yerjd;dfg</p>"
+  }
+]
