@@ -12,9 +12,9 @@
   angular.module('fanYuFrontendApp')
     .factory('UserService', UserService);
 
-  UserService.$inject = ['$http','$rootScope'];
+  UserService.$inject = ['$http','$rootScope', 'toastr'];
 
-  function UserService($http,$rootScope) {
+  function UserService($http,$rootScope,toastr) {
     var service = {
       getUserList: getUserList,
       createUser: createUser,
@@ -42,6 +42,7 @@
         .then(createUserComplete)
         .catch(createUserFailed);
       function createUserComplete(response){
+        toastr.success('用户创建成功');
         return response.data;
       }
       function createUserFailed(error){
@@ -54,6 +55,7 @@
         .then(deleteUserComplete)
         .catch(deleteUserFailed);
       function deleteUserComplete(response){
+        toastr.success('用户信息删除成功');
         return response.data;
       }
       function deleteUserFailed(error){
@@ -62,13 +64,11 @@
     }
 
     function updateUser(user){
-      if (user.id == undefined) {
-          return "";
-      }
       return $http.put(userURL + '/' + user.id, user)
         .then(updateUserComplete)
         .catch(updateUserFailed);
       function updateUserComplete(response){
+        toastr.success('用户信息更新成功');
         return response.data;
       }
       function updateUserFailed(error){

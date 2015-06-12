@@ -22,8 +22,10 @@
       vm.dictionary.dicGroup = '';
       vm.dictionary.author = $rootScope.currentUser;
 
+      vm.dictionaryId = '';
       vm.addDict = addDict;
 
+      vm.deleteConfirm = deleteConfirm;
       vm.createDictionary = createDictionary;
       vm.editDictionary = editDictionary;
       vm.deleteDictionary = deleteDictionary;
@@ -40,6 +42,7 @@
       function createDictionary() {
         DictionaryService.createDictionary(vm.dictionary).then(function(data) {
           console.log(data);
+          $('#dictionaryModal').modal('hide');
           getDictionaryList();
         });
       }
@@ -54,15 +57,22 @@
       function updateDictionary() {
         DictionaryService.updateDictionary(vm.dictionary).then(function(data) {
           console.log(data);
+          $('#dictionaryModal').modal('hide');
           getDictionaryList();
         });
       }
 
-      function deleteDictionary(dictionaryId) {
-        DictionaryService.deleteDictionary(dictionaryId).then(function(data) {
-          console.log(data);
+      function deleteDictionary() {
+        DictionaryService.deleteDictionary(vm.dictionaryId).then(function(data) {
+          if (data === 'success') {
+            $('#deleteConfirmModal').modal('hide');
+          }
           getDictionaryList();
         });
+      }
+
+      function deleteConfirm(dictionaryId) {
+        vm.dictionaryId = dictionaryId;
       }
 
       function addDict(dicGroup) {

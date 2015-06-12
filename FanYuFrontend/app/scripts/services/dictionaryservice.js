@@ -12,9 +12,9 @@
   angular.module('fanYuFrontendApp')
       .factory('DictionaryService', DictionaryService);
 
-  DictionaryService.$inject = ['$http','$rootScope'];
+  DictionaryService.$inject = ['$http','$rootScope', 'toastr'];
 
-  function DictionaryService($http,$rootScope) {
+  function DictionaryService($http,$rootScope,toastr) {
     //var dictionaryList = {};
     var service = {
         getDictionaryList: getDictionaryList,
@@ -36,7 +36,7 @@
             newItem.dictionaries = [];
             for (var j in response){
               if (response[j].dicGroup === newItem.dicGroup) {
-                  if ($rootScope.currentUser != undefined && $rootScope.currentUser.dicSequence != undefined) {
+                  if ($rootScope.currentUser.dicSequence != undefined) {
                       response[j].dicSequence = $rootScope.currentUser.dicSequence.sequence[response[j].id];
                   }
 
@@ -67,6 +67,7 @@
         .catch(createDictionaryFailed);
       function createDictionaryComplete(response){
         return response.data;
+        toastr.success('词典创建成功')
       }
       function createDictionaryFailed(error){
         console.error('XHR Failed for createDictionaryFailed.' + error.data);
@@ -78,6 +79,7 @@
         .then(updateDictionaryComplete)
         .catch(updateDictionaryFailed);
       function updateDictionaryComplete(response){
+        toastr.success('词典更新成功')
         return response.data;
       }
       function updateDictionaryFailed(error){
@@ -91,6 +93,7 @@
         .catch(deleteDictionaryFailed);
       function deleteDictionaryComplete(response){
         return response.data;
+        toastr.success('词典删除成功')
       }
       function deleteDictionaryFailed(error){
         console.error('XHR Failed for deleteDictionaryFailed.' + error.data);
