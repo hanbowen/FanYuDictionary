@@ -176,7 +176,7 @@ public class WordService extends BaseService<Word>{
 	 * @param id
 	 */
 	public void publishWord(String id) {
-		super.findAndModify(query(where("id").is(id)) , Update.update("status", "published"));
+		super.findAndModify(query(where("id").is(id)) , Update.update("status", "checked"));
 	}
 	
 	/**

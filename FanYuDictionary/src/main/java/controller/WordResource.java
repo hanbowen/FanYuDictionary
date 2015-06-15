@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -129,6 +130,13 @@ public class WordResource {
 		if(wordId == null || "".equals(wordId)) {
 			return Response.status(412).entity("请传入wordId").type("text/plain").build();
 		}
+		
+		Word word = wordService.findWordById(wordId);
+		word.setAuthor(new HashMap<String , Object>());
+		word.setId("");
+		word.setStatus("published");
+		wordService.save(word);
+		
 		wordService.publishWord(wordId);
 		LOGGER.info("成功发布词条信息");
 		return Response.status(200).entity("success").type("text/plain").build();
