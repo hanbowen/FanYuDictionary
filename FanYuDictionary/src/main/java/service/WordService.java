@@ -5,7 +5,9 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -197,6 +199,20 @@ public class WordService extends BaseService<Word>{
 		return super.find(query(where("word").is(word)));
 	}
 	
+	/**
+	 * 查询是否已经publish过
+	 * @param word
+	 * @param dictionary
+	 * @param status
+	 * @return
+	 */
+	public Word findWordByMultipleParam(String word, Map<String , Object> dictionary, String status) {
+		Map<String , Object> params = new HashMap<String , Object>();
+		params.put("word", word);
+		params.put("dictionary", dictionary);
+		params.put("status", status);
+		return super.findOne(params);
+	}
 	
 	/**
 	 * 获取总共数据条数

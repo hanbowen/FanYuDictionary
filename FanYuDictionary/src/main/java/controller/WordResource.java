@@ -132,6 +132,11 @@ public class WordResource {
 		}
 		
 		Word word = wordService.findWordById(wordId);
+		Word publishedWord = wordService.findWordByMultipleParam(word.getWord(), word.getDictionary(), "published");
+		if(publishedWord != null && !"".equals(publishedWord.getId())) {
+			return Response.status(200).entity("该词条已被发布，不允许再次发布").type("text/plain").build();
+		}
+		
 		word.setAuthor(new HashMap<String , Object>());
 		word.setId("");
 		word.setStatus("published");
