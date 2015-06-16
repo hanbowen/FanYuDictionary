@@ -39,6 +39,12 @@ public abstract class BaseService<T> {
 		return str;
 	}
 	
+	public String entityToJsonWithoutAnnotation(Object entity) {
+		Gson gson = new Gson();
+		String str = gson.toJson(entity);
+		return str;
+	}
+	
 	public String listToJson(List<?> list) {
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		return gson.toJson(list);

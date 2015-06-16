@@ -114,7 +114,7 @@ public class UserResource {
 		} else {
 			// md5 编码 password
 			user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-			body = userService.entityToJson(user);
+			body = userService.entityToJsonWithoutAnnotation(user);
 			userService.updateById(userId, body);
 		}
 		LOGGER.info("update user successfully");
