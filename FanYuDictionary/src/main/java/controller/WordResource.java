@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,9 +27,11 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import service.DictionaryService;
 import service.WordService;
 import utils.Context;
 import utils.Pagination;
+import entity.Dictionary;
 import entity.Word;
 
 @Path("/word")
@@ -36,6 +39,8 @@ public class WordResource {
 	
 	@Autowired
 	private WordService wordService;
+	@Autowired
+	private DictionaryService dictionaryService;
 	private static final Log LOGGER = LogFactory.getLog(WordResource.class);
 	
 	
@@ -199,17 +204,35 @@ public class WordResource {
 	
 	
 	@GET
-	@Path("/test/{wordName}")
-	public Response test(@PathParam("wordName") String wordName) {
-		List<String> list = wordService.findByParams(wordName, null, null);
-		return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build(); 
-	}
-	
-	@POST
-	public Response inport() {
-		List<Word> jsonList = wordService.jsonToList(Context.getInstance().getJsonText());
+	@Path("import/{dictionaryName}")
+	public Response inport(@PathParam("dictionaryName") String dictionaryName) {
+		if(dictionaryName == null || "".equals(dictionaryName)) {
+			return Response.status(404).entity("字典名称不允许为空").type("text/plain").build(); 
+		}
+		
+		Dictionary dictionary = dictionaryService.findByDisplayName(dictionaryName);
+		if( dictionary == null || "".equals(dictionary.getId()) ) {
+			return Response.status(404).entity("字典名称不存在,请核对字典名称后再导入").type("text/plain").build(); 
+		}
+		
+		Map<String , Object> dicMap = new HashMap<String , Object>();
+ 		dicMap.put("id", dictionary.getId());
+ 		dicMap.put("dicGroup", dictionary.getDicGroup());
+ 		dicMap.put("displayName", dictionary.getDisplayName());
+ 		dicMap.put("status", dictionary.getStatus());
+ 		dicMap.put("createDateTime", dictionary.getCreateDateTime());
+ 		List<Word> jsonList = new ArrayList<Word>();
+ 		Map<String , JSONObject> map = Context.getInstance().getInport();
+		
+		for(Map.Entry<String, JSONObject> entry : map.entrySet()) {
+			JSONObject jsonObject = entry.getValue();
+			jsonObject.put("dictionary", dicMap);
+			Word word = wordService.jsonToEntity(jsonObject.toString(), Word.class);
+			jsonList.add(word);
+		}
+		
 		wordService.insertAll(jsonList);;
-		return Response.status(200).entity("成功导入" + jsonList.size() + "条数据").type("application/json").build(); 
+		return Response.status(200).entity("成功导入" + jsonList.size() + "条数据").type("text/plain").build(); 
 	}
 
 }

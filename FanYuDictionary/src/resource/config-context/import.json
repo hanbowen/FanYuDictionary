@@ -1,92 +1,26 @@
 [
   {
-    "dictionary": {
-      "dicGroup": "梵",
-      "displayName": "梵日大字典",
-      "status": "active",
-      "createDateTime": 1433506304503,
-      "id": "5571920064877c29c8b06f61"
-    },
-    "duiyingciList": [
-      {
-        "name": "<蒙>",
-        "value": "ads"
-      },
-      {
-        "name": "<藏>",
-        "value": "adsgggg"
-      },
-      {
-        "name": "<藏>",
-        "value": "adsgggyyy"
-      }
-    ],
-    "shiyi": "<p>&nbsp;sfdfd</p>\n<p>sfsfs</p>\n<p>shiyia dsadsafsdy</p>",
-    "guanlianciList": [
-      "sudfd"
-    ],
-    "baike": "<p>baike&nbsp; usdeefe</p>",
-    "importflag": false,
-    "word": "qqquyerjdf7453m",
-    "bianxing": "<p>bianxing</p>",
-    "xici": "qqquyerjdf7453m",
-    "author": {
-      "username": "cy2",
-      "displayName": "茄洋2",
-      "role": "Admin",
-      "id": "5574314f740b661ecc34259f"
-    },
-    "lastEditDateTime": 1433862246206,
-    "liju": "<p>liju&nbsp; audsf&nbsp; skfsdf s</p>",
-    "createDateTime": 1433862246206,
-    "status": "created",
-    "cixing": "名词",
-    "template": "pattern",
-    "cigenlaiyuan": "<p>yerjd;dfg</p>"
+    "word": "aḥkāra",
+    "shiyi": "【aḥ-kāra】<br><br>［阳］ = akāra〔古〕 阿字，五十字门之一。<br><br>•例句•<br><br>《方广大庄严》：aḥkāre astaṃgamanaśabdo niścarati sma | <br>唱阿字时，出一切法皆灭没声。<br>Aitareya Āraṇyaka: akāro vai sarvā vāk saiṣā sparśoṣmabhir vyajyamānā bahvī nānā rūpā bhavati"
   },
   {
-    "dictionary": {
-      "dicGroup": "梵",
-      "displayName": "梵日大字典",
-      "status": "active",
-      "createDateTime": 1433506304503,
-      "id": "5571920064877c29c8b06f61"
-    },
-    "duiyingciList": [
-      {
-        "name": "<蒙>",
-        "value": "ads"
-      },
-      {
-        "name": "<藏>",
-        "value": "adsgggg"
-      },
-      {
-        "name": "<藏>",
-        "value": "adsgggyyy"
-      }
-    ],
-    "shiyi": "<p>&nbsp;sfdfd</p>\n<p>sfsfs</p>\n<p>shiyia dsadsafsdy</p>",
-    "guanlianciList": [
-      "sudfd"
-    ],
-    "baike": "<p>baike&nbsp; usdeefe</p>",
-    "importflag": false,
-    "word": "qqquyerjdf7453m",
-    "bianxing": "<p>bianxing</p>",
-    "xici": "qqquyerjdf7453m",
-    "author": {
-      "username": "cy2",
-      "displayName": "茄洋2",
-      "role": "Admin",
-      "id": "5574314f740b661ecc34259f"
-    },
-    "lastEditDateTime": 1433862246206,
-    "liju": "<p>liju&nbsp; audsf&nbsp; skfsdf s</p>",
-    "createDateTime": 1433862246206,
-    "status": "created",
-    "cixing": "名词",
-    "template": "pattern",
-    "cigenlaiyuan": "<p>yerjd;dfg</p>"
+    "word": "ad",
+    "shiyi": "【ad】<br><br>［动2］ atti，atte 吃。<br><br>•变位•<br>现在时：<table border=\"1\" cellspacing=\"0\" cellpadding=\"4\"><tr><td rowspan=\"6\">陈<br>述<br>语<br>气</td><td rowspan=\"3\">主<br>动<br>语<br>态</td><td>admi</td><td>advas</td><td>admas </td></tr><tr><td>atsi</td><td>atthas</td><td>attha </td></tr><tr><td>atti </td><td>attas</td><td>adanti</td></tr><tr><td rowspan=\"3\">中<br>间<br>语<br>态</td><td>ade</td><td>advahe</td><td>admahe </td></tr><tr><td>atse</td><td>adāthe</td><td>addhve </td></tr><tr><td>atte</td><td>adāte </td><td>adate</td></tr><tr><td rowspan=\"6\">未<br>完<br>成<br>时</td><td rowspan=\"3\">主<br>动<br>语<br>态</td><td>ādam</td><td>ādva</td><td>ādma</td></tr><tr><td>ādas*</td><td>āttam</td><td>ātta</td></tr><tr><td>ādat*</td><td>āttām</td><td>ādan </td></tr><tr><td rowspan=\"3\">中<br>间<br>语<br>态</td><td>ādi </td><td>ādvahi</td><td>ādmahi</td></tr><tr><td>ātthās</td><td>ādāthām</td><td>āddhvam </td></tr><tr><td>ātta</td><td>ādātām</td><td>ādata </td></tr><tr><td rowspan=\"6\">命<br>令<br>语<br>气</td><td rowspan=\"3\">主<br>动<br>语<br>态</td><td>adāni</td><td>adāva </td><td>adāma</td></tr><tr><td>addhi</td><td>attam </td><td>atta</td></tr><tr><td>attu </td><td>attām</td><td>adantu</td></tr><tr><td rowspan=\"3\">中<br>间<br>语<br>态</td><td>atai </td><td>adāvahai</td><td>adāmahai </td></tr><tr><td>atsva </td><td>adāthām</td><td>addhvam</td></tr><tr><td>attām</td><td>adātām</td><td>adatām </td></tr><tr><td rowspan=\"6\">祈<br>愿<br>语<br>  气</td><td rowspan=\"3\">主<br>动<br>语<br>态</td><td>adyām</td><td>adyāva </td><td>adyāma </td></tr><tr><td>adyās </td><td>adyātam</td><td>adyāta</td></tr><tr><td>adyāt</td><td>adyātām </td><td>adyur</td></tr><tr><td rowspan=\"3\">中<br>间<br>语<br>态</td><td>adīya</td><td>adīvahi </td><td>adīmahi</td></tr><tr><td>adīthās</td><td>adīyāthām</td><td>adīdhvam</td></tr><tr><td>adīta</td><td>adīyātām </td><td>adīran</td></tr></table>"
+  },
+  {
+    "word": "rūpa",
+    "shiyi": "【rūpa】<br><br>［中］ ❶ 〈藏〉 <i>gzugs</i> 外形，颜色，样子，形态，体相，特点。❷ 〈藏〉 <i>gzugs bzang ba</i><br>容貌，美貌。〔古〕 端严。❸ 形式，类型。❹ 〔佛〕 色，广义指色蕴，即客观存在，包括四大种及其所造色。狭义指色境，即眼根的对象，包括形色、显色和表色等,是《俱舍》七十五法之一，色法中境之一;瑜伽百法之一，色法之一。<br><br>•例句•<br><br> 《俱舍》: tatra tāvat rūpaṃ dvidhā ||10a || varṇaḥ saṃsthānaṃ ca | tatra varṇaś caturvidho nīlādiḥ | tadbhedā anye | saṃsthānam aṣṭavidhaṃ dīrghādi visātāntam | tad eva rūpāyatanaṃ punar ucyate viṃśatidhā || 10a || tad yathā nīlaṃ pītaṃ lohitam avadātaṃ dīrghaṃ hrasvaṃ vṛttaṃ parimaṇḍalaṃ unnatam avanataṃ sātaṃ visātaṃ abhraṃ dhūmo rajo mahikā cchāyā ātapaḥ ālokaḥ andhakāram iti | kecin nabhaś caikavarṇam iti ekaviṃśatiṃ sampaṭhanti |<br><i>de la re zhig | gzugs rnam gnyis dang kha dog dang dbyibs so || de la kha dog ni rnam pa bzhi ste | sngon po la sogs pa'o || gzhan dag ni de'i bye brag go || dbyibs ni rnam pa brgyad de | ring po la sogs pa nas phya le ma yin pa la thug pa'o|| yang gzugs kyi skye mched de nyid rnam pa nyi shu zhes bya ste | 'di lta ste| sngon po dang| ser po dang | dmar po dang | dkar po dang | ring po dang | thung ngu dang | lham pa dang | zlum po dang | mthon po dang | dma' ba dang | phya le ba dang | phya le ma yin pa dang | sprin dang | du ba dang | rdul dang | khug rna dang | grib ma dang | nyi ma dang | snang ba dang | mun pa'o || kha cig ni nam mkha' kha dog gcig dang rnam pa nyi shu rtsa gcig tu 'don to ||</i> <br>‹玄› 颂曰：色二或二十 声唯有八种 味六香四种 触十一为性。论曰：言色二者。一显二形。显色有四。青黄赤白。余显是此四色差别。形色有八。谓长为初不正为后。或二十者。即此色处复说二十。谓青黄赤白长短方圆高下正不正。云烟尘雾影光明暗。有余师说。空一显色第二十一。<br>‹真› 此中偈曰：色二。释曰：一显色。二形色。显色有四种。谓青黄赤白。余色是此四色未异。形色有八种。谓长等耶。对是重说色入。偈曰：或二十。释曰：谓青黄赤白长短方圆高下正邪云烟尘雾影光明暗。有余师说。空为一色故。有二十一色。<br>Abhidharmakośavyākhyā: rūpaṃ dvi-vidheti. cakṣuṣo 'rtho varṇa-saṃsthāna-bhedād dviḥ-prakāraḥ. loka-pratītatvāt tasya sva-lakṣaṇaṃ anuktvā prabheda eva kathyate. varṇaś catur-vidho nīlādir iti. nīla-lohita-pītāvadātā varṇāḥ. tad-bhedā anya iti. abhrādayaḥ. apare vyācakṣate. tad-bhedā anya iti nīlādi-varṇa-catuṣṭaya-samparka-viśeṣāt kākāṇḍa-varṇādayo 'pi jāyante. na kevalam abhrādaya iti. saṃsthānam ākṛti-viśeṣaḥ. punas tad evāntargaṇikena bhedena bhidyate. viṃśati-dheti. tad-yathā nīla-pītādi. saṃsthānam aṣṭa-vidhaṃ dīrghādi-visātāntaṃ. śeṣo dvādaśa-vidho varṇa iti viṃśati-dhā. nabhaś caika-varṇam iti. yad dūrato vaiḍūrya-bhitty-ākāraṃ dṛśyate. <br><br><br><br>《集论》：梵文缺<br><i>gzugs gang zhe na | 'byung ba chen po bzhi dag rgyur byas pa| mig gi dbang po'i spyod yul gyi don gang yin pa ste| 'di lta ste1| sngon po dang| ser po dang | dmar po dang| dkar po dang| ring po dang| thung ngu dang| lham pa dang| zlum po dang| rdul phra mo dang| rags pa dang| phyal le ba dang| phyal le ba ma yin pa dang| mthon po dang| dma' ba dang| grib ma dang| nyi ma dang| snang ba dang| mun pa dang| sprin dang| du ba dang| rdul dang| khug sna2 dang| mngon par skabs yod pa dang| rnam par rig byed dang| nam mkha' kha dog gcig pa'o|| de yang kha dog bzang po dang| kha dog ngan pa dang| de gnyi ga'i bar mar gnas pa dang| kha dog dang 'dra pa'o ||</i><br>‹玄›何等为色？谓四大种所造眼根所行义。谓青黄赤白长短方圆。粗细高下正不正。光影明暗云烟尘雾。迥色表色空一显色。此复三种。谓妙不妙俱相违色。<br>《五蕴》：rūpaṃ katamat | yat kiñcid rūpam，sarvaṃ tac catvāri mahābhūtāni catvāri ca mahābhūtāny upādāya || <br>‹玄›云何色蕴。谓四大种及四大种所造诸色。<br>《五蕴》：1.2.6 rūpaṃ katamat | cakṣurviṣayaḥ – varṇaḥ saṃsthānaṃ vijñaptiś ca | <br><i>gzugs gang zhe na| mig gi yul te| kha dog dang1 dbyibs dang| rnam par rig byed do||</i><br>‹玄›云何为色？谓眼境界。显色形色及表色等。"
+  },
+  {
+    "word": "rūpakarman",
+    "shiyi": "【rūpakarman】<br><br>〈藏〉 <i>gzugs kyi bya ba</i><br><br>色业。"
+  },
+  {
+    "word": "rūpakāya",
+    "shiyi": "【rūpakāya】<br><br>〈藏〉 <i>gzugs kyi lus，gzugs kyi sku，gzugs kyi tshogs</i><br><br>［阳］ 色身，色像。"
+  },
+  {
+    "word": "deva",
+    "shiyi": "【deva】<br><br>〈藏〉 <i>lha，lha'i nang du</i><br><br>［阳］ 天神。〔古〕 天，天趣，天处。<br><br>•变格•<br><table border=\"1\" cellspacing=\"0\" cellpadding=\"3\"><tr><td>devaḥ</td><td>devau</td><td>devāḥ</td></tr><tr><td>devam</td><td>..</td><td>devān</td></tr><tr><td>devena</td><td>devābhyām</td><td>devaiḥ</td></tr><tr><td>devāya</td><td>..</td><td>devebhyaḥ</td></tr><tr><td>devāt</td><td>..</td><td>..</td></tr><tr><td>devasya</td><td>devayoḥ</td><td>devānām</td></tr><tr><td>deve</td><td>..</td><td>deveṣu</td></tr><tr><td>deva</td><td>devau</td><td>devāḥ</td></tr></table>"
   }
 ]

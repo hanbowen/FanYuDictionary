@@ -63,7 +63,7 @@ public class Context {
 				string = string.trim();
 				DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 				File file = defaultResourceLoader.getResource("config-context/"+string).getFile();
-				BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file),"UTF-8" )); 
+				BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file))); 
 				String line = null;
 				StringBuilder sb = new StringBuilder();
 				while( (line = reader.readLine())!= null ){
