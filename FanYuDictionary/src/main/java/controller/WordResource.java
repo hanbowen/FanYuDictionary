@@ -127,7 +127,7 @@ public class WordResource {
 	}
 	
 	@PUT
-	@RequiresRoles(value = { "Editor", "Admin" }, logical = Logical.OR)
+	@RequiresRoles("Admin")
 	@ExceptionHandler({UnauthorizedException.class})
 	@Path("{wordId}/publish")
 	public Response publishWord(@PathParam("wordId") String wordId) {
