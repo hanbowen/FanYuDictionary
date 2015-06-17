@@ -45,8 +45,6 @@
 
                 function loginSuccess(data, status, headers, config) {
                     $rootScope.token = headers('token');
-                    console.log($rootScope.token);
-                    console.log(data);
                     $.cookie("token",$rootScope.token);
                     $.cookie("currentUser",JSON.stringify(data));
                     //$rootScope.currentUser = data.data;

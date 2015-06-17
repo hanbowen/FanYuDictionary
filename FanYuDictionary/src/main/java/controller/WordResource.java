@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +21,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,7 +127,7 @@ public class WordResource {
 	}
 	
 	@PUT
-	@RequiresRoles("Admin")
+	@RequiresRoles(value = { "Editor", "Admin" }, logical = Logical.OR)
 	@ExceptionHandler({UnauthorizedException.class})
 	@Path("{wordId}/publish")
 	public Response publishWord(@PathParam("wordId") String wordId) {
@@ -155,6 +155,7 @@ public class WordResource {
 	@PUT
 	@Produces("text/plain")
 	@Path("{wordId}")
+	@RequiresRoles(value = { "Editor", "Admin" }, logical = Logical.OR)
 	public Response updateWord(@PathParam("wordId") String wordId , String body) {
 		if(wordId == null || "".equals(wordId)) {
 			return Response.status(412).entity("请传入wordId").type("text/plain").build();

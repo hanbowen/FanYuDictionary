@@ -19,8 +19,8 @@
                 return input;
             };
         })
+        //转化model中的富文本为可显示的html；
         .filter('unsafe', function ($sce) {
             return $sce.trustAsHtml;
         });
-    ;
 })();

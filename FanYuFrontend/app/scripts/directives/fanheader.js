@@ -16,7 +16,6 @@
             templateUrl: 'scripts/directives/templates/fanHeader.html',
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
-                $rootScope.showSplash = true;
                 scope.updateUserDicCheckList = updateUserDicCheckList;
                 scope.logout = logout;
                 scope.sortableFanOptions = {
@@ -54,7 +53,6 @@
                 DictionaryService.getDictionaryList().then(function(){
                     initUserDicSequence();
                     initUserDicCheckList();
-                    $rootScope.showSplash = false;
                 });
             }
         };
@@ -80,17 +78,23 @@
             //初始化四个词典组的次序。
             for (var index in $rootScope.fan_dictionaryList) {
                 $rootScope.fan_dictionaryList[index].dicSequence = index;
+                $rootScope.currentUser.dicSequence.sequence[$rootScope.fan_dictionaryList[index].id] = $rootScope.fan_dictionaryList[index].dicSequence;
             }
             for (var index in $rootScope.ba_dictionaryList) {
                 $rootScope.ba_dictionaryList[index].dicSequence = index;
+                $rootScope.currentUser.dicSequence.sequence[$rootScope.ba_dictionaryList[index].id] = $rootScope.ba_dictionaryList[index].dicSequence;
             }
             for (var index in $rootScope.zang_dictionaryList) {
                 $rootScope.zang_dictionaryList[index].dicSequence = index;
+                $rootScope.currentUser.dicSequence.sequence[$rootScope.zang_dictionaryList[index].id] = $rootScope.zang_dictionaryList[index].dicSequence;
             }
             for (var index in $rootScope.han_dictionaryList) {
                 $rootScope.han_dictionaryList[index].dicSequence = index;
+                $rootScope.currentUser.dicSequence.sequence[$rootScope.han_dictionaryList[index].id] = $rootScope.han_dictionaryList[index].dicSequence;
             }
-            updateUserDicSequence()
+
+            //updateUserDicSequence();
+
         }
 
         function updateUserDicSequence() {
@@ -140,7 +144,6 @@
         }
 
         function updateUserDicCheckList(event, dictionaryId) {
-            //initUserDicCheckList();
             //选中则添加到checklist
             if (event.target.checked) {
                 addCheckItem(dictionaryId);

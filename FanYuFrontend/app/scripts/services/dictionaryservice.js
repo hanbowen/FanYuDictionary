@@ -36,10 +36,9 @@
             newItem.dictionaries = [];
             for (var j in response){
               if (response[j].dicGroup === newItem.dicGroup) {
-                  if ($rootScope.currentUser.dicSequence != undefined) {
-                      response[j].dicSequence = $rootScope.currentUser.dicSequence.sequence[response[j].id];
+                  if ($rootScope.currentUser != undefined && $rootScope.currentUser.dicSequence != undefined) {
+                      //response[j].dicSequence = $rootScope.currentUser.dicSequence.sequence[response[j].id];
                   }
-
                 newItem.dictionaries.push(response[j]);
               }
             }

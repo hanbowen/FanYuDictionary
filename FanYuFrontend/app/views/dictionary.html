@@ -60,7 +60,8 @@
         </ul>
     </nav>
     <div class="col-lg-10 col-lg-offset-2 main" role="main">
-        {{dicVM.search}}
-        <div ui-view></div>
+        <div ui-view>
+            <div ng-include="'views/welcomePage.html'"></div>
+        </div>
     </div>
 </div>
