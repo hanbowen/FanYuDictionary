@@ -117,8 +117,8 @@
 
 
         function searchWord(search) {
-            // search={wordName}&match=prefix/mid/suffix&domain=duiyingci/bianxing/liju/quanwen
-            return $http.get(wordURL + "?search=" + search.searchWord + "&match=" + search.match + "&domain=" + search.domain)
+
+            return $http.get(wordURL + "?search=" + search.searchWord + "&match=" + search.match + "&domain=" + search.domain + "&dictionaries=" + search.dictionaries)
                 .then(searchWordComplete)
                 .catch(searchWordFailed);
 

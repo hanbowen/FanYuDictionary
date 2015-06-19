@@ -9,8 +9,8 @@
     'use strict';
     angular.module('fanYuFrontendApp')
         .controller('DictionaryCtrl', DictionaryCtrl);
-    DictionaryCtrl.$inject = ['$scope', 'WordService'];
-    function DictionaryCtrl($scope, WordService) {
+    DictionaryCtrl.$inject = ['$scope', '$rootScope', 'WordService'];
+    function DictionaryCtrl($scope, $rootScope, WordService) {
         var vm = this;
 
         vm.searchResult = [];
@@ -26,6 +26,17 @@
         vm.search.code = "Unicode";
         vm.search.match = "shou";
         vm.search.domain = "danci";
+        vm.search.dictionaries = "";
+        //设置当前用户查询那些字典（在header里面选中的那些字典）。
+        if( $rootScope.currentUser != undefined){
+            for(var i in $rootScope.currentUser.dicSequence.checkList) {
+                if( i == $rootScope.currentUser.dicSequence.checkList.length - 1) {
+                    vm.search.dictionaries += $rootScope.currentUser.dicSequence.checkList[i];
+                } else {
+                    vm.search.dictionaries += $rootScope.currentUser.dicSequence.checkList[i]+'@';
+                }
+            }
+        }
 
         vm.softKeys = ["ā", "ī", "ū", "ṛ", "ṝ", "ḷ", "ḹ", "ṃ", "ḥ", "ṅ", "ñ", "ṭ", "ḍ", "ṇ", "ś", "ṣ"];
         vm.codeList = [

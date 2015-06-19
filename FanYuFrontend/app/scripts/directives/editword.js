@@ -70,7 +70,6 @@ function createWord() {
                         vm.word.dictionary = $rootScope.han_dictionaryList[i];
                     }
                 }
-
             }
         });
 

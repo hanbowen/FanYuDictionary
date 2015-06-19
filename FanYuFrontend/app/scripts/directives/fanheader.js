@@ -74,31 +74,42 @@
             }
             if ($rootScope.currentUser.dicSequence.sequence == undefined) {
                 $rootScope.currentUser.dicSequence.sequence = {};
+                //初始化四个词典组的次序。
+                for (var index in $rootScope.fan_dictionaryList) {
+                    $rootScope.fan_dictionaryList[index].dicSequence = index;
+                    $rootScope.currentUser.dicSequence.sequence[$rootScope.fan_dictionaryList[index].id] = $rootScope.fan_dictionaryList[index].dicSequence;
+                }
+                for (var index in $rootScope.ba_dictionaryList) {
+                    $rootScope.ba_dictionaryList[index].dicSequence = index;
+                    $rootScope.currentUser.dicSequence.sequence[$rootScope.ba_dictionaryList[index].id] = $rootScope.ba_dictionaryList[index].dicSequence;
+                }
+                for (var index in $rootScope.zang_dictionaryList) {
+                    $rootScope.zang_dictionaryList[index].dicSequence = index;
+                    $rootScope.currentUser.dicSequence.sequence[$rootScope.zang_dictionaryList[index].id] = $rootScope.zang_dictionaryList[index].dicSequence;
+                }
+                for (var index in $rootScope.han_dictionaryList) {
+                    $rootScope.han_dictionaryList[index].dicSequence = index;
+                    $rootScope.currentUser.dicSequence.sequence[$rootScope.han_dictionaryList[index].id] = $rootScope.han_dictionaryList[index].dicSequence;
+                }
+            } else {
+                //初始化四个词典组的次序。
+                for (var index in $rootScope.fan_dictionaryList) {
+                    $rootScope.fan_dictionaryList[index].dicSequence =  $rootScope.currentUser.dicSequence.sequence[$rootScope.fan_dictionaryList[index].id];
+                }
+                for (var index in $rootScope.ba_dictionaryList) {
+                    $rootScope.ba_dictionaryList[index].dicSequence = $rootScope.currentUser.dicSequence.sequence[$rootScope.ba_dictionaryList[index].id];
+                }
+                for (var index in $rootScope.zang_dictionaryList) {
+                    $rootScope.zang_dictionaryList[index].dicSequence =  $rootScope.currentUser.dicSequence.sequence[$rootScope.zang_dictionaryList[index].id];
+                }
+                for (var index in $rootScope.han_dictionaryList) {
+                    $rootScope.han_dictionaryList[index].dicSequence = $rootScope.currentUser.dicSequence.sequence[$rootScope.han_dictionaryList[index].id];
+                }
             }
-            //初始化四个词典组的次序。
-            for (var index in $rootScope.fan_dictionaryList) {
-                $rootScope.fan_dictionaryList[index].dicSequence = index;
-                $rootScope.currentUser.dicSequence.sequence[$rootScope.fan_dictionaryList[index].id] = $rootScope.fan_dictionaryList[index].dicSequence;
-            }
-            for (var index in $rootScope.ba_dictionaryList) {
-                $rootScope.ba_dictionaryList[index].dicSequence = index;
-                $rootScope.currentUser.dicSequence.sequence[$rootScope.ba_dictionaryList[index].id] = $rootScope.ba_dictionaryList[index].dicSequence;
-            }
-            for (var index in $rootScope.zang_dictionaryList) {
-                $rootScope.zang_dictionaryList[index].dicSequence = index;
-                $rootScope.currentUser.dicSequence.sequence[$rootScope.zang_dictionaryList[index].id] = $rootScope.zang_dictionaryList[index].dicSequence;
-            }
-            for (var index in $rootScope.han_dictionaryList) {
-                $rootScope.han_dictionaryList[index].dicSequence = index;
-                $rootScope.currentUser.dicSequence.sequence[$rootScope.han_dictionaryList[index].id] = $rootScope.han_dictionaryList[index].dicSequence;
-            }
-
-            //updateUserDicSequence();
 
         }
 
         function updateUserDicSequence() {
-            //initUserDicSequence();
             var sequence = {};
             //Ugly code!
             for (var i in $rootScope.fan_dictionaryList) {

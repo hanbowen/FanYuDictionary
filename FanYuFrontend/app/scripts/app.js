@@ -42,7 +42,7 @@
             angular.extend(toastrConfig, {
                 positionClass: 'toast-top-center',
                 newestOnTop: true,
-                timeOut: 5000
+                timeOut: 2000
             });
         })
         .run(function ($rootScope, $location, $state, AuthenticationService) {
