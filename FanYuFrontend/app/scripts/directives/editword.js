@@ -26,6 +26,7 @@ function createWord() {
         vm.setShiyi = setShiyi;
         vm.removeGuanlianci = removeGuanlianci;
         vm.removeDuiyingci = removeDuiyingci;
+        vm.typeSpecialChar = typeSpecialChar;
 
         // 四类字典初始化；
         vm.fan_dictionaryList = [];
@@ -88,7 +89,6 @@ function createWord() {
             plugins: "textcolor,link,table",
             menubar: false,
             language: 'zh_CN',
-            height: 100,
             statusbar: false,
             theme: "modern",
             skin: 'light',
@@ -96,6 +96,8 @@ function createWord() {
                 "undo redo | link unlink | bold italic forecolor backcolor | table | image | alignleft aligncenter alignright"
             ]
         };
+
+        vm.softKeys = ["ā", "ī", "ū", "ṛ", "ṝ", "ḷ", "ḹ", "ṃ", "ḥ", "ṅ", "ñ", "ṭ", "ḍ", "ṇ", "ś", "ṣ"];
 
         vm.duiyingciOptionList = [
             "<巴>", "<犍>", "<藏>", "<于>", "<蒙>", "<夏>", "<古>", "<现>", "<英>", "<法>", "<德>", "<日>"
@@ -183,8 +185,14 @@ function createWord() {
 
         }
 
+        //释义的软键盘输入。
         function setShiyi(btnText) {
             vm.word.shiyi = vm.word.shiyi + btnText;
+        }
+
+        function typeSpecialChar(event) {
+            vm.word.word += $(event.target).text().trim();
+            $("#searchInput").focus();
         }
 
         //这是一个filter，用来过滤掉不能编辑的辞典。

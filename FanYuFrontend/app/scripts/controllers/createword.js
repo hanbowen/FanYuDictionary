@@ -20,6 +20,7 @@
             vm.word.dictionary = {};
 
             vm.word.duiyingciList = [];
+            vm.word.word = "";
             vm.word.shiyi = "";
             vm.word.liju = "";
             vm.word.bianxing = "";
