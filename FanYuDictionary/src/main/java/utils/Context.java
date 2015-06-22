@@ -32,6 +32,16 @@ public class Context {
 	
 	private boolean syntax_error = false;
 	
+	public boolean isSyntax_error() {
+		return syntax_error;
+	}
+
+
+	public void setSyntax_error(boolean syntax_error) {
+		this.syntax_error = syntax_error;
+	}
+
+
 	private String jsonText;
 	
 	public static Context getInstance() {
@@ -80,15 +90,18 @@ public class Context {
 		
 		// 判断格式合法性 以及判重
 		if(sjson != null ){
-			// 判断json 列表格式是否正确
-			//*******************
-			//
-			//******************
 			
 			// 判断json数据中是否有 
 			inport = new LinkedHashMap<String, JSONObject>();
-			JSONTokener jt = new JSONTokener(sjson);
-			JSONArray  ja = new JSONArray( jt );
+			JSONTokener jt = null;
+			JSONArray ja = null;
+			try{
+				jt = new JSONTokener(sjson);
+				ja = new JSONArray( jt );
+			}catch( Exception e) {
+				e.printStackTrace();
+				this.syntax_error = true;
+			}
 			
 			for(int i=0,size = ja.length(); i < size ;i++ ){
 				JSONObject json = ja.getJSONObject(i);

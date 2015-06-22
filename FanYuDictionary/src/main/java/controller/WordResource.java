@@ -223,12 +223,19 @@ public class WordResource {
  		dicMap.put("status", dictionary.getStatus());
  		dicMap.put("createDateTime", dictionary.getCreateDateTime());
  		List<Word> jsonList = new ArrayList<Word>();
+ 		
+ 		boolean syntax_error = Context.getInstance().isSyntax_error();
+ 		
+ 		if( syntax_error ) {
+ 			return Response.status(412).entity("待导入数据不符合json规范，请校验后重新导入").type("text/plain").build(); 
+ 		}
  		Map<String , JSONObject> map = Context.getInstance().getInport();
 		
 		for(Map.Entry<String, JSONObject> entry : map.entrySet()) {
 			JSONObject jsonObject = entry.getValue();
 			jsonObject.put("dictionary", dicMap);
 			Word word = wordService.jsonToEntity(jsonObject.toString(), Word.class);
+			word.setStatus("published");
 			jsonList.add(word);
 		}
 		
