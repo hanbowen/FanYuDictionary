@@ -61,6 +61,7 @@
 		<url-pattern>/rest/user/*</url-pattern>
 		<url-pattern>/rest/dictionary/*</url-pattern>
 		<url-pattern>/rest/word/*</url-pattern>
+		
 	</filter-mapping>
 
 	<!-- 核心控制器 -->
