@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -44,8 +45,9 @@ public class WordResource {
 	private static final Log LOGGER = LogFactory.getLog(WordResource.class);
 	
 	
+	
 	@GET
-	public Response getWords(@QueryParam("search") String word, @QueryParam("match") String match, @QueryParam("domain") String domain,  @QueryParam("period") String period, @QueryParam("periodCount") String periodCount, @QueryParam("userId") String userId, @QueryParam("page") String page , @QueryParam("pageSize") String pageSize) {
+	public Response getWords(@QueryParam("search") String word, @QueryParam("match") String match, @QueryParam("domain") String domain, @QueryParam("dictionaries") String dictionaries,  @QueryParam("period") String period, @QueryParam("periodCount") String periodCount, @QueryParam("userId") String userId, @QueryParam("page") String page , @QueryParam("pageSize") String pageSize) {
 		
 		// 按照名字查询时不需要分页
 		if(word == null || "".equals(word)) {
@@ -70,6 +72,10 @@ public class WordResource {
 				return Response.status(412).entity("domain 参数不允许为空").type("text/plain").build();
 			}
 			
+			if(dictionaries == null || "".equals(dictionaries)) {
+				return Response.status(412).entity("dictionaries 参数不允许为空").type("text/plain").build();
+			}
+			
 			// 判断match参数是否超出规定的范围， 规定的范围是 shou/zhong/wei/jingque
 			if( !Arrays.asList(enumeration.MatchProperty.getValues()).contains(match) ) {
 				return Response.status(412).entity("match参数已超出规定的范围，请在以下查询范围中选择一种查询方式" + Arrays.asList(enumeration.MatchProperty.getShows())).type("text/plain").build();
@@ -80,7 +86,7 @@ public class WordResource {
 				return Response.status(412).entity("domain参数已超出规定的范围，请在以下查询范围中选择一种查询方式" + Arrays.asList(enumeration.DomainProperty.getShows())).type("text/plain").build();
 			}
 			
-			List<String> list = wordService.findByParams(word , match, domain);
+			List<String> list = wordService.findByParams(word , match, domain , dictionaries);
 			LOGGER.info("成功返回词条列表");
 			return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
 		}
@@ -111,19 +117,22 @@ public class WordResource {
 		return Response.status(412).entity("您输入的参数不合法").type("text/plain").build();
 	}
 	
-	
 	@POST
-	@Produces("text/plain")
+	@Produces("application/json")
 	public Response saveWord(String wordJson) {
 		
 		Word word = wordService.jsonToEntity(wordJson, Word.class);
 		Date date = new Date();
+		String id = UUID.randomUUID().toString();
+		word.setId(id);
 		word.setCreateDateTime(date.getTime());;
 		word.setLastEditDateTime(date.getTime());;;
 		word.setStatus("created");
 		wordService.save(word);
 		LOGGER.info("成功保存词条信息");
-		return Response.status(200).entity("success").type("text/plain").build();
+		word = wordService.findWordById(id);
+		LOGGER.info("成功返回词条信息");
+		return Response.status(200).entity(wordService.entityToJson(word)).type("application/json").build();
 	}
 	
 	@PUT

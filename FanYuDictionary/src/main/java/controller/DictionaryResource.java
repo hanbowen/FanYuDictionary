@@ -3,7 +3,6 @@ package controller;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,12 +14,10 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
 
 import service.DictionaryService;
+import service.WordService;
 import entity.Dictionary;
 
 @Path("/dictionary")
@@ -28,6 +25,8 @@ public class DictionaryResource {
 
 	@Autowired
 	private DictionaryService dictionaryService;
+	@Autowired
+	private WordService wordService;
 	private static final Log LOGGER = LogFactory
 			.getLog(DictionaryResource.class);
 
@@ -89,10 +88,18 @@ public class DictionaryResource {
 		if( dictionaryId == null || "".equals(dictionaryId) ) {
 			return Response.status(412).entity("dictionaryId 不允许为空").type("text/plain").build();
 		}
+		
+		Dictionary dictionary = dictionaryService.findById(dictionaryId);
+		if( dictionary != null && "梵汉大字典".equals(dictionary.getDisplayName()) ) {
+			return Response.status(403).entity("梵汉大字典不允许删除").type("text/plain").build();
+		}
+		
 		dictionaryService.removeById(dictionaryId);
 		LOGGER.info("成功删除词典信息");
-		return Response.status(200).entity("success").type("text/plain")
-				.build();
+		wordService.removeByDictionaryId(dictionaryId);
+		LOGGER.info("成功删除字典所关联的词条");
+		
+		return Response.status(200).entity("success").type("text/plain").build();
 	}
 
 }

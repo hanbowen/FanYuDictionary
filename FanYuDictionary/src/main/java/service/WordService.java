@@ -46,8 +46,18 @@ public class WordService extends BaseService<Word>{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> findByParams(String word, String match , String domain) {
+	public List<String> findByParams(String word, String match , String domain , String dictionaries) {
 		// word match domain 的非空性已在controller层校验过
+		
+		String[] dictionaryArray = dictionaries.split("@");
+		boolean ok = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for(String s : dictionaryArray) {
+			if( ok ) sb.append(","); else ok = true;
+			sb.append("\"").append(s).append("\"");
+		} 
+		sb.append("]");
 		
 		for(enumeration.MatchProperty matchEnum : enumeration.MatchProperty.values()) {
 			if(match.equals(matchEnum.getValue())) {
@@ -61,12 +71,11 @@ public class WordService extends BaseService<Word>{
 							key = DomainProperty.getKey(domainEnum);
 							for(String item : key.split("-")) {
 //								values.add(new BasicDBObject(item,new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
-								values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")));
-								
+								values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")).append("dictionary.id", new BasicDBObject("$in" , sb.toString())));
 							}
 							queryCondition.put("$or", values);
 						} else {
-							queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word)));
+							queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))).append("dictionary.id", new BasicDBObject("$in", sb.toString()));
 						}
 						return mongoTemplate.getCollection(getCollectionName()).distinct("word", queryCondition);
 					}
@@ -227,6 +236,14 @@ public class WordService extends BaseService<Word>{
 	 */
 	public void insertAll(List<Word> objects) {
 		super.insertAll(objects);
+	}
+	
+	/**
+	 * 根据所属字典删除词条数据
+	 * @param dictionaryId
+	 */
+	public void removeByDictionaryId(String dictionaryId) {
+		super.removeByCriteria(query(where("dictionary.id").is(dictionaryId)));
 	}
 	
 	/**

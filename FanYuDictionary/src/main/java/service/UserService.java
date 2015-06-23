@@ -3,6 +3,8 @@ package service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
@@ -81,7 +83,7 @@ public class UserService extends BaseService<User>{
 	 * @return
 	 */
 	public Pagination<User> getPageUser(int pageNo, int pageSize) {
-		return super.getPage(pageNo, pageSize);
+		return super.getPage(pageNo, pageSize , new Query().with(new Sort(Direction.ASC, "username")));
 	}
 	
 	

@@ -24,6 +24,10 @@ public class DictionaryService  extends BaseService<Dictionary>{
 		super.findAndRemove(query(where("id").is(id)));
 	}
 	
+	public Dictionary findById(String id) {
+		return super.findOne(query(where("id").is(id)));
+	}
+	
 	public void updateById(String id , String jsonToUpdate) {
 		super.updateById(id, jsonToUpdate);
 	}
