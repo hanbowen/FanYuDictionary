@@ -19,7 +19,9 @@
             updateWord: updateWord,
             getMyWords: getMyWords,
             publishWord: publishWord,
-            deleteWord: deleteWord
+            publishAll: publishAll,
+            deleteWord: deleteWord,
+            deleteAll: deleteAll
         };
         // Public API here
         return wordService;
@@ -70,6 +72,35 @@
                 console.error('XHR Failed for publishWordFailed.' + error.data);
             }
         }
+
+        function publishAll(publishList){
+            return $http.put(wordURL + '/publish',publishList)
+                .then(publishAllComplete)
+                .catch(publishAllFailed);
+
+            function publishAllComplete(response) {
+                return response.data;
+            }
+
+            function publishAllFailed(error) {
+                console.error('XHR Failed for publishAllFailed.' + error.data);
+            }
+        }
+
+        function deleteAll(deleteList){
+            return $http.put(wordURL + '/delete',deleteList)
+                .then(deleteAllComplete)
+                .catch(deleteAllFailed);
+
+            function deleteAllComplete(response) {
+                return response.data;
+            }
+
+            function deleteAllFailed(error) {
+                console.error('XHR Failed for deleteAllFailed.' + error.data);
+            }
+        }
+
 
         function deleteWord(wordId) {
             return $http.delete(wordURL + '/' + wordId)

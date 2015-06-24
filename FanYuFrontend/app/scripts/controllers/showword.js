@@ -36,7 +36,6 @@
             }
 
             function publishWord(wordId){
-                console.error(wordId);
                 WordService.publishWord(wordId).then(function(data){
                     if (data === 'success') {
                         getWordDetail(vm.word);

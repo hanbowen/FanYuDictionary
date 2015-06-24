@@ -290,6 +290,14 @@ body {
     margin: 10px;
 }
 
+.ml2{
+    margin-left: 2px;
+}
+
+.mt6{
+    margin-top: 6px;
+}
+
 input[type="radio"], .myradio {
     margin: 2px 0 0 -13px;
 }

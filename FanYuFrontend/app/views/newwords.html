@@ -1,4 +1,4 @@
-<div class="btn-group mb20" data-toggle="buttons">
+<div class="btn-group mb20 pull-left" data-toggle="buttons">
     <label class="btn btn-info" ng-click="vm.refreshNewWordList('Year',1)">
         <input type="radio" autocomplete="off"> 1年
     </label>
@@ -13,25 +13,74 @@
     </label>
 </div>
 
+<div class="pull-right">
+    <button class="btn btn-sm btn-default" ng-click="vm.selectAll()">全选</button>
+    <button class="btn btn-sm btn-default" ng-click="vm.publishAll()">发布</button>
+    <button class="btn btn-sm btn-default" ng-click="vm.deleteAll()">删除</button>
+</div>
+
+<div class="clearfix"></div>
+<table class="table" style="margin-bottom: 0">
+    <thead>
+    <tr style="color: #777777">
+        <th class="col-xs-3" style="padding-left: 40px; border: 0" ng-click="vm.sorting('word')">单词
+            <span class="glyphicon glyphicon-triangle-bottom"ng-show="vm.order.word == 'desc'"></span>
+            <span class="glyphicon glyphicon-triangle-top" ng-show="vm.order.word == 'asc'"></span>
+        </th>
+        <th class="col-xs-3" style="padding-left: 15px; border: 0" ng-click="vm.sorting('date')">更新时间
+            <span class="glyphicon glyphicon-triangle-bottom" ng-show="vm.order.date == 'desc'"></span>
+            <span class="glyphicon glyphicon-triangle-top" ng-show="vm.order.date == 'asc'"></span>
+        </th>
+        <th class="col-xs-2" style="padding-left: 15px; border: 0" ng-click="vm.sorting('status')">状态
+            <span class="glyphicon glyphicon-triangle-bottom" ng-show="vm.order.status == 'desc'"></span>
+            <span class="glyphicon glyphicon-triangle-top" ng-show="vm.order.status == 'asc'"></span>
+        </th>
+        <th class="col-xs-2" style="padding-left: 15px; border: 0" ng-click="vm.sorting('author')">作者
+            <span class="glyphicon glyphicon-triangle-bottom" ng-show="vm.order.author == 'desc'"></span>
+            <span class="glyphicon glyphicon-triangle-top" ng-show="vm.order.author == 'asc'"></span>
+        </th>
+        <th class="col-xs-2" style="padding-left: 15px; border: 0">
+
+        </th>
+    </tr>
+    </thead>
+</table>
 <div class="panel-group" role="tablist" id="accordion" aria-multiselectable="true">
     <div class="panel panel-default" ng-repeat="word in vm.newWordList | orderBy : '-lastEditDateTime'">
         <div class="panel-heading" role="tab">
             <div class="row">
-                <div class="panel-title col-xs-4" data-toggle="collapse" data-parent="#accordion"
-                     href="#collapse{{word.id}}" aria-expanded="true" style="cursor: pointer;">{{word.word}}
+                <div class="panel-title col-xs-3" aria-expanded="true">
+                    <input type="checkbox" ng-init="word.checked=false" ng-model="word.checked"
+                           ng-checked="word.checked" class="pull-left" style="margin: 6px;">
+                    <span data-toggle="collapse" data-parent="#accordion"
+                          href="#collapse{{word.id}}" style="cursor: pointer;">{{word.word}}</span>
                 </div>
                 <div class="text-primary col-xs-3" data-toggle="collapse" data-parent="#accordion"
                      href="#collapse{{word.id}}" aria-expanded="true" style="cursor: pointer;">{{word.lastEditDateTime |
-                    date : 'yyyy-MM-dd hh:mm:ss EEEE'}}
+                    date : 'yyyy-MM-dd hh:mm:ss'}}
                 </div>
-                <div class="text-primary col-xs-3" data-toggle="collapse" data-parent="#accordion"
+                <div class="text-primary col-xs-2" data-toggle="collapse" data-parent="#accordion"
+                     href="#collapse{{word.id}}" aria-expanded="true" style="cursor: pointer;">{{word.status |
+                    translateStatus}}
+                </div>
+                <div class="text-primary col-xs-2" data-toggle="collapse" data-parent="#accordion"
                      href="#collapse{{word.id}}" aria-expanded="true">
-                    <span class="glyphicon glyphicon-user"></span> {{word.author.displayName}}
+                    <span class="glyphicon glyphicon-book" ng-show="word.status=='published'"></span> <span
+                        ng-show="word.status=='published'">{{word.dictionary.displayName}}</span>
+                    <span class="glyphicon glyphicon-user" ng-hide="word.status=='published'"></span> <span
+                        ng-hide="word.status=='published'">{{word.author.displayName}}</span>
                 </div>
                 <div class="text-primary col-xs-2">
-                    <button has-permission="Admin" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-upload"></span></button>
-                    <button has-permission="Admin Editor" is-editable="{{word}}" class="btn btn-warning btn-xs" ng-init="word.isEdit=false" ng-click="word.isEdit = !word.isEdit"><span class="glyphicon glyphicon-edit"></span></button>
-                    <button has-permission="Admin Editor" is-editable="{{word}}" class="btn btn-danger btn-xs" ng-click="vm.deleteWord(word.id)"><span class="glyphicon glyphicon-remove"></span></button>
+                    <button has-permission="Admin Editor" is-editable="{{word}}"
+                            class="btn btn-danger btn-xs ml2 pull-right" ng-click="vm.deleteWord(word.id)"><span
+                            class="glyphicon glyphicon-remove"></span></button>
+                    <button has-permission="Admin Editor" is-editable="{{word}}"
+                            class="btn btn-warning btn-xs ml2 pull-right" ng-init="word.isEdit=false"
+                            ng-click="word.isEdit = !word.isEdit"><span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                    <button has-permission="Admin" ng-hide="word.status=='published'"
+                            class="btn btn-success btn-xs ml2 pull-right" ng-click="vm.publishWord(word.id)"><span
+                            class="glyphicon glyphicon-upload"></span></button>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -55,11 +104,11 @@
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li ng-repeat="i in [] | range:vm.pageCount" ng-class="(i==vm.page)?'active':''"  style="cursor: pointer;">
+        <li ng-repeat="i in [] | range:vm.pageCount" ng-class="(i==vm.page)?'active':''" style="cursor: pointer;">
             <a ng-click="vm.specificPage(i)">{{i}}</a>
         </li>
 
-        <li  style="cursor: pointer;">
+        <li style="cursor: pointer;">
             <a ng-click="vm.nextPage()">
                 <span aria-hidden="true">&raquo;</span>
             </a>
