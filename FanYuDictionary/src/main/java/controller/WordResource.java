@@ -220,6 +220,7 @@ public class WordResource {
 			return Response.status(404).entity("字典名称不允许为空").type("text/plain").build(); 
 		}
 		
+		
 		Dictionary dictionary = dictionaryService.findByDisplayName(dictionaryName);
 		if( dictionary == null || "".equals(dictionary.getId()) ) {
 			return Response.status(404).entity("字典名称不存在,请核对字典名称后再导入").type("text/plain").build(); 
