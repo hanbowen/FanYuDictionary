@@ -50,14 +50,14 @@ public class WordService extends BaseService<Word>{
 		// word match domain 的非空性已在controller层校验过
 		
 		String[] dictionaryArray = dictionaries.split("@");
-		boolean ok = false;
+		/*boolean ok = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
 		for(String s : dictionaryArray) {
 			if( ok ) sb.append(","); else ok = true;
 			sb.append("\"").append(s).append("\"");
 		} 
-		sb.append("]");
+		sb.append("]");*/
 		
 		for(enumeration.MatchProperty matchEnum : enumeration.MatchProperty.values()) {
 			if(match.equals(matchEnum.getValue())) {
@@ -71,11 +71,11 @@ public class WordService extends BaseService<Word>{
 							key = DomainProperty.getKey(domainEnum);
 							for(String item : key.split("-")) {
 //								values.add(new BasicDBObject(item,new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
-								values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")).append("dictionary.id", new BasicDBObject("$in" , sb.toString())));
+								values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")).append("dictionary.id", new BasicDBObject("$in" , dictionaryArray)));
 							}
 							queryCondition.put("$or", values);
 						} else {
-							queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))).append("dictionary.id", new BasicDBObject("$in", sb.toString()));
+							queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))).append("dictionary.id", new BasicDBObject("$in", dictionaryArray));
 						}
 						return mongoTemplate.getCollection(getCollectionName()).distinct("word", queryCondition);
 					}
@@ -206,6 +206,15 @@ public class WordService extends BaseService<Word>{
 	 */
 	public List<Word> findWordByName(String word) {
 		return super.find(query(where("word").is(word)));
+	}
+	
+	/**
+	 * 根据字典名称查找该字典下所有词条
+	 * @param dictionaryName
+	 * @return
+	 */
+	public List<Word> findWordsByDictionaryName(String dictionaryName) {
+		return super.find(query(where("dictionary.displayName").is(dictionaryName)));
 	}
 	
 	/**

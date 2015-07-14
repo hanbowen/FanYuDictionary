@@ -1,0 +1,8 @@
+ [
+				{ 
+					"show":false,
+					"id":"word",
+					"name":"词条信息",
+					"exportIgnored":["id","importflag","status","dictionary"]
+				}				
+]

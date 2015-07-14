@@ -2,7 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"> 
 <properties>
 		
-		<entry key="import"> import.json </entry>
+		<!-- <entry key="import"> import.json </entry> -->
+		<entry key="export"> export.json </entry>
 		
 		
 </properties> 

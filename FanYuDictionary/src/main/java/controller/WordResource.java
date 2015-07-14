@@ -1,5 +1,10 @@
 package controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,16 +31,21 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import service.DictionaryService;
 import service.WordService;
+import utils.CompressUtil;
 import utils.Context;
 import utils.Pagination;
+import utils.RequestUtil;
 import entity.Dictionary;
 import entity.Word;
+import export.Export;
+import export.StringExport;
 
 @Path("/word")
 public class WordResource {
@@ -148,7 +160,7 @@ public class WordResource {
 		Word word = wordService.findWordById(wordId);
 		Word publishedWord = wordService.findWordByMultipleParam(word.getWord(), word.getDictionary(), "published");
 		if(publishedWord != null && !"".equals(publishedWord.getId())) {
-			return Response.status(200).entity("该词条已被发布，不允许再次发布").type("text/plain").build();
+			return Response.status(409).entity("该词条已被发布，不允许再次发布").type("text/plain").build();
 		}
 		
 		word.setAuthor(new HashMap<String , Object>());
@@ -234,23 +246,91 @@ public class WordResource {
  		dicMap.put("createDateTime", dictionary.getCreateDateTime());
  		List<Word> jsonList = new ArrayList<Word>();
  		
- 		boolean syntax_error = Context.getInstance().isSyntax_error();
+ 		Context context = new Context();
+ 		context.parseImport(dictionaryName + ".json");
+ 		boolean syntax_error = context.isSyntax_error();
  		
  		if( syntax_error ) {
  			return Response.status(412).entity("待导入数据不符合json规范，请校验后重新导入").type("text/plain").build(); 
  		}
- 		Map<String , JSONObject> map = Context.getInstance().getInport();
+ 		Map<String , JSONObject> map = context.getInport();
 		
 		for(Map.Entry<String, JSONObject> entry : map.entrySet()) {
+			Date date = new Date();
 			JSONObject jsonObject = entry.getValue();
 			jsonObject.put("dictionary", dicMap);
 			Word word = wordService.jsonToEntity(jsonObject.toString(), Word.class);
 			word.setStatus("published");
+			word.setImportflag(true);
+			word.setCreateDateTime(date.getTime());
+			word.setLastEditDateTime(date.getTime());
 			jsonList.add(word);
 		}
 		
 		wordService.insertAll(jsonList);;
 		return Response.status(200).entity("成功导入" + jsonList.size() + "条数据").type("text/plain").build(); 
 	}
+	
+	@GET
+	@Path("export/{dictionaryName}")
+	public void export(@PathParam("dictionaryName") String dictionaryName , @javax.ws.rs.core.Context HttpServletRequest request, @javax.ws.rs.core.Context HttpServletResponse response) {
+		
+		Context context = new Context();
+		context.parseExport(context.getProperties().getProperty("export"));
+		Map<String, JSONObject> mapConfig = context.getExport();
+		Map<String , InputStream> inmap = new HashMap<String, InputStream>();
+		
+		try {
+			JSONObject config = mapConfig.get("word");
+			JSONArray ignoredArray = null;
+			if( !config.isNull("exportIgnored")){
+				ignoredArray = config.getJSONArray("exportIgnored");
+			}
+
+			String[] keys = null;
+			if( ignoredArray != null ) {
+				int len = ignoredArray.length();
+				keys = new String[len];
+				for(int i=0;i<len;i++) {
+					keys[i] = ignoredArray.get(i).toString();
+				}
+			}
+			
+			List<Word> list = wordService.findWordsByDictionaryName(dictionaryName);
+			String json = wordService.listToJson(list, keys);
+			inmap.put(config.getString("name").trim()+".json",exportInputStream(json));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		ByteArrayOutputStream out = CompressUtil.compress(inmap);
+		InputStream in = null;
+		try {
+			byte [] b = out.toByteArray();
+			in = new ByteArrayInputStream(b);
+			out = null ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(out != null ){
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		RequestUtil.outStream( request ,response ,"export.zip" ,in );
+		
+	}
+	
+	
+	private InputStream exportInputStream(String inputStr){
+		InputStream answer =  null;
+		Export export = new StringExport();
+		answer= export.doExport(inputStr);
+		return answer;
+	}
+
 
 }

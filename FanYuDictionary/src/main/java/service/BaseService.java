@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import utils.JsonKit;
 import utils.Pagination;
 
 import com.google.gson.Gson;
@@ -39,6 +40,18 @@ public abstract class BaseService<T> {
 		return str;
 	}
 	
+	/**
+	 * keys为序列化对象排除属性
+	 * @param entity
+	 * @param keys
+	 * @return
+	 */
+	public String entityToJson(Object entity , String[] keys) {
+		Gson gson = new GsonBuilder().setExclusionStrategies(new JsonKit(keys)).create();
+		String str = gson.toJson(entity);
+		return str;
+	}
+	
 	public String entityToJsonWithoutAnnotation(Object entity) {
 		Gson gson = new Gson();
 		String str = gson.toJson(entity);
@@ -54,6 +67,17 @@ public abstract class BaseService<T> {
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		List<T> list = gson.fromJson(json, new TypeToken<List<T>>(){}.getType());
 		return list;
+	}
+	
+	/**
+	 * keys为序列化对象排除属性
+	 * @param entity
+	 * @param keys
+	 * @return
+	 */
+	public String listToJson(List<?> list ,String[] keys) {
+		Gson gson = new GsonBuilder().setExclusionStrategies(new JsonKit(keys)).create();
+		return gson.toJson(list);
 	}
 	
 	/**

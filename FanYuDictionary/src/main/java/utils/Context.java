@@ -23,12 +23,24 @@ import org.springframework.core.io.Resource;
  */
 public class Context {
 
-	private static Context context;
+//	private static Context context;
 	
 	private Properties properties = null;
 	
+	public Properties getProperties() {
+		return properties;
+	}
+
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+	}
+
+
 	// import 是关键字, 所以起名为inport
 	private Map<String, JSONObject> inport= null;
+	
+	private Map<String , JSONObject> export = null;
 	
 	private boolean syntax_error = false;
 	
@@ -44,48 +56,44 @@ public class Context {
 
 	private String jsonText;
 	
-	public static Context getInstance() {
+	/*public static Context getInstance() {
 		if(context == null){
 			context = new Context();
 		}
 		return context;
-	}
+	}*/
 	
 	
-	private Context(){
+	public Context(){
 		Resource resource = null;
 		try {
 			DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 			resource = defaultResourceLoader.getResource("config-context/framework.properties.xml");
 			properties = loadFile(resource.getFile());
-			parseImport(properties.getProperty("import"));
+//			parseImport(properties.getProperty("import"));
+//			parseExport(properties.getProperty("export"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void  parseImport(String string){
+	public void  parseImport(String string){
 		String sjson = null;
-		// 给导入扩展留口，按照prefix读取多个文件
-		if(string.contains("import.json")){
-			try {
-				string = string.trim();
-				DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
-				File file = defaultResourceLoader.getResource("config-context/"+string).getFile();
-				BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file))); 
-				String line = null;
-				StringBuilder sb = new StringBuilder();
-				while( (line = reader.readLine())!= null ){
-					sb.append(line).append("\n");
-				}
-				reader.close();
-				sjson =  sb.toString();
-			} catch (Exception e) {
-				e.printStackTrace();
+		try {
+			string = string.trim();
+			DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+			File file = defaultResourceLoader.getResource("config-context/"+string).getFile();
+			BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file))); 
+			String line = null;
+			StringBuilder sb = new StringBuilder();
+			while( (line = reader.readLine())!= null ){
+				sb.append(line).append("\n");
 			}
-		}else{
-			sjson = string;
+			reader.close();
+			sjson =  sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		// 判断格式合法性 以及判重
@@ -117,6 +125,46 @@ public class Context {
 		}
 		
 		this.jsonText = sjson;
+		
+	}
+	
+	public void  parseExport(String string){
+		String sjson = null;
+		if(string.contains("export.json")){
+			try {
+				string = string.trim();
+				DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+				File file = defaultResourceLoader.getResource("config-context/"+string).getFile();
+				BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file),"UTF-8" )); 
+				String line = null;
+				StringBuilder sb = new StringBuilder();
+				while( (line = reader.readLine())!= null ){
+					sb.append(line).append("\n");
+				}
+				reader.close();
+				sjson =  sb.toString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			sjson = string;
+		}
+		if(sjson != null ){
+			export = new LinkedHashMap<String, JSONObject>();
+			JSONTokener jt = new JSONTokener(sjson);
+			JSONArray  ja = new JSONArray( jt );
+			for(int i=0,size = ja.length(); i < size ;i++ ){
+				JSONObject json = ja.getJSONObject(i);
+				String id = null ;
+				if(json.has("id")){
+					id  = json.getString("id");
+				}else{
+					id =json.hashCode() +"";
+				}
+				json.put("id", id);
+				export.put(id, json);
+			}
+		}
 		
 	}
 	
@@ -175,6 +223,10 @@ public class Context {
 	
 	public Map<String, JSONObject> getInport() {
 		return inport;
+	}
+	
+	public Map<String , JSONObject> getExport() {
+		return export;
 	}
 
 
