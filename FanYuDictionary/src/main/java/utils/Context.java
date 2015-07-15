@@ -109,6 +109,7 @@ public class Context {
 			}catch( Exception e) {
 				e.printStackTrace();
 				this.syntax_error = true;
+				return;
 			}
 			
 			for(int i=0,size = ja.length(); i < size ;i++ ){
