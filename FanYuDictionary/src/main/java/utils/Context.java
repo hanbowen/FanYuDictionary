@@ -119,7 +119,6 @@ public class Context {
 				}else{
 					id =json.hashCode() +"";
 				}
-				json.put("id", id);
 				inport.put(id, json);
 			}
 		}
