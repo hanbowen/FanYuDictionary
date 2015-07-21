@@ -1,0 +1,34 @@
+<div>
+    <div class="col-xs-12"><h2 class="mt0"><span ng-bind="showWordVM.word"></span></h2></div>
+    <div class="col-xs-12">
+        <div class="panel panel-default"
+             ng-init="word.displaySequence = (word.status!='published')?'personal':currentUser.dicSequence.sequence[word.dictionary.id]"
+             ng-hide="currentUser.dicSequence.checkList.indexOf(word.dictionary.id)== -1"
+             ng-repeat="word in showWordVM.wordDetail | orderBy: ['displaySequence']">
+            <div class="panel-heading">
+                <span ng-bind="word.status=='published'?word.dictionary.displayName:word.author.displayName"></span>
+                <div class="text-primary pull-right">
+                    <button has-permission="Admin" class="btn btn-success btn-xs hide"
+                            ng-click="showWordVM.publishWord(word.id)"><span
+                            class="glyphicon glyphicon-upload"></span></button>
+                    <button has-permission="Admin Editor" is-editable="{{word}}" class="btn btn-warning btn-xs hide"
+                            ng-init="word.isEdit=false"
+                            ng-click="word.isEdit = !word.isEdit"><span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                    <button has-permission="Admin Editor" is-editable="{{word}}" class="btn btn-danger btn-xs hide"
+                            ng-click="showWordVM.deleteWord(word.id)">
+                        <span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div ng-hide="word.isEdit">
+                    <show-word word="word"></show-word>
+                </div>
+                <div ng-hide="!word.isEdit">
+                    <create-word word="word"></create-word>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

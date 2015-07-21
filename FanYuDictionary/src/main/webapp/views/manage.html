@@ -1,0 +1,12 @@
+<nav class="col-lg-2 sidebar" id="leftNavbar">
+    <ul class="nav nav-sidebar">
+        <li has-permission='Admin Editor' class="hide"><a ui-sref=".newWords">最新词条</a></li>
+        <li has-permission='Admin Editor' class="hide"><a ui-sref=".createWord">创建词条</a></li>
+        <li has-permission='Admin Editor' class="hide"><a ui-sref=".myWords">我的词条</a></li>
+        <li has-permission='Admin' class="hide"><a ui-sref=".users">用户管理</a></li>
+        <li has-permission='Admin' class="hide"><a ui-sref=".managedictionary">词典管理</a></li>
+    </ul>
+</nav>
+<div class="col-lg-10 col-lg-offset-2 main" role="main">
+    <div ui-view></div>
+</div>

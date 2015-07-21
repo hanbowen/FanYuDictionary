@@ -1,0 +1,67 @@
+<div>
+    <nav class="col-lg-2 sidebar" id="leftNavbar">
+        <form>
+            <div class="input-group input-group-sm">
+                <input type="text" id="searchInput" class="form-control" data-toggle="collapse" href="#collapseSoftKeys"
+                       ng-model="dicVM.search.searchWord"  onclick="$('#collapseSearchSettings').collapse('hide');">
+
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default" ng-click="dicVM.searchWord()"><span
+                            class="glyphicon glyphicon-search"></span></button>
+                    <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseSearchSettings" onclick=" $('#collapseSoftKeys').collapse('hide');">
+                        <span class="caret"></span></button>
+                </div>
+                <!-- /btn-group -->
+            </div>
+        </form>
+        <!-- /input-group -->
+        <div class="collapse" id="collapseSoftKeys">
+            <div class="well" style="padding: 10px 10px">
+                <button class="btn btn-default btn-xs" ng-repeat="softKey in dicVM.softKeys"
+                        ng-click="dicVM.typeSpecialChar($event)">
+                    {{softKey}}
+                </button>
+            </div>
+
+        </div>
+        <div class="collapse" id="collapseSearchSettings">
+            <div class="well" style="padding: 10px 10px;font-size: 12px; color: #555555">
+                <span>编码：</span>
+
+                <div class="radio">
+                    <label ng-repeat="code in dicVM.codeList">
+                        <input name="code" type="radio" ng-click="dicVM.setSearchCode(code.codeValue)"
+                               ng-checked="code.checked" style="margin: 2px 0 0 -13px">{{code.codeName}}
+                    </label>
+                </div>
+                <span class="disabled">匹配：</span>
+
+                <div class="radio">
+                    <label ng-repeat="match in dicVM.matchList">
+                        <input name="match" type="radio" style="margin: 2px 0 0 -13px"
+                               ng-click="dicVM.setSearchMatch(match.matchValue)" ng-checked="match.checked">{{match.matchName}}
+                    </label>
+                </div>
+
+                <span class="disabled">范围：</span>
+
+                <div class="radio">
+                    <label ng-repeat="domain in dicVM.domainList">
+                        <input name="domain" type="radio" style="margin: 2px 0 0 -13px"
+                               ng-click="dicVM.setSearchDomain(domain.domainValue)" ng-checked="domain.checked">{{domain.domainName}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-sidebar mt20">
+            <li ng-repeat="word in dicVM.searchResult"><a class="searchResult" ui-sref=".showWord({word: '{{word}}'})">{{word}}</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="col-lg-10 col-lg-offset-2 main" role="main">
+        <div ui-view>
+            <div ng-include="'views/welcomePage.html'"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+<div class="row">
+  <div class="col-xs-9 mb20">
+    <h2 class=" mt0">词典管理</h2>
+  </div>
+<!--  <div class="col-xs-3">
+    <button class="btn btn-info pull-right" data-toggle="modal" data-target="#dictionaryModal">
+      <span class="glyphicon glyphicon-plus"></span> 添加</button>
+  </div>-->
+</div>
+
+<!--delete user confirm modal-->
+<div class="modal fade" id="deleteConfirmModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h2 class=" mt0">删除确认</h2>
+      </div>
+      <div class="modal-body">
+        <div class="error-text"><span class="glyphicon glyphicon glyphicon-alert"></span>您确定要删除此词典吗？</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">取消</button>
+        <button class="btn btn-danger" ng-click="dictionaysVM.deleteDictionary()">删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="dictionaryModal">
+  <!-- /.modal-dialog -->
+  <div class="modal-dialog">
+    <!-- /.modal-content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" ng-hide="dictionaysVM.isEdit">添加词典</h4>
+        <h4 class="modal-title" ng-hide="!dictionaysVM.isEdit">编辑词典</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="input-group input-group-sm col-xs-12">
+          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">词典名:</label></div>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" ng-model="dictionaysVM.dictionary.displayName" placeholder="输入词典名"/>
+          </div>
+          <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">如: 梵英大字典</label></div>
+        </div>
+
+        <div class="input-group col-xs-12 mt10">
+          <div class="col-xs-2"><label class="text-info" style="margin-top: 4px">词典类:</label></div>
+          <div class="col-xs-6 selectContainer" >
+            <select name="group" class="form-control" ng-model="dictionaysVM.dictionary.dicGroup">
+              <!--<option value="fan">梵</option>
+              <option value="ba">巴</option>
+              <option value="zang">藏</option>
+              <option value="han">汉</option>-->
+              <option value="梵">梵</option>
+              <option value="巴">巴</option>
+              <option value="藏">藏</option>
+              <option value="汉">汉</option>
+            </select>
+          </div>
+          <label class="col-xs-4 control-label text-info" style="margin-top: 4px">选择词典类</label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" ng-hide="dictionaysVM.isEdit" ng-click="dictionaysVM.createDictionary()">提交</button>
+        <button type="button" class="btn btn-primary" ng-hide="!dictionaysVM.isEdit" ng-click="dictionaysVM.updateDictionary()">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6" ng-repeat="dictionayGroup in dictionaryList">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">
+        {{dictionayGroup.dicGroup}}
+
+<!--        <input type="text" ng-model="dictionary.dicName" ng-hide="!dictionaysVM.isEdit" placeholder="输入词典名"/>
+        <button class="btn btn-info btn-xs pull-right" ng-hide="!dictionaysVM.isEdit" ng-click="dictionaysVM.saveDict()">
+          <span class="glyphicon glyphicon-floppy-save"></span>
+        </button>
+        <button class="btn btn-default btn-xs pull-right" ng-hide="dictionaysVM.isEdit" ng-click="dictionaysVM.addDict()">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>-->
+
+        <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#dictionaryModal" ng-click="dictionaysVM.addDict(dictionayGroup.dicGroup)">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+
+      <div class="panel-body" style="height: 250px">
+        <table class="table table-bordered table-hover table-condensed">
+          <tbody>
+            <tr ng-repeat="dictionay in dictionayGroup.dictionaries">
+              <td class="col-xs-6">{{dictionay.displayName}}</td>
+              <td class="col-xs-2">
+<!--                <div class="btn-group btn-group-sm" role="group" aria-label="...">-->
+                  <button type="button" class="btn btn-default btn-warning btn-xs" data-toggle="modal" data-target="#dictionaryModal" ng-click="dictionaysVM.editDictionary(dictionay)">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </button>
+                  <button type="button" class="btn btn-default btn-danger btn-xs" data-toggle="modal"
+                          data-target="#deleteConfirmModal" ng-click="dictionaysVM.deleteConfirm(dictionay.id)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                <!--</div>-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,127 @@
+<div class="header">
+    <div class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#js-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" onclick="$('.sidebar').toggleClass('animate')">
+                    <span class="visible-xs-block visible-sm-block visible-md-block glyphicon glyphicon-menu-hamburger"></span></a>
+                <a class="navbar-brand" href="#/">梵汉大字典</a>
+            </div>
+
+            <div class="collapse navbar-collapse pull-right" id="js-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li has-permission="Admin Editor" class="hide"><a href="#/manage">管理中心</a></li>
+                    <li><a ng-href="#/">关于我们</a></li>
+                    <li><a ng-href="#/">联系我们</a></li>
+                    <li>
+                        <a id="userDropdownMenu" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span id="activeUserName">{{currentUser.displayName}}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li role="presentation" ng-hide="currentUser!=undefined && currentUser.id !=undefined" style="cursor:pointer;"><a data-toggle="modal" data-target="#loginModal">登录</a></li>
+                            <li role="presentation" ng-hide="currentUser!=undefined && currentUser.id !=undefined" style="cursor:pointer;"><a>注册</a></li>
+                            <li role="presentation" ng-hide="currentUser==undefined || currentUser.id ==undefined" ng-click="logout()" style="cursor:pointer;"><a>注销</a></li>
+                            <li role="presentation" ng-hide="currentUser==undefined || currentUser.id ==undefined" style="cursor:pointer;"><a>修改密码</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="btn" data-toggle="collapse" data-target="#customSettingContainer"><span
+                            class="glyphicon glyphicon-cog"></span></a></li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="collapse" id="customSettingContainer">
+            <div class="customSettingContainer">
+                <!-- <div class="col-xs-6 col-sm-3" style="padding: 10px;" ng-repeat="dictionaryGroup in dictionaryList | orderBy:'dicGroupId'">
+                     <div class="dicGroupContainer">
+                         <div class="pull-right"><span ng-bind="dictionaryGroup.dicGroup"></span></div>
+                         <ul ui-sortable="sortableOptions">
+                             <li ng-repeat="dictionary in dictionaryGroup.dictionaries | orderBy:'dicSequence'">
+                                 <div class="checkbox">
+                                     <label>
+                                         <input type="checkbox"> {{dictionary.displayName}}
+                                     </label>
+                                 </div>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>-->
+
+                <!-- 顶部设置中的四个字典框，由于ui-sortable的限制没有用一个ng-repeat循环显示，分为了四个分别显示。-->
+                <div class="col-xs-6 col-sm-3" style="padding: 10px;">
+                    <div class="dicGroupContainer">
+                        <div class="pull-right">梵</div>
+                        <ul ui-sortable="sortableFanOptions" ng-model="fan_dictionaryList">
+                            <li ng-repeat="dictionary in fan_dictionaryList | orderBy:'dicSequence'">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"  ng-click="updateUserDicCheckList($event,dictionary.id)"
+                                               ng-checked="currentUser.dicSequence.checkList.indexOf(dictionary.id) > -1"> {{dictionary.displayName}}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-3" style="padding: 10px;">
+                    <div class="dicGroupContainer">
+                        <div class="pull-right">巴</div>
+                        <ul ui-sortable="sortableBaOptions" ng-model="ba_dictionaryList">
+                            <li ng-repeat="dictionary in ba_dictionaryList | orderBy:'dicSequence'">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"  ng-click="updateUserDicCheckList($event,dictionary.id)"
+                                               ng-checked=" currentUser.dicSequence.checkList.indexOf(dictionary.id) > -1"> {{dictionary.displayName}}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-3" style="padding: 10px;">
+                    <div class="dicGroupContainer">
+                        <div class="pull-right">藏</div>
+                        <ul ui-sortable="sortableZangOptions" ng-model="zang_dictionaryList">
+                            <li ng-repeat="dictionary in zang_dictionaryList | orderBy:'dicSequence'">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-click="updateUserDicCheckList($event,dictionary.id)"
+                                                ng-checked=" currentUser.dicSequence.checkList.indexOf(dictionary.id) > -1"> {{dictionary.displayName}}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-3" style="padding: 10px;">
+                    <div class="dicGroupContainer">
+                        <div class="pull-right">汉</div>
+                        <ul ui-sortable="sortableHanOptions" ng-model="han_dictionaryList">
+                            <li ng-repeat="dictionary in han_dictionaryList | orderBy:'dicSequence'">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"  ng-click="updateUserDicCheckList($event,dictionary.id)"
+                                               ng-checked=" currentUser.dicSequence.checkList.indexOf(dictionary.id) > -1"> {{dictionary.displayName}}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

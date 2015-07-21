@@ -1,0 +1,68 @@
+[
+    {
+        "dicGroup": "梵",
+        "dictionaries": [
+            {
+                "dicName": "fanhan",
+                "dicDisplayName": "梵汉大字典",
+                "dicId": "fdjslkjrujf3ljfrljslkj",
+                "dicSequence":2,
+                "dicGroup": "fan"
+            },
+            {
+                "dicName": "fanying",
+                "dicDisplayName": "梵英小字典",
+                "dicId": "fdjslkjrujf3ljfrljslkj",
+                "dicSequence":1,
+                "dicGroup": "fan"
+            },
+            {
+                "dicName": "fande",
+                "dicDisplayName": "梵德小字典",
+                "dicId": "fdjslkjrujf3ljfrljslkj",
+                "dicSequence":3,
+                "dicGroup": "fan"
+            }
+        ],
+        "dicGroupId": 1
+    },
+    {
+        "dicGroup": "巴",
+        "dictionaries": [
+            {
+                "dicName": "baying",
+                "dicDisplayName": "巴英大字典",
+                "dicId": "fdjslkjrujf3ljfrljslkj",
+                "dicSequence":1,
+                "dicGroup": "ba"
+            }
+        ],
+        "dicGroupId": 2
+    },
+    {
+        "dicGroup": "藏",
+        "dictionaries": [
+            {
+                "dicName": "baying",
+                "dicDisplayName": "藏英大字典",
+                "dicId": "fdjslkjrujf3ljfrljslkj",
+                "dicSequence":1,
+                "dicGroup": "zang"
+            }
+        ],
+        "dicGroupId": 3
+    },
+    {
+        "dicGroup": "汉",
+        "dictionaries": [
+            {
+                "dicName": "baying",
+                "dicDisplayName": "汉英大字典",
+                "dicId": "fdjslkjrujf3ljfrljslkj",
+                "dicSequence":1,
+                "dicGroup": "han"
+            }
+        ],
+        "dicGroupId": 4
+    }
+]
