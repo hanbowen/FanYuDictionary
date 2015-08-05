@@ -204,12 +204,23 @@ public class WordResource {
 		return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
 	}
 	
-	@DELETE
-	@Consumes("application/json")
-	public Response delWords(String body) {
+	@PUT
+	@Path("/delete")
+	@RequiresRoles("Admin")
+	@ExceptionHandler({UnauthorizedException.class})
+	public Response delWords(String deleteList) {
+		if(deleteList == null || "".equals(deleteList)) {
+			return Response.status(412).entity("请传入deleteList").type("text/plain").build();
+		}
 		
+		String[] ids = deleteList.substring(1, deleteList.length()-1).split(",");
+		for(String id : ids) {
+			wordService.removeById(id);
+		}
 		
 		LOGGER.info("成功批量删除词条信息");
+		// 我要给你返回什么？
+		// FIXME
 		return Response.status(200).entity("success").type("text/plain").build();
 	}
 
@@ -332,5 +343,36 @@ public class WordResource {
 		return answer;
 	}
 
-
+	@PUT
+	@Path("/publish")
+	@RequiresRoles("Admin")
+	@ExceptionHandler({UnauthorizedException.class})
+	public Response publishAll(String publishList) {
+		if(publishList == null || "".equals(publishList)) {
+			return Response.status(412).entity("请传入publishList").type("text/plain").build();
+		}
+		
+		String[] ids = publishList.substring(1, publishList.length()-1).split(",");
+		
+		// 如果存在已经发布过的词条，我是让所有词条都不发布，打回，还是只发布其他符合规则的，而不去发布该条信息
+		for( String id : ids ) {
+			Word word = wordService.findWordById(id);
+			Word publishedWord = wordService.findWordByMultipleParam(word.getWord(), word.getDictionary(), "published");
+			if(publishedWord != null && !"".equals(publishedWord.getId())) {
+				return Response.status(409).entity("该词条已被发布，不允许再次发布").type("text/plain").build();
+			}
+			
+			word.setAuthor(new HashMap<String , Object>());
+			word.setId("");
+			word.setStatus("published");
+			wordService.save(word);
+			
+			wordService.publishWord(id);
+		}
+		// FIXME
+		LOGGER.info("成功发布信息");
+		
+		// 我要给你返回什么？
+		return Response.status(200).entity("success").type("text/plain").build();
+	}
 }
