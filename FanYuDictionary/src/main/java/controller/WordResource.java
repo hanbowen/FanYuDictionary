@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,7 +14,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -215,6 +213,7 @@ public class WordResource {
 		
 		String[] ids = deleteList.substring(1, deleteList.length()-1).split(",");
 		for(String id : ids) {
+			id = id.replaceAll("\"", "");
 			wordService.removeById(id);
 		}
 		
@@ -356,6 +355,7 @@ public class WordResource {
 		
 		// 如果存在已经发布过的词条，我是让所有词条都不发布，打回，还是只发布其他符合规则的，而不去发布该条信息
 		for( String id : ids ) {
+			id = id.replaceAll("\"", "");
 			Word word = wordService.findWordById(id);
 			Word publishedWord = wordService.findWordByMultipleParam(word.getWord(), word.getDictionary(), "published");
 			if(publishedWord != null && !"".equals(publishedWord.getId())) {
