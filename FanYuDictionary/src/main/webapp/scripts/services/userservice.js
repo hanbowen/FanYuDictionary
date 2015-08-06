@@ -64,6 +64,7 @@
     }
 
     function updateUser(user){
+      //console.warn(user);
       return $http.put(userURL + '/' + user.id, user)
         .then(updateUserComplete)
         .catch(updateUserFailed);

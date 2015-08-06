@@ -18,6 +18,7 @@
             link: function postLink(scope, element, attrs) {
                 scope.updateUserDicCheckList = updateUserDicCheckList;
                 scope.logout = logout;
+                scope.editUser = editUser;
                 scope.sortableFanOptions = {
                     stop: function (e, ui) {
                         for (var index in $rootScope.fan_dictionaryList) {
@@ -62,6 +63,11 @@
             $.removeCookie("currentUser");
             $.removeCookie("token");
             location.reload();
+        }
+
+        function editUser(){
+            $rootScope.currentUser.password = '';
+            $.removeCookie("currentUser");
         }
 
         function initUserDicSequence(){

@@ -37,6 +37,7 @@
       vm.add = add;
       vm.checkAll = checkAll;
       vm.checkAllValue = false;
+      vm.checkRole = false;
       vm.selectFanList = selectFanList;
       vm.selectBaList = selectBaList;
       vm.selectZangList = selectZangList;
@@ -54,8 +55,19 @@
       vm.saveUser = saveUser;
       vm.searchUser = searchUser;
       vm.checkUser = checkUser;
+      vm.pushUserAllowedDictionaries = pushUserAllowedDictionaries;
+
+      vm.updateUserFromHeader = updateUserFromHeader;
 
       getUserList();
+
+      $scope.$watch('userVM.user.role', function(){
+        if (vm.user.role == 'Admin') {
+          vm.checkRole = true;
+        } else {
+          vm.checkRole = false;
+        }
+      });
 
       function refreshUserList() {
         UserService.getUserList(vm.page, vm.pageSize).then(function (response) {
@@ -167,7 +179,8 @@
 
       function editUser(user) {
         vm.user = user;
-        vm.user.password = "";
+        vm.user.password = '';
+        vm.passwordConfirm = '';
         vm.isUserEdit = true;
 
         /*将 vm.user.allowedDictionaries json数组的值 赋给 vm.allowedDictionariesInPanel，
@@ -192,7 +205,8 @@
       }
 
       function commitUser() {
-        //vm.user needn't define again, because before this function being called, input for user.username and ... model already band
+        pushUserAllowedDictionaries();
+
         UserService.createUser(vm.user).then(function (data) {
             console.log(data);
             $('#addUserModal').modal('hide');
@@ -201,9 +215,44 @@
         );
       }
 
+      function pushUserAllowedDictionaries() {
+        if (vm.user.role == 'Admin') {
+          if(vm.user.allowedDictionaries == undefined){
+            vm.user.allowedDictionaries = [];
+          }
+          for (var ifan in $rootScope.fan_dictionaryList) {
+            var dicf = {};
+            dicf.id = $rootScope.fan_dictionaryList[ifan].id;
+            dicf.displayName = $rootScope.fan_dictionaryList[ifan].displayName;
+            vm.user.allowedDictionaries.push(dicf);
+          }
+          for (var iba in $rootScope.ba_dictionaryList) {
+            var dicb = {};
+            dicb.id = $rootScope.ba_dictionaryList[iba].id;
+            dicb.displayName = $rootScope.ba_dictionaryList[iba].displayName;
+            vm.user.allowedDictionaries.push(dicb);
+          }
+          for (var izang in $rootScope.zang_dictionaryList) {
+            var dicz = {};
+            dicz.id = $rootScope.zang_dictionaryList[izang].id;
+            dicz.displayName = $rootScope.zang_dictionaryList[izang].displayName;
+            vm.user.allowedDictionaries.push(dicz);
+          }
+          for (var ihan in $rootScope.han_dictionaryList) {
+            var dich = {};
+            dich.id = $rootScope.han_dictionaryList[ihan].id;
+            dich.displayName = $rootScope.han_dictionaryList[ihan].displayName;
+            vm.user.allowedDictionaries.push(dich);
+          }
+        } else {
+          //vm.user needn't define again, because before this function being called, input for user.username and ... model already band
+          //将panel 直接赋回给 vm.user.allowedDictionaries，此时不用借助变量
+          vm.user.allowedDictionaries = vm.allowedDictionariesInPanel;
+        }
+      }
+
       function saveUser() {
-        //将panel 直接赋回给 vm.user.allowedDictionaries，此时不用借助变量
-        vm.user.allowedDictionaries = vm.allowedDictionariesInPanel;
+        pushUserAllowedDictionaries();
 
         UserService.updateUser(vm.user).then(function (data) {
             console.log(data);
@@ -211,6 +260,19 @@
             refreshUserList();
           }
         );
+        refreshUserList();
+      }
+
+      function updateUserFromHeader() {
+        vm.user = $rootScope.currentUser;
+        UserService.updateUser(vm.user).then(function (data) {
+            console.log(data);
+            $('#updateCurrentUser').modal('hide');
+            //location.reload();
+            $.cookie("currentUser",JSON.stringify(data));
+          }
+        );
+
       }
 
       function searchUser() {
