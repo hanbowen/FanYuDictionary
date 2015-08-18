@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
@@ -128,19 +129,42 @@ public class UserResource {
 	 * @return
 	 */
 	@GET
-	@Produces("application/json")
 	@Path("{username}")
 	public Response getUserByName(@PathParam("username") String username) {
 		if( username == null || "".equals(username) ) {
 			return Response.status(412).entity("请输入username").type("text/plain").build();
 		}
 		User user = userService.findUserByName(username);
+		if (user == null) {
+			return Response.status(200).entity("error").type("text/plain").build();
+		}
 		List<User> list = new ArrayList<User>();
 		list.add(user);
 		LOGGER.info("return userinfo successfully");
 		return Response.status(200).entity(userService.listToJson(list)).type("application/json").build();
 	}
 	
+	@POST
+	@Path("{validation}")
+	@Produces("text/plain")
+	public Response checkAuthentication(@QueryParam("authentication") String authentication) {
+		LOGGER.info("LoginResource auth: " + authentication);
+		byte[] decoded = DatatypeConverter.parseBase64Binary(authentication);
+
+		String decodedString = new String(decoded);
+		String username = decodedString.split(" ")[0];
+		String password = DigestUtils.md5Hex(decodedString.split(" ")[1]);
+		
+		LOGGER.info("userService username:"+username);
+		User loginUser = userService.findUserByName(username);
+		
+		if(loginUser ==  null || !password.equals(loginUser.getPassword())){
+			LOGGER.info("login failed: password not correct");
+			return Response.status(200).entity("error").type("text/plain").build();
+		}
+		
+		return Response.status(200).entity("success").type("text/plain").build();
+	}
 	
 	/**
 	 * 根据用户ID删除用户信息

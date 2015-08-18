@@ -1,6 +1,7 @@
 package service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Sort;
@@ -39,6 +40,7 @@ public class UserService extends BaseService<User>{
 		return super.findOne(criteria);
 	}
 	
+ 	
 	/**
 	 * 根据pageNo 及 pageSize 查询每页信息
 	 * @param pageNo
