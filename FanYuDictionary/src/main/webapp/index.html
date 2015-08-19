@@ -1,43 +1,43 @@
 <!doctype html>
 <html class="no-js">
 <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/user.css">
-    <link rel="stylesheet" href="bower_components/bootstrap_dropdowns_enhancement/dropdowns-enhancement.css">
-    <!-- endbuild -->
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/user.css">
+  <link rel="stylesheet" href="bower_components/bootstrap_dropdowns_enhancement/dropdowns-enhancement.css">
+  <!-- endbuild -->
 </head>
 <body>
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
+  your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <!-- Add your site or application content here -->
 <fan-header></fan-header>
 
 <div class="container-fluid" style="margin-top: 80px;">
-    <div ui-view></div>
+  <div ui-view></div>
 </div>
 
 <login></login>
 <div id="splash-page" ng-show="showSplash">
-    <div class="page-splash">
-        <div class="page-splash-message">
-            梵佛大字典加载中 &nbsp;<img src="images/loading.gif">
-        </div>
+  <div class="page-splash">
+    <div class="page-splash-message">
+      梵佛大字典加载中 &nbsp;<img src="images/loading.gif">
     </div>
+  </div>
 </div>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <!-- <script>
@@ -99,6 +99,11 @@
 <script src="scripts/directives/iseditable.js"></script>
 <script src="scripts/directives/showword.js"></script>
 <script src="bower_components/bootstrap_dropdowns_enhancement/dropdowns-enhancement.js"></script>
+
+<script src="scripts/directives/pwcheck.js"></script>
+<script src="bower_components/js/easyform.js"></script>
+<!--<script src="bower_components/angular-messages/angular-messages.js"></script>-->
+<!--<script src="bower_components/js/jquery-2.1.0.min.js"></script>-->
 <!-- endbuild -->
 
 </body>

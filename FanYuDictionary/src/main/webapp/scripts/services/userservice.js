@@ -20,7 +20,9 @@
       createUser: createUser,
       deleteSingleUser: deleteSingleUser,
       updateUser: updateUser,
-      searchUser: searchUser
+      searchUser: searchUser,
+      checkPw: checkPw,
+      checkPassword: checkPassword
     };
     return service;
 
@@ -86,6 +88,34 @@
       }
       function searchUserFailed(error){
         console.error('XHR Failed for searchUserFailed.' + error.data);
+      }
+    }
+
+    function checkPw(username){
+      return $http.get(userURL + '/' + username)
+        .then(searchUserComplete)
+        .catch(searchUserFailed);
+      function searchUserComplete(response){
+        return response.data;
+      }
+      function searchUserFailed(error){
+        console.error('XHR Failed for find username.' + error.data);
+      }
+    }
+
+    function checkPassword(username, password) {
+      var authentication = base64_encode(username + " " + password);
+      $http.defaults.headers.post["Content-Type"] = "text/plain";
+      // $http.defaults.headers.common.authentication = authentication;
+      return $http.post(userURL + "/validation?authentication=" + authentication, {headers: {'authentication': authentication}})
+        .then(checkComplete)
+        .catch(checkFailed);
+
+      function checkComplete(response) {
+        return response;
+      }
+      function checkFailed(error) {
+        console.error('XHR Failed for oldpassword.' + error.data);
       }
     }
 

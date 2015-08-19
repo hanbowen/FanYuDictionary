@@ -2,6 +2,7 @@
   <input type="text" ng-model="vm.name">
   <p>This is the user:{{vm.name}} view.</p>
 </div>-->
+
 <div class="row">
   <div class="col-xs-9 mb20">
     <h2 class=" mt0">用户管理</h2>
@@ -137,9 +138,10 @@
   </div>
 </div>
 
+
+
 <!-- Add User Modal -->
 <!--<div class="modal fade" id="addUserModal"  aria-labelledby="myModalLabel" aria-hidden="true">-->
-
 <div class="modal fade" id="addUserModal">
   <!-- /.modal-dialog -->
   <div class="modal-dialog">
@@ -154,26 +156,101 @@
       </div>
 
       <div class="modal-body">
-        <form name="userForm" novalidate="novalidate" class="ng-pristine ng-invalid ng-invalid-required">
-          <div class="form-group" ng-class="{ 'has-error': userForm.userName.$invalid && !userForm.userName.$pristine }">
+        <form name="userForm"  novalidate="novalidate"
+              class="form-horizontal ng-pristine ng-invalid ng-invalid-required">
+          <div class="form-group"
+               ng-class="{ 'has-error': userForm.userName.$invalid && !userForm.userName.$pristine }">
             <div class="input-group input-group-sm col-xs-12">
               <!--<span class="input-group-addon glyphicon glyphicon-user"></span>-->
               <div class="col-xs-2"><label class="text-info mt4">用户名:</label></div>
-              <div class="col-xs-6"><input type="text" class="form-control" name="userName" ng-model="userVM.user.username"
+              <div class="col-xs-6"><input type="text" class="form-control" name="userName"
+                                           ng-model="userVM.user.username"
                                            ng-disabled="userVM.isUserEdit" placeholder="用户名" required/>
                 <!--<span class="error" ng-show="form.$dirty && form.username.$invalid">用户名必须填写</span>-->
                 <p ng-show="userForm.userName.$invalid && !userForm.userName.$pristine" class="help-block">用户名必须输入</p>
+              </div>
+              <div class="col-xs-4">
+                <button class="text-info mt4" ng-click="userVM.checkUser()">检查用户名是否可用</button>
+              </div>
+            </div>
+          </div>
+
+          <!--旧密码-->
+          <!--<div class="form-group" ng-class="{ 'has-error': userForm.oldPassword.$invalid && !userForm.oldPassword.$pristine }"
+               ng-hide="!userVM.isUserEdit">
+            <div class="input-group input-group-sm col-xs-12 mt10">
+              <div class="col-xs-2"><label class="text-info mt4">旧密码:</label></div>
+              <div class="col-xs-6"><input type="password" name="oldPassword" class="form-control"
+                                           ng-model="userVM.oldPassword"
+                                           placeholder="密码" ng-minlength="6" ng-maxlength="16"/>
+                <p ng-show="userForm.oldPassword.$error.minlength" class="help-block">您输入的密码不足六位</p>
+                <p ng-show="userForm.oldPassword.$error.maxlength" class="help-block">您输入的密码超过十六位</p>
+              </div>
+              <div class="col-xs-4"><label class="text-info mt4">密码长度6-16位{{userVM.oldPassword}}</label></div>
+            </div>
+          </div>-->
+          <div class="form-group"
+               ng-class="{ 'has-error': userForm.password.$invalid && !userForm.password.$pristine }">
+            <div class="input-group input-group-sm col-xs-12 mt10">
+              <div class="col-xs-2"><label for="password" class="text-info mt4" ng-hide="!userVM.isUserEdit">新密码:</label>
+                <label for="password" class="text-info mt4" ng-hide="userVM.isUserEdit">密码:</label></div>
+              <div class="col-xs-6"><input type="password" id="password" name="password" class="form-control"
+                                           ng-model="userVM.user.password"
+                                           placeholder="密码" ng-minlength="6" ng-maxlength="16"/>
+                <p ng-show="userForm.password.$error.minlength" class="help-block">您输入的密码不足六位</p>
+                <p ng-show="userForm.password.$error.maxlength" class="help-block">您输入的密码超过十六位</p>
+              </div>
+              <div class="col-xs-4"><label class="text-info mt4">密码长度6-16位</label></div>
+            </div>
+          </div>
+          <div class="form-group has-feedback"
+               ng-class="{'has-success' : !userForm.passwordConfirm.$pristine && userForm.passwordConfirm.$valid,
+                'has-error': userForm.passwordConfirm.$invalid && !userForm.passwordConfirm.$pristine }">
+            <div class="input-group input-group-sm col-xs-12 mt10">
+              <div class="col-xs-2"><label for="passwordConfirm" class="text-info mt4">确认密码:</label></div>
+              <div class="col-xs-6"><input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control"
+                                           ng-model="userVM.passwordConfirm" pw-check="password"
+                                           placeholder="再次输入密码" onmouseover="" ng-minlength="6" ng-maxlength="16"/>
+                <div ng-show="!userForm.passwordConfirm.$pristine && tagName.passwordConfirm.$valid" class="help-block">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                </div>
+                <div ng-show="!userForm.passwordConfirm.$pristine && userForm.passwordConfirm.$invalid" class="help-block">
+                  密码输入不一致<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div>
+                <p ng-show="userForm.passwordConfirm.$error.minlength" class="help-block">您输入的密码不足六位</p>
+                <p ng-show="userForm.passwordConfirm.$error.maxlength" class="help-block">您输入的密码超过十六位</p>
+              </div>
+              <div class="col-xs-4"><label class="text-info mt4">密码长度8-16位</label></div>
+            </div>
+          </div>
+<!--      <div class="modal-body">
+        <form name="userVM.form" ng-submit="userVM.submit()" novalidate="novalidate"
+              class="form-horizontal">
+          <div class="form-group">
+            <div class="input-group input-group-sm col-xs-12">
+              &lt;!&ndash;<span class="input-group-addon glyphicon glyphicon-user"></span>&ndash;&gt;
+              <div class="col-xs-2"><label class="text-info mt4">用户名:</label></div>
+              <div class="col-xs-6"><input type="text" class="form-control" name="userName"
+                                           ng-model="userVM.user.username"
+                                           ng-disabled="userVM.isUserEdit" placeholder="用户名" ng-required="required"
+                                           ng-minlength=4 ng-maxlength=16/>
+                <div ng-messages="userVM.form.userName.$error" ng-if="userVM.form.userName.$dirty" class="color-red">
+                  <div ng-messages="required">用户名不能为空</div>
+                  <div ng-messages="minlength">用户名最少4位</div>
+                  <div ng-messages="maxlength">用户名最长16位</div>
+                </div>
               </div>
               <div class="col-xs-4">
                 <button class="text-info mt4">检查用户名是否可用</button>
               </div>
             </div>
           </div>
-
-<!--          <div class="form-group" ng-class="{ 'has-error': userForm.password.$invalid && !userForm.password.$pristine }">
+          <div class="form-group"
+               ng-class="{ 'has-error': userForm.password.$invalid && !userForm.password.$pristine }">
             <div class="input-group input-group-sm col-xs-12 mt10">
               <div class="col-xs-2"><label class="text-info mt4">密码:</label></div>
-              <div class="col-xs-6"><input type="password" name="password" class="form-control" ng-model="userVM.user.password"
+              <div class="col-xs-6"><input type="password" name="password" class="form-control"
+                                           ng-model="userVM.user.password"
                                            placeholder="密码" ng-minlength=6 ng-maxlength=16/>
                 <p ng-show="userForm.password.$error.minlength" class="help-block">您输入的密码不足六位</p>
                 <p ng-show="userForm.password.$error.maxlength" class="help-block">您输入的密码超过十六位</p>
@@ -181,174 +258,175 @@
               <div class="col-xs-4"><label class="text-info mt4">密码长度6-16位</label></div>
             </div>
           </div>
-          <div class="form-group" ng-class="{ 'has-error': userForm.passwordConfirm.$invalid && !userForm.passwordConfirm.$pristine }">
+          <div class="form-group"
+               ng-class="{ 'has-error': userForm.passwordConfirm.$invalid && !userForm.passwordConfirm.$pristine }">
             <div class="input-group input-group-sm col-xs-12 mt10">
               <div class="col-xs-2"><label class="text-info mt4">确认密码:</label></div>
-              <div class="col-xs-6"><input type="password" name="passwordConfirm" class="form-control" ng-model="userVM.passwordConfirm"
+              <div class="col-xs-6"><input type="password" name="passwordConfirm" class="form-control"
+                                           ng-model="userVM.passwordConfirm"
                                            placeholder="再次输入密码" onmouseover="" ng-minlength=6 ng-maxlength=16/>
+
                 <p ng-show="userForm.password.$error.minlength" class="help-block">您输入的密码不足六位</p>
+
                 <p ng-show="userForm.password.$error.maxlength" class="help-block">您输入的密码超过十六位</p>
               </div>
               <div class="col-xs-4"><label class="text-info mt4">密码长度8-16位</label></div>
             </div>
           </div>-->
 
-          <div class="form-group">
+          <div class="form-group" ng-class="{ 'has-error': userForm.nichen.$invalid && !userForm.nichen.$pristine }">
             <div class="input-group input-group-sm col-xs-12 mt10">
-              <div class="col-xs-2"><label class="text-info mt4">密码:</label></div>
-              <div class="col-xs-6"><input type="password" name="password" class="form-control" ng-model="userVM.user.password"
-                                           placeholder="密码"/>
+              <div class="col-xs-2"><label class="text-info mt4">昵称:</label></div>
+              <div class="col-xs-6"><input type="text" name="nichen" class="form-control" ng-model="userVM.user.displayName"
+                                           placeholder="昵称" ng-minlength="4" ng-maxlength="16"/>
+                <p ng-show="userForm.nichen.$error.minlength" class="help-block">您输入的用户名不足四位</p>
+                <p ng-show="userForm.nichen.$error.maxlength" class="help-block">您输入的用户名超过了十六位</p>
               </div>
-              <div class="col-xs-4"><label class="text-info mt4">密码长度6-16位</label></div>
+              <div class="col-xs-4"><label class="text-info mt4">支持中英文字符和数字</label></div>
             </div>
           </div>
+
           <div class="form-group">
-            <div class="input-group input-group-sm col-xs-12 mt10">
-              <div class="col-xs-2"><label class="text-info mt4">确认密码:</label></div>
-              <div class="col-xs-6"><input type="password" name="passwordConfirm" class="form-control" ng-model="userVM.passwordConfirm"
-                                           placeholder="再次输入密码">
+            <div class="input-group col-xs-12 mt10">
+              <div class="col-xs-2"><label class="text-info mt4">角色:</label></div>
+              <div class="col-xs-6 selectContainer">
+                <select name="role" class="form-control" ng-model="userVM.user.role">
+                  <!--<option value=""></option>-->
+                  <option value="Admin">管理员</option>
+                  <option value="Editor">编辑者</option>
+                  <option value="Reader">读者</option>
+                </select>
               </div>
-              <div class="col-xs-4"><label class="text-info mt4">密码长度8-16位</label></div>
+              <div class="col-xs-4"><label class="control-label text-info mt4">选择用户角色</label></div>
             </div>
           </div>
 
-          <div class="input-group input-group-sm col-xs-12 mt10">
-            <div class="col-xs-2"><label class="text-info mt4">昵称:</label></div>
-            <div class="col-xs-6"><input type="text" class="form-control" ng-model="userVM.user.displayName"
-                                         placeholder="昵称"/></div>
-            <div class="col-xs-4"><label class="text-info mt4">支持中英文字符和数字</label></div>
-          </div>
+          <div class="form-group">
+            <!--add assign dictionary edit authority-->
+            <div class="input-group col-xs-12 mt10" ng-hide="userVM.checkRole">
+              <div class="col-xs-2"><label class="text-info mt4">词典类:</label></div>
+              <div class="col-xs-6">
+                <div class="pull-left mr20">
+                  <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">词典类<span
+                    class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><input type="radio" id="IDf" name="NAME" value="VALUE"
+                               ng-click="userVM.selectFanList()"><label
+                      for="IDf">&nbsp;梵</label></li>
+                    <li><input type="radio" id="IDb" name="NAME" value="VALUE"
+                               ng-click="userVM.selectBaList()"><label
+                      for="IDb">&nbsp;巴</label></li>
+                    <li><input type="radio" id="IDz" name="NAME" value="VALUE"
+                               ng-click="userVM.selectZangList()"><label
+                      for="IDz">&nbsp;藏</label></li>
+                    <li><input type="radio" id="IDh" name="NAME" value="VALUE"
+                               ng-click="userVM.selectHanList()"><label
+                      for="IDh">&nbsp;汉</label></li>
+                  </ul>
+                </div>
+                <div class="pull-left">
+                  <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" data-placeholder="false">
+                    词典名<span ng-model="userVM.dictionary.dictionaryList" class="caret"></span>
+                  </button>
 
-          <div class="input-group col-xs-12 mt10">
-            <div class="col-xs-2"><label class="text-info mt4">角色:</label></div>
-            <div class="col-xs-6 selectContainer">
-              <select name="role" class="form-control" ng-model="userVM.user.role" required="true">
-                <option value=""></option>
-                <option value="Admin">管理员</option>
-                <option value="Editor">编辑者</option>
-                <option value="Reader">读者</option>
-              </select>
-            </div>
-            <label class="col-xs-4 control-label text-info mt4">选择用户角色</label>
-          </div>
-
-          <!--add assign dictionary edit authority-->
-          <div class="input-group col-xs-12 mt10" ng-hide="userVM.checkRole">
-            <div class="col-xs-2"><label class="text-info mt4">词典类:</label></div>
-            <div class="col-xs-6">
-              <div class="pull-left mr20">
-                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">词典类<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><input type="radio" id="IDf" name="NAME" value="VALUE" ng-click="userVM.selectFanList()"><label
-                    for="IDf">&nbsp;梵</label></li>
-                  <li><input type="radio" id="IDb" name="NAME" value="VALUE" ng-click="userVM.selectBaList()"><label
-                    for="IDb">&nbsp;巴</label></li>
-                  <li><input type="radio" id="IDz" name="NAME" value="VALUE" ng-click="userVM.selectZangList()"><label
-                    for="IDz">&nbsp;藏</label></li>
-                  <li><input type="radio" id="IDh" name="NAME" value="VALUE" ng-click="userVM.selectHanList()"><label
-                    for="IDh">&nbsp;汉</label></li>
-                </ul>
-              </div>
-              <div class="pull-left">
-                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" data-placeholder="false">
-                  词典名<span ng-model="userVM.dictionary.dictionaryList" class="caret"></span>
-                </button>
-
-                <ul class="dropdown-menu">
-                  <li ng-repeat="dictionary in userVM.dictionary.dictionaryList">
-                    <input type="checkbox" id="IDD_{{dictionary.id}}" ng-click="userVM.selectDic($event,dictionary)">
-                    <label for="IDD_{{dictionary.id}}">{{dictionary.displayName}}</label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="input-group col-xs-12 mt10" ng-hide="userVM.checkRole">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-5 panel panel-default ml15">
-              <div class="panel-body">
-                <div ng-repeat="dic in userVM.allowedDictionariesInPanel">
-                  {{dic.displayName}}
+                  <ul class="dropdown-menu">
+                    <li ng-repeat="dictionary in userVM.dictionary.dictionaryList">
+                      <input type="checkbox" id="IDD_{{dictionary.id}}"
+                             ng-click="userVM.selectDic($event,dictionary)">
+                      <label for="IDD_{{dictionary.id}}">{{dictionary.displayName}}</label>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
 
+          <div class="form-group">
+            <div class="input-group col-xs-12 mt10" ng-hide="userVM.checkRole">
+              <div class="col-xs-2"></div>
+              <div class="col-xs-5 panel panel-default ml15">
+                <div class="panel-body">
+                  <div ng-repeat="dic in userVM.allowedDictionariesInPanel">
+                    {{dic.displayName}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!--<div class="btn-group">
-            <button class="btn btn-primary" data-label-placement>词典</button>
-            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
-            <ul class="dropdown-menu">
-              &lt;!&ndash;<li><input type="checkbox" id="ID" name="NAME" value="VALUE"><label for="ID">Label</label></li>&ndash;&gt;
+          <button class="btn btn-primary" data-label-placement>词典</button>
+          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            &lt;!&ndash;<li><input type="checkbox" id="ID" name="NAME" value="VALUE"><label for="ID">Label</label></li>&ndash;&gt;
 
-              <li ><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Fan()"/>
-                &nbsp;梵
-                <ul class="dropdown-submenu">
-                  <div ng-repeat="dictionary in fan_dictionaryList">
-                    <li ng-click="createVM.setDictionary(dictionary)">
-                      <input type="checkbox" id="'ID1_'+{{dictionary.id}}"/>
-                      <label for="'ID1_'+{{dictionary.id}}">&nbsp;{{dictionary.displayName}}</label>
-                    </li>
-                  </div>
-                </ul>
-              </li>
+            <li ><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Fan()"/>
+              &nbsp;梵
+              <ul class="dropdown-submenu">
+                <div ng-repeat="dictionary in fan_dictionaryList">
+                  <li ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="'ID1_'+{{dictionary.id}}"/>
+                    <label for="'ID1_'+{{dictionary.id}}">&nbsp;{{dictionary.displayName}}</label>
+                  </li>
+                </div>
+              </ul>
+            </li>
 
-              <li role="presentation" class="divider" style="margin-top: 0"></li>
+            <li role="presentation" class="divider" style="margin-top: 0"></li>
 
-              <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Ba()"/>
-                &nbsp;巴
-                <ul class="dropdown-submenu">
-                  <div class="dropdown-submenu" ng-repeat="dictionary in ba_dictionaryList">
-                    <li ng-click="createVM.setDictionary(dictionary)">
-                      <input type="checkbox" id="ID2"/>
-                      <label for="ID2">&nbsp;{{dictionary.displayName}}</label>
-                    </li>
-                  </div>
-                </ul>
-              </li>
+            <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Ba()"/>
+              &nbsp;巴
+              <ul class="dropdown-submenu">
+                <div class="dropdown-submenu" ng-repeat="dictionary in ba_dictionaryList">
+                  <li ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="ID2"/>
+                    <label for="ID2">&nbsp;{{dictionary.displayName}}</label>
+                  </li>
+                </div>
+              </ul>
+            </li>
 
-              <li role="presentation" class="divider" style="margin-top: 0"></li>
+            <li role="presentation" class="divider" style="margin-top: 0"></li>
 
-              <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Zang()"/>
-                &nbsp;藏
-                <ul class="dropdown-submenu">
-  &lt;!&ndash;                <div class="dropdown-submenu" ng-repeat="dictionary in zang_dictionaryList">
-                    <a ng-click="createVM.setDictionary(dictionary)">
-                      <input type="checkbox" id="ID3"/>
-                      <label for="ID3">&nbsp;{{dictionary.displayName}}</label>
-                    </a>
-                  </div>&ndash;&gt;
-                  <li><input type="checkbox" id="ID3"/><label for="ID3">&nbsp;label1</label></li>
-                  <li><input type="checkbox" id="ID6"/><label for="ID6">&nbsp;label6</label></li>
-                  <li><input type="checkbox" id="ID7"/><label for="ID7">&nbsp;label7</label></li>
-                </ul>
-              </li>
+            <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Zang()"/>
+              &nbsp;藏
+              <ul class="dropdown-submenu">
+&lt;!&ndash;                <div class="dropdown-submenu" ng-repeat="dictionary in zang_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="ID3"/>
+                    <label for="ID3">&nbsp;{{dictionary.displayName}}</label>
+                  </a>
+                </div>&ndash;&gt;
+                <li><input type="checkbox" id="ID3"/><label for="ID3">&nbsp;label1</label></li>
+                <li><input type="checkbox" id="ID6"/><label for="ID6">&nbsp;label6</label></li>
+                <li><input type="checkbox" id="ID7"/><label for="ID7">&nbsp;label7</label></li>
+              </ul>
+            </li>
 
-              <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Han()"/>
-                &nbsp;汉
-                <ul class="dropdown-submenu">
-                  <div class="dropdown-submenu" ng-repeat="dictionary in han_dictionaryList">
-                    <a ng-click="createVM.setDictionary(dictionary)">
-                      <input type="checkbox" id="ID4"/>
-                      <label for="ID4">&nbsp;{{dictionary.displayName}}</label>
-                    </a>
-                  </div>
-                </ul>
-              </li>
+            <li><input type="checkbox" ng-model="userVM.checkAllValue" ng-click="userVM.checkAll_Han()"/>
+              &nbsp;汉
+              <ul class="dropdown-submenu">
+                <div class="dropdown-submenu" ng-repeat="dictionary in han_dictionaryList">
+                  <a ng-click="createVM.setDictionary(dictionary)">
+                    <input type="checkbox" id="ID4"/>
+                    <label for="ID4">&nbsp;{{dictionary.displayName}}</label>
+                  </a>
+                </div>
+              </ul>
+            </li>
 
-              &lt;!&ndash; Other items &ndash;&gt;
-            </ul>
-          </div>-->
+            &lt;!&ndash; Other items &ndash;&gt;
+          </ul>
+        </div>-->
         </form>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" ng-click="userVM.commitUser()" ng-hide="userVM.isUserEdit">提交
+        <button type="submit" class="btn btn-primary" ng-click="userVM.commitUser()" ng-hide="userVM.isUserEdit">提交
         </button>
-        <button type="button" class="btn btn-primary" ng-click="userVM.saveUser()" ng-hide="!userVM.isUserEdit">保存
+        <button type="submit" class="btn btn-primary" ng-click="userVM.saveUser()" ng-hide="!userVM.isUserEdit">保存
         </button>
       </div>
     </div>

@@ -8,10 +8,11 @@
 (function () {
   'use strict';
   angular.module('fanYuFrontendApp')
+
     .controller('UsersCtrl', function ($scope, $rootScope, toastr, UserService) {
       var vm = this;
       //vm.name = "用户名";
-      vm.userName = "";
+      vm.userName = '';
       vm.roles = ["Admin", "Editor", "Reader"];
 
       vm.user = {};
@@ -19,6 +20,7 @@
       vm.user.username = '';
       vm.user.password = '';
       vm.passwordConfirm = '';
+      vm.oldPassword = '';
       vm.user.displayName = '';
       vm.user.role = '';
       vm.user.allowedDictionaries = [];
@@ -59,6 +61,14 @@
 
       vm.updateUserFromHeader = updateUserFromHeader;
 
+      /*$scope.submitted = false;
+      $scope.submitForm = function() {
+        if ($scope.userForm.$valid) {
+          // Submit as normal
+        } else {
+          $scope.userForm.submitted = true;
+        }
+      }*/
       getUserList();
 
       $scope.$watch('userVM.user.role', function(){
@@ -175,6 +185,8 @@
       function add() {
         vm.isUserEdit = false;
         vm.user = {};
+        vm.passwordConfirm = '';
+        vm.allowedDictionariesInPanel = [];
       }
 
       function editUser(user) {
@@ -205,14 +217,34 @@
       }
 
       function commitUser() {
-        pushUserAllowedDictionaries();
+        if (vm.user.username == null || vm.user.username == '') {
+          alert('用户名不能为空');
+          form.userName.focus();
+        } else if (vm.user.password == null || vm.user.password == '') {
+          alert('密码不能为空');
+        } else if (vm.passwordConfirm == null || vm.passwordConfirm == '') {
+          alert('确认密码不能为空');
+        } else if (vm.user.displayName == null || vm.user.displayName == '') {
+          alert('昵称不能为空');
+        } else if (vm.user.role == null || vm.user.role == '') {
+          alert('必须选择用户角色');
+        } else {
+          UserService.searchUser(vm.user.username).then(function (data) {
+            if (data != '') {
+              alert('该用户名已经注册，请重新输入');
+            } else {
+              pushUserAllowedDictionaries();
 
-        UserService.createUser(vm.user).then(function (data) {
-            console.log(data);
-            $('#addUserModal').modal('hide');
-            refreshUserList();
-          }
-        );
+              UserService.createUser(vm.user).then(function (data) {
+                  console.log(data);
+                  $('#addUserModal').modal('hide');
+                  refreshUserList();
+                }
+              );
+            }
+          });
+
+        }
       }
 
       function pushUserAllowedDictionaries() {
@@ -251,36 +283,78 @@
         }
       }
 
-      function saveUser() {
-        pushUserAllowedDictionaries();
-
-        UserService.updateUser(vm.user).then(function (data) {
-            console.log(data);
-            $('#addUserModal').modal('hide');
-            refreshUserList();
-          }
-        );
-        refreshUserList();
-      }
-
       function updateUserFromHeader() {
         vm.user = $rootScope.currentUser;
-        UserService.updateUser(vm.user).then(function (data) {
-            console.log(data);
-            $('#updateCurrentUser').modal('hide');
-            //location.reload();
-            $.cookie("currentUser",JSON.stringify(data));
+        UserService.checkPassword(vm.user.username, vm.oldPassword).then(function (response) {
+          var data = response.data;
+          console.log('status+++++++++++++++++'+ data);
+
+          //check all the element in this 回调 function, 因为此回调函数始终在 alert密码不正确 后点击ok 再执行，那么在check密码时不对。因此在回调函数里check 所有element....
+          if (vm.oldPassword == null || vm.oldPassword == '') {
+            alert('旧密码不能为空');
+          } else if (data == 'error') {
+            alert('您输入的密码不正確');
+          } else if (vm.user.password == null || vm.user.password == '') {
+            alert('密码不能为空');
+          } else if (vm.passwordConfirm == null || vm.passwordConfirm == '') {
+            alert('确认密码不能为空');
+          } else {
+            UserService.updateUser(vm.user).then(function (data) {
+                console.log(data);
+                $('#updateCurrentUser').modal('hide');
+                //location.reload();
+                $.cookie("currentUser",JSON.stringify(data));
+              }
+            );
+            vm.oldPassword = '';
+            vm.passwordConfirm = '';
           }
-        );
+        });
+      }
+
+      function saveUser() {
+
+        if (vm.user.password == null || vm.user.password == '') {
+          alert('密码不能为空');
+        } else if (vm.passwordConfirm == null || vm.passwordConfirm == '') {
+          alert('确认密码不能为空');
+        } else if (vm.user.displayName == null || vm.user.displayName == '') {
+          alert('昵称不能为空');
+        } else if (vm.user.role == null || vm.user.role == '') {
+          alert('必须选择用户角色');
+/*        } else if (!vm.checkRole) {
+          if (vm.allowedDictionariesInPanel == null || vm.allowedDictionariesInPanel == []) {
+            alert('必须为用户分配可编辑词典');
+          }*/
+        } else {
+
+          pushUserAllowedDictionaries();
+
+          UserService.updateUser(vm.user).then(function (data) {
+              console.log(data);
+              $('#addUserModal').modal('hide');
+              refreshUserList();
+            }
+          );
+          //refreshUserList();
+        }
 
       }
 
       function searchUser() {
-        UserService.searchUser(vm.userName).then(function (data) {
-            vm.userList = data;
-            console.log(data);
-          }
-        );
+        if (vm.userName == null || vm.userName == '') {
+          getUserList();
+        } else {
+          UserService.searchUser(vm.userName).then(function (data) {
+              if (data != 'error') {
+                vm.userList = data;
+              } else {
+                vm.userList = {};
+              }
+              console.log(data);
+            }
+          );
+        }
       }
 
       function checkUser() {
@@ -288,12 +362,13 @@
           if (data != '') {
             console.log(vm.user.username);
             toastr.error('该用户名已经注册，请重新输入');
+            //alert('该用户名已经注册，请重新输入');
+          } else {
+            toastr.info('该用户名可用');
           }
-/*          else {
-            toastr.success('该用户名可用');
-          }*/
         });
       }
+
 
     });
 })();

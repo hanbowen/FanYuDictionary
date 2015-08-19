@@ -67,7 +67,7 @@
 
         function editUser(){
             $rootScope.currentUser.password = '';
-            $.removeCookie("currentUser");
+            //$.removeCookie("currentUser");
         }
 
         function initUserDicSequence(){

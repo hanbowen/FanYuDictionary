@@ -81,8 +81,5 @@
         vm.dictionary = {};
         vm.dictionary.dicGroup = dicGroup;
       }
-
-
-
     });
 })();
