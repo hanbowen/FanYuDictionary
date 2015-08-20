@@ -359,7 +359,7 @@
 
       function checkUser() {
         UserService.searchUser(vm.user.username).then(function (data) {
-          if (data != '') {
+          if (data != 'error') {
             console.log(vm.user.username);
             toastr.error('该用户名已经注册，请重新输入');
             //alert('该用户名已经注册，请重新输入');
