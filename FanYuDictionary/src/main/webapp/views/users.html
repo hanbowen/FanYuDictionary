@@ -170,7 +170,8 @@
                 <p ng-show="userForm.userName.$invalid && !userForm.userName.$pristine" class="help-block">用户名必须输入</p>
               </div>
               <div class="col-xs-4">
-                <button class="text-info mt4" ng-click="userVM.checkUser()">检查用户名是否可用</button>
+                <label class="text-info mt4" ng-hide="!userVM.isUserEdit">用户名不可修改</label>
+                <button class="text-info mt4" ng-hide="userVM.isUserEdit" ng-click="userVM.checkUser()">检查用户名是否可用</button>
               </div>
             </div>
           </div>

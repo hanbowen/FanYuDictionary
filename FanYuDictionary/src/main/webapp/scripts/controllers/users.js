@@ -58,8 +58,7 @@
       vm.searchUser = searchUser;
       vm.checkUser = checkUser;
       vm.pushUserAllowedDictionaries = pushUserAllowedDictionaries;
-
-      vm.updateUserFromHeader = updateUserFromHeader;
+      //vm.updateUserFromHeader = updateUserFromHeader;
 
       /*$scope.submitted = false;
       $scope.submitForm = function() {
@@ -283,7 +282,7 @@
         }
       }
 
-      function updateUserFromHeader() {
+      /*function updateUserFromHeader() {
         vm.user = $rootScope.currentUser;
         UserService.checkPassword(vm.user.username, vm.oldPassword).then(function (response) {
           var data = response.data;
@@ -310,7 +309,7 @@
             vm.passwordConfirm = '';
           }
         });
-      }
+      }*/
 
       function saveUser() {
 
@@ -358,15 +357,19 @@
       }
 
       function checkUser() {
-        UserService.searchUser(vm.user.username).then(function (data) {
-          if (data != 'error') {
-            console.log(vm.user.username);
-            toastr.error('该用户名已经注册，请重新输入');
-            //alert('该用户名已经注册，请重新输入');
-          } else {
-            toastr.info('该用户名可用');
-          }
-        });
+        if (vm.user.username == null || vm.user.username == '') {
+          toastr.error('请输入用户名');
+        } else {
+          UserService.searchUser(vm.user.username).then(function (data) {
+            if (data != 'error') {
+              console.log(vm.user.username);
+              toastr.error('该用户名已经注册，请重新输入');
+              //alert('该用户名已经注册，请重新输入');
+            } else {
+              toastr.info('该用户名可用');
+            }
+          });
+        }
       }
 
 

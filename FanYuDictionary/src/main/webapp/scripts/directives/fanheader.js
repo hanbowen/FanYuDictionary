@@ -51,6 +51,36 @@
                         updateUserDicSequence();
                     }
                 };
+
+                scope.updateUserFromHeader = function () {
+                    //vm.user = $rootScope.currentUser;
+                    UserService.checkPassword($rootScope.currentUser.username, scope.oldPassword).then(function (response) {
+                      var data = response.data;
+                      console.log('status+++++++++++++++++'+ data);
+
+                      //check all the element in this 回调 function, 因为此回调函数始终在 alert密码不正确 后点击ok 再执行，那么在check密码时不对。因此在回调函数里check 所有element....
+                      if (scope.oldPassword == null || scope.oldPassword == '') {
+                        alert('旧密码不能为空');
+                      } else if (data == 'error') {
+                        alert('您输入的密码不正確');
+                      } else if ($rootScope.currentUser.password == null || $rootScope.currentUser.password == '') {
+                        alert('密码不能为空');
+                      } else if (scope.passwordConfirm == null || scope.passwordConfirm == '') {
+                        alert('确认密码不能为空');
+                      } else {
+                        UserService.updateUser($rootScope.currentUser).then(function (data) {
+                            console.log(data);
+                            $('#updateCurrentUser').modal('hide');
+                            //location.reload();
+                            $.cookie("currentUser",JSON.stringify(data));
+                          }
+                        );
+                        scope.oldPassword = '';
+                        scope.passwordConfirm = '';
+                      }
+                    });
+                };
+
                 DictionaryService.getDictionaryList().then(function(){
                     initUserDicSequence();
                     initUserDicCheckList();
