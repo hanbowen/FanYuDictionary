@@ -41,6 +41,17 @@
             status: '',
             author: ''
         };
+
+        /**** start add by cy 0831 ******/
+        vm.wordId = '';
+        vm.isDeleteAll = false;
+        vm.isPublishAll = false;
+        vm.deleteWordConfirm = deleteWordConfirm;
+        vm.deleteAllConfirm = deleteAllConfirm;
+        vm.publishWordConfirm = publishWordConfirm;
+        vm.publishAllConfirm = publishAllConfirm;
+        /**** end add by cy 0831 ******/
+
         refreshNewWordList();
         $scope.$on('updateWordSuccess', updateWordSuccess);
 
@@ -58,20 +69,37 @@
             });
         }
 
-        function deleteWord(wordId) {
-            WordService.deleteWord(wordId).then(function (data) {
+        /**** start add or edit by cy 0831 ******/
+        function deleteWordConfirm(wordId) {
+          vm.wordId = wordId;
+          vm.isDeleteAll = false;
+        }
+
+        function deleteWord() {
+            WordService.deleteWord(vm.wordId).then(function (data) {
                 if (data === 'success') {
+                    $('#deleteNewWordConfirmModal').modal('hide');
                     refreshNewWordList();
                 }
             });
         }
 
+        function publishWordConfirm(wordId) {
+          vm.wordId = wordId;
+          vm.isPublishAll = false;
+        }
+
         function publishWord(wordId) {
-            WordService.publishWord(wordId).then(function (data) {
+            WordService.publishWord(vm.wordId).then(function (data) {
                 if (data === 'success') {
+                    $('#pubulishNewWordConfirmModal').modal('hide');
                     refreshNewWordList();
                 }
             });
+        }
+
+        function publishAllConfirm() {
+          vm.isPublishAll = true;
         }
 
         function publishAll() {
@@ -83,9 +111,14 @@
             }
             WordService.publishAll(publishList).then(function (data) {
                 if (data === 'success') {
+                    $('#pubulishNewWordConfirmModal').modal('hide');
                     refreshNewWordList();
                 }
             });
+        }
+
+        function deleteAllConfirm() {
+          vm.isDeleteAll = true;
         }
 
         function deleteAll() {
@@ -97,10 +130,12 @@
             }
             WordService.deleteAll(deleteList).then(function (data) {
                 if (data === 'success') {
+                    $('#deleteNewWordConfirmModal').modal('hide');
                     refreshNewWordList();
                 }
             });
         }
+        /**** end add or edit by cy 0831 ******/
 
         function nextPage() {
             if (vm.page < vm.pageCount) {

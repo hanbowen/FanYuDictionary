@@ -229,7 +229,7 @@
           alert('必须选择用户角色');
         } else {
           UserService.searchUser(vm.user.username).then(function (data) {
-            if (data != '') {
+            if (data != 'error') {
               alert('该用户名已经注册，请重新输入');
             } else {
               pushUserAllowedDictionaries();

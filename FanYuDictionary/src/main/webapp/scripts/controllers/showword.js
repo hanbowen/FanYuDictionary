@@ -15,6 +15,16 @@
             vm.deleteWord = deleteWord;
             vm.publishWord = publishWord;
 
+            /**** start add by cy 0826 ******/
+            vm.wordId = '';
+            /*vm.isDeleteAll = false;
+            vm.isPublishAll = false;*/
+            vm.deleteWordConfirm = deleteWordConfirm;
+            //vm.deleteAllConfirm = deleteAllConfirm;
+            vm.publishWordConfirm = publishWordConfirm;
+            //vm.publishAllConfirm = publishAllConfirm;
+            /**** end add by cy 0826 ******/
+
             getWordDetail();
 
             //通过事件订阅，当更新词条成功，则关闭编辑模式。
@@ -27,21 +37,36 @@
                 });
             }
 
+            /**** start add or edit by cy 0830 ******/
+            function deleteWordConfirm(wordId) {
+                console.log('delete -----------');
+                vm.wordId = wordId;
+                //vm.isDeleteAll = false;
+            }
+
             function deleteWord(wordId){
-                WordService.deleteWord(wordId).then(function(data){
+                WordService.deleteWord(vm.wordId).then(function(data){
                     if (data === 'success') {
+                        $('#deleteWordConfirmModal').modal('hide');
                         getWordDetail(vm.word);
                     }
                 });
             }
 
+            function publishWordConfirm(wordId) {
+              vm.wordId = wordId;
+              //vm.isPublishAll = false;
+            }
+
             function publishWord(wordId){
-                WordService.publishWord(wordId).then(function(data){
+                WordService.publishWord(vm.wordId).then(function(data){
                     if (data === 'success') {
+                        $('#pubulishWordConfirmModal').modal('hide');
                         getWordDetail(vm.word);
                     }
                 });
             }
+            /**** end add or edit by cy 0830 ******/
 
             //更新词条成功，关闭编辑模式
             function updateWordSuccess(d,wordId){

@@ -32,6 +32,15 @@
         vm.selectAll = selectAll;
         vm.selectAllFalg = false;
 
+        /**** start add by cy 0826 ******/
+        vm.wordId = '';
+        vm.isDeleteAll = false;
+        vm.isPublishAll = false;
+        vm.deleteWordConfirm = deleteWordConfirm;
+        vm.deleteAllConfirm = deleteAllConfirm;
+        vm.publishWordConfirm = publishWordConfirm;
+        vm.publishAllConfirm = publishAllConfirm;
+        /**** end add by cy 0826 ******/
 
         refreshMyWordList();
         $scope.$on('updateWordSuccess', updateWordSuccess);
@@ -45,49 +54,73 @@
             });
         }
 
-        function deleteWord(wordId) {
-            WordService.deleteWord(wordId).then(function (data) {
+        /**** start add or edit by cy 0826 ******/
+        function deleteWordConfirm(wordId) {
+            vm.wordId = wordId;
+            vm.isDeleteAll = false;
+        }
+
+        function deleteWord() {
+            WordService.deleteWord(vm.wordId).then(function (data) {
                 if (data === 'success') {
-                    refreshMyWordList();
+                    $('#deleteMyWordConfirmModal').modal('hide');
                 }
+                refreshMyWordList();
             });
         }
 
-        function publishWord(wordId) {
-            WordService.publishWord(wordId).then(function (data) {
-                if (data === 'success') {
-                    refreshMyWordList();
-                }
-            });
-        }
-
-        function publishAll() {
-            var publishList = [];
-            for (var i in vm.newWordList) {
-                if (vm.newWordList[i].checked) {
-                    publishList.push(vm.newWordList[i].id);
-                }
-            }
-            WordService.publishAll(publishList).then(function (data) {
-                if (data === 'success') {
-                    refreshNewWordList();
-                }
-            });
+        function deleteAllConfirm() {
+            vm.isDeleteAll = true;
         }
 
         function deleteAll(){
-            var deleteList = [];
-            for (var i in vm.newWordList) {
-                if (vm.newWordList[i].checked) {
-                    deleteList.push(vm.newWordList[i].id);
-                }
+          var deleteList = [];
+          for (var i in vm.newWordList) {
+            if (vm.newWordList[i].checked) {
+              deleteList.push(vm.newWordList[i].id);
             }
-            WordService.deleteAll(deleteList).then(function (data) {
-                if (data === 'success') {
-                    refreshNewWordList();
-                }
-            });
+          }
+          WordService.deleteAll(deleteList).then(function (data) {
+            if (data === 'success') {
+                $('#deleteMyWordConfirmModal').modal('hide');
+                refreshNewWordList();
+            }
+          });
         }
+
+        function publishWordConfirm(wordId) {
+            vm.wordId = wordId;
+            vm.isPublishAll = false;
+        }
+
+        function publishWord() {
+          WordService.publishWord(vm.wordId).then(function (data) {
+            if (data === 'success') {
+                $('#pubulishMyWordConfirmModal').modal('hide');
+                refreshMyWordList();
+            }
+          });
+        }
+
+        function publishAllConfirm() {
+            vm.isPublishAll = true;
+        }
+
+        function publishAll() {
+          var publishList = [];
+          for (var i in vm.newWordList) {
+            if (vm.newWordList[i].checked) {
+              publishList.push(vm.newWordList[i].id);
+            }
+          }
+          WordService.publishAll(publishList).then(function (data) {
+            if (data === 'success') {
+              $('#pubulishMyWordConfirmModal').modal('hide');
+              refreshNewWordList();
+            }
+          });
+        }
+        /**** end add or edit by cy 0826 ******/
 
         function nextPage() {
             if (vm.page < vm.pageCount) {
