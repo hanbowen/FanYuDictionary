@@ -228,7 +228,11 @@ public abstract class BaseService<T> {
 		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
 		String str = sb.toString();
 		map.put("_class", "entity." + str );
-		mongoTemplate.getCollection(getCollectionName()).update(new BasicDBObject("_id",new ObjectId(id)), new BasicDBObject(map));
+		if (id.contains("-")) {
+			mongoTemplate.getCollection(getCollectionName()).update(new BasicDBObject("id",id), new BasicDBObject(map));
+		}else{
+			mongoTemplate.getCollection(getCollectionName()).update(new BasicDBObject("_id",new ObjectId(id)), new BasicDBObject(map));
+		}
 	}
 	
 	/**

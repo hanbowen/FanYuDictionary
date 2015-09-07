@@ -135,8 +135,8 @@ public class WordResource {
 		Date date = new Date();
 		String id = UUID.randomUUID().toString();
 		word.setId(id);
-		word.setCreateDateTime(date.getTime());;
-		word.setLastEditDateTime(date.getTime());;;
+		word.setCreateDateTime(date.getTime());
+		word.setLastEditDateTime(date.getTime());
 		word.setStatus("created");
 		wordService.save(word);
 		LOGGER.info("成功保存词条信息");
