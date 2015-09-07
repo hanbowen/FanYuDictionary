@@ -111,6 +111,9 @@ function createWord() {
                 name: vm.newDuiyingciName,
                 value: vm.newDuiyingciValue
             }
+            if (vm.word.duiyingciList === undefined) {
+                vm.word.duiyingciList = [];
+            }
             for (var i in vm.word.duiyingciList) {
                 if (newDuiyingci.name == vm.word.duiyingciList[i].name) {
                     vm.word.duiyingciList[i] = newDuiyingci;

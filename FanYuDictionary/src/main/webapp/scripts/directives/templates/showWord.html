@@ -1,5 +1,5 @@
 <div ng-hide="vm.word.isEdit">
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.xici == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.xici == '' || vm.word.xici == undefined">
         <label class="text-info">【析词】</label>
 
         <div class="col-xs-12">
@@ -8,7 +8,7 @@
         <div class="clearfix"></div>
     </div>
 
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.duiyingciList == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.duiyingciList == '' || vm.word.duiyingciList == undefined">
         <label class="text-info">【对译词】</label>
 
         <div class="row mt10">
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.cigenlaiyuan == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.cigenlaiyuan == '' || vm.word.cigenlaiyuan == undefined">
         <label class="text-info">【词根来源】</label>
 
         <div class="col-xs-12">
@@ -32,7 +32,7 @@
         <div class="clearfix"></div>
     </div>
 
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.shiyi == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.shiyi == '' || vm.word.shiyi == undefined">
         <label class="text-info">【释义】</label>
 
         <div class="col-xs-12">
@@ -41,7 +41,7 @@
         <div class="clearfix"></div>
     </div>
 
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.guanlianciList == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.guanlianciList == '' || vm.word.guanlianciList == undefined">
         <label class="text-info">【关联词条】</label>
 
         <div class="col-xs-12">
@@ -52,7 +52,7 @@
         <div class="clearfix"></div>
     </div>
 
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.liju == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.liju == '' || vm.word.liju == undefined">
         <label class="text-info">【例句】</label>
 
         <div class="col-xs-12">
@@ -61,7 +61,7 @@
         <div class="clearfix"></div>
     </div>
 
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.bianxing == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.bianxing == '' || vm.word.bianxing == undefined">
         <div data-toggle="collapse" href="#showword_bianxing_{{vm.word.id}}">
             <label class="text-info">【变形】</label>
         </div>
@@ -72,7 +72,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.baike == ''">
+    <div class="form-group form-group-sm mt20" ng-hide="vm.word.template =='freeStyle' || vm.word.baike == '' || vm.word.baike == undefined">
         <label class="text-info">【百科与参考】</label>
 
         <div class="col-xs-12">
