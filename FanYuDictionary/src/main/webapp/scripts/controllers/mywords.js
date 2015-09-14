@@ -30,7 +30,16 @@
         vm.pageCount = 0;
 
         vm.selectAll = selectAll;
+        vm.sorting = sorting;
         vm.selectAllFalg = false;
+        vm.orderBy = 'date';
+        vm.orderSequence = 'desc';
+        vm.order = {
+          word: '',
+          date: 'desc',
+          status: '',
+          author: ''
+        };
 
         /**** start add by cy 0826 ******/
         vm.wordId = '';
@@ -157,5 +166,22 @@
             }
             vm.selectAllFalg = !vm.selectAllFalg;
         }
+
+        function sorting(orderBy) {
+          //如果当前排序与点击排序不同，则清除然后重新设置当前排序。
+          if (vm.orderBy != orderBy) {
+            vm.order[vm.orderBy] = '';
+            vm.orderBy = orderBy;
+          }
+
+          if (vm.order[orderBy] == '' || vm.order[orderBy] == 'desc') {
+            vm.order[orderBy] = 'asc';
+            vm.orderSequence = 'asc';
+          } else {
+            vm.order[orderBy] = 'desc';
+            vm.orderSequence = 'desc';
+          }
+        }
+
     }
 })();
