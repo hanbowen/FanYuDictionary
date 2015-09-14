@@ -35,5 +35,42 @@
                 }
                 return output;
             }
+        })
+        .filter('mapCode', function() {
+          return function(input){
+            var output = input;
+            switch (input) {
+              case 'mohu': output = "模糊"; break;
+              default: break;
+            }
+            return output;
+          }
+        })
+        .filter('mapMatch', function() {
+          return function(input){
+            var output = input;
+            switch (input) {
+              case 'shou': output = "首"; break;
+              case 'wei': output = "尾"; break;
+              case 'zhong': output = "中"; break;
+              case 'jingque': output = "精确"; break;
+              default: break;
+            }
+            return output;
+          }
+        })
+        .filter('mapDomain', function() {
+          return function(input){
+            var output = input;
+            switch (input) {
+              case 'danci': output = "单词"; break;
+              case 'duiyingci': output = "对应词"; break;
+              case 'bianxing': output = "变形"; break;
+              case 'liju': output = "例句"; break;
+              case 'quanwen': output = "全文"; break;
+              default: break;
+            }
+            return output;
+          }
         });
 })();

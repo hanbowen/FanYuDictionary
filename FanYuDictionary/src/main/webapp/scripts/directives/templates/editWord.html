@@ -188,6 +188,10 @@
             <div class="form-group mt30" ng-hide="createVM.word.cixing == '不变词'">
                 <div data-toggle="collapse" href="#bianxingEdit_{{createVM.word.id}}">
                     <label class="text-info">【变形】</label>
+                    <div class="btn" ng-click="createVM.changeIcon()">
+                      <span class="glyphicon glyphicon-triangle-bottom" ng-hide="createVM.isBottomIcon"></span>
+                      <span class="glyphicon glyphicon-triangle-top" ng-hide="!createVM.isBottomIcon"></span>
+                    </div>
                 </div>
                 <div id="bianxingEdit_{{createVM.word.id}}" class="panel-collapse collapse">
                     <div class="panel-body pl0 pr0 pt0">

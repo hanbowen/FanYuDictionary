@@ -13,7 +13,8 @@
                 </div>
                 <!-- /btn-group -->
             </div>
-            <div>{{dicVM.search.code}}/{{dicVM.search.match}}/{{dicVM.search.domain}}</div>
+            <!--<div>{{dicVM.search.code}}/{{dicVM.search.match}}/{{dicVM.search.domain}}</label></div>-->
+            <div>{{dicVM.search.code | mapCode}}/{{dicVM.search.match | mapMatch}}/{{dicVM.search.domain | mapDomain}}</label></div>
         </form>
         <!-- /input-group -->
         <div class="collapse" id="collapseSoftKeys">

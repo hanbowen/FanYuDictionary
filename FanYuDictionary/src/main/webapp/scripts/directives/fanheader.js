@@ -52,6 +52,10 @@
                     }
                 };
 
+                scope.changeIcon = function () {
+                    scope.isBottomIcon = !scope.isBottomIcon;
+                }
+
                 scope.updateUserFromHeader = function () {
                     //vm.user = $rootScope.currentUser;
                     UserService.checkPassword($rootScope.currentUser.username, scope.oldPassword).then(function (response) {

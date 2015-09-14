@@ -113,8 +113,8 @@
             vm.search.match = matchValue;
         }
 
-        function setSearchDomain(domianValue) {
-            vm.search.domain = domianValue;
+        function setSearchDomain(domainValue) {
+            vm.search.domain = domainValue;
         }
 
         function searchWord() {

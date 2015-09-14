@@ -27,6 +27,8 @@ function createWord() {
         vm.removeGuanlianci = removeGuanlianci;
         vm.removeDuiyingci = removeDuiyingci;
         vm.typeSpecialChar = typeSpecialChar;
+        vm.changeIcon = changeIcon;
+        vm.isBottomIcon = false;
 
         // 四类字典初始化；
         vm.fan_dictionaryList = [];
@@ -156,6 +158,10 @@ function createWord() {
 
         function setCiXing(cixing) {
             vm.word.cixing = cixing;
+        }
+
+        function changeIcon () {
+            vm.isBottomIcon = !vm.isBottomIcon;
         }
 
         function saveWord() {

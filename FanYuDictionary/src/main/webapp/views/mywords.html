@@ -15,8 +15,9 @@
     <div class="panel panel-default" ng-repeat="word in vm.myWordList | orderBy : '-lastEditDateTime'">
         <div class="panel-heading" role="tab">
             <div class="row">
-                <div class="panel-title col-xs-3" data-toggle="collapse" data-parent="#accordion"
-                     href="#collapse{{word.id}}" aria-expanded="true" style="cursor: pointer;">
+                <!--<div class="panel-title col-xs-3" data-toggle="collapse" data-parent="#accordion"
+                     href="#collapse{{word.id}}" aria-expanded="true" style="cursor: pointer;">-->
+                <div class="panel-title col-xs-3" aria-expanded="true">
                     <input type="checkbox" ng-init="word.checked=false" ng-model="word.checked"
                            ng-checked="word.checked" class="pull-left" style="margin: 6px;">
                     <span data-toggle="collapse" data-parent="#accordion"
