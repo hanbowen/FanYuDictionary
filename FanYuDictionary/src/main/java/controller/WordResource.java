@@ -22,6 +22,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
@@ -239,13 +241,13 @@ public class WordResource {
 	@Path("import/{dictionaryName}")
 	public Response inport(@PathParam("dictionaryName") String dictionaryName) {
 		if(dictionaryName == null || "".equals(dictionaryName)) {
-			return Response.status(404).entity("字典名称不允许为空").type("text/plain").build(); 
+			return Response.status(404).entity("DICTIONARY NAME CAN NOT BE EMPTY").type("text/plain").build(); 
 		}
 		
 		
 		Dictionary dictionary = dictionaryService.findByDisplayName(dictionaryName);
 		if( dictionary == null || "".equals(dictionary.getId()) ) {
-			return Response.status(404).entity("字典名称不存在,请核对字典名称后再导入").type("text/plain").build(); 
+			return Response.status(404).entity("THE DICTIONARY NAME OF " +dictionaryName+ " IS NOT IN THE DATABASE, PLEASE DOUBLE CHECK THE DICTIONARY NAME AND IMPORT LATER").type("text/plain").build(); 
 		}
 		
 		Map<String , Object> dicMap = new HashMap<String , Object>();
@@ -257,11 +259,16 @@ public class WordResource {
  		List<Word> jsonList = new ArrayList<Word>();
  		
  		Context context = new Context();
- 		context.parseImport(dictionaryName + ".json");
+ 		try {
+			context.parseImport(dictionaryName + ".json");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Response.status(404).entity("PLEASE MAKE SURE THE FILE OF " +dictionaryName+ ".JSON IS UPLOADED TO THE SERVER").type("text/plain").build();
+		}
  		boolean syntax_error = context.isSyntax_error();
  		
  		if( syntax_error ) {
- 			return Response.status(412).entity("待导入数据不符合json规范，请校验后重新导入").type("text/plain").build(); 
+ 			return Response.status(412).entity("THE DATA TO BE IMPORTED DOES NOT CONFORM TO THE JSON SPECIFICATION, PLEASE CHECK AND RE - IMPORT, ERROR MESSAGE: " + context.getErrorMessage()).type("text/plain").build(); 
  		}
  		Map<String , JSONObject> map = context.getInport();
 		
@@ -278,7 +285,7 @@ public class WordResource {
 		}
 		
 		wordService.insertAll(jsonList);;
-		return Response.status(200).entity("成功导入" + jsonList.size() + "条数据").type("text/plain").build(); 
+		return Response.status(200).entity(jsonList.size() + " ITEMS HAVE BEEN IMPORTED SUCCESSFULLY").type("text/plain").build(); 
 	}
 	
 	@GET

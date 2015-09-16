@@ -4,12 +4,14 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -48,6 +50,18 @@ public class Context {
 		return syntax_error;
 	}
 
+	private String errorMessage;
+	
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
 
 	public void setSyntax_error(boolean syntax_error) {
 		this.syntax_error = syntax_error;
@@ -78,23 +92,19 @@ public class Context {
 		}
 	}
 	
-	public void  parseImport(String string){
+	public void  parseImport(String string) throws IOException{
 		String sjson = null;
-		try {
-			string = string.trim();
-			DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
-			File file = defaultResourceLoader.getResource("config-context/"+string).getFile();
-			BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file))); 
-			String line = null;
-			StringBuilder sb = new StringBuilder();
-			while( (line = reader.readLine())!= null ){
-				sb.append(line).append("\n");
-			}
-			reader.close();
-			sjson =  sb.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
+		string = string.trim();
+		DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+		File file = defaultResourceLoader.getResource("config-context/"+string).getFile();
+		BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file))); 
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while( (line = reader.readLine())!= null ){
+			sb.append(line).append("\n");
 		}
+		reader.close();
+		sjson =  sb.toString();
 		
 		// 判断格式合法性 以及判重
 		if(sjson != null ){
@@ -106,9 +116,10 @@ public class Context {
 			try{
 				jt = new JSONTokener(sjson);
 				ja = new JSONArray( jt );
-			}catch( Exception e) {
+			}catch( JSONException e) {
 				e.printStackTrace();
 				this.syntax_error = true;
+				this.setErrorMessage(e.getMessage());
 				return;
 			}
 			

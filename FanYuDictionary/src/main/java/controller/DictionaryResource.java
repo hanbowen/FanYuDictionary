@@ -47,6 +47,9 @@ public class DictionaryResource {
 		Dictionary dictionary = dictionaryService.jsonToEntity(dictionaryJson,
 				Dictionary.class);
 		
+		if (dictionary == null) {
+			return Response.status(404).entity("HTTP Body 中传入的数据有误").type("text/plain").build();
+		}
 		String displayName = dictionary.getDisplayName();
 		Dictionary persistedDic = dictionaryService.findByDisplayName(displayName);
 		// 判断是否有重复的Dictionary displayName
@@ -59,8 +62,7 @@ public class DictionaryResource {
 		dictionary.setStatus("active");
 		dictionaryService.save(dictionary);
 		LOGGER.info("成功保存字典信息");
-		return Response.status(200).entity("success").type("text/plain")
-				.build();
+		return Response.status(200).entity("success").type("text/plain").build();
 	}
 
 	@PUT
