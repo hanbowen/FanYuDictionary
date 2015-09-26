@@ -244,6 +244,9 @@ public class WordResource {
 			return Response.status(404).entity("DICTIONARY NAME CAN NOT BE EMPTY").type("text/plain").build(); 
 		}
 		
+		if (dictionaryName.contains("_")) {
+			dictionaryName = dictionaryName.replace("_", " ");
+		}
 		
 		Dictionary dictionary = dictionaryService.findByDisplayName(dictionaryName);
 		if( dictionary == null || "".equals(dictionary.getId()) ) {
@@ -254,6 +257,7 @@ public class WordResource {
  		dicMap.put("id", dictionary.getId());
  		dicMap.put("dicGroup", dictionary.getDicGroup());
  		dicMap.put("displayName", dictionary.getDisplayName());
+ 		dicMap.put("shortName", dictionary.getShortName());
  		dicMap.put("status", dictionary.getStatus());
  		dicMap.put("createDateTime", dictionary.getCreateDateTime());
  		List<Word> jsonList = new ArrayList<Word>();

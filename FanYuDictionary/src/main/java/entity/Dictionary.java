@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.gson.annotations.Expose;
 
 public class Dictionary extends Entity{
+	
 	@Expose private String dicGroup;  
 	    
 	@Expose private String displayName;
@@ -14,6 +15,18 @@ public class Dictionary extends Entity{
 	@Expose private String status;
 	  
 	@Expose private long createDateTime;
+	
+	@Expose private String shortName;
+
+	
+	
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
 
 	public String getDicGroup() {
 		return dicGroup;

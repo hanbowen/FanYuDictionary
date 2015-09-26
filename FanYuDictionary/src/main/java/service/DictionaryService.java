@@ -37,6 +37,11 @@ public class DictionaryService  extends BaseService<Dictionary>{
 		return super.findOne(query(where("displayName").is(displayName)));
 	}
 	
+	public Dictionary findByShortName(String shortName) {
+		
+		return super.findOne(query(where("shortName").is(shortName)));
+	}
+	
 	@Override
 	protected Class<Dictionary> getEntityClass() {
 		return Dictionary.class;

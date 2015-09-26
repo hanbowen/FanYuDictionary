@@ -51,11 +51,19 @@ public class DictionaryResource {
 			return Response.status(404).entity("HTTP Body 中传入的数据有误").type("text/plain").build();
 		}
 		String displayName = dictionary.getDisplayName();
-		Dictionary persistedDic = dictionaryService.findByDisplayName(displayName);
+		Dictionary persistedDic1 = dictionaryService.findByDisplayName(displayName);
 		// 判断是否有重复的Dictionary displayName
-		if(persistedDic != null && persistedDic.getId() != null && !"".equals(persistedDic.getId())) {
-			return Response.status(409).entity("数据库中已经存在该displayName，不允许重复保存").type("text/plain").build();
+		if(persistedDic1 != null && persistedDic1.getId() != null && !"".equals(persistedDic1.getId())) {
+			return Response.status(200).entity("error-displayName").type("text/plain").build();
 		}
+		
+		String shortName = dictionary.getShortName();
+		Dictionary persistedDic2 = dictionaryService.findByShortName(shortName);
+		// 判断是否有重复的Dictionary shortName
+		if(persistedDic2 != null && persistedDic2.getId() != null && !"".equals(persistedDic2.getId())) {
+			return Response.status(200).entity("error-shortName").type("text/plain").build();
+		}
+		
 		
 		Date date = new Date();
 		dictionary.setCreateDateTime(date.getTime());
@@ -93,7 +101,7 @@ public class DictionaryResource {
 		
 		Dictionary dictionary = dictionaryService.findById(dictionaryId);
 		if( dictionary != null && "梵汉大字典".equals(dictionary.getDisplayName()) ) {
-			return Response.status(403).entity("梵汉大字典不允许删除").type("text/plain").build();
+			return Response.status(403).entity("error").type("text/plain").build();
 		}
 		
 		dictionaryService.removeById(dictionaryId);
