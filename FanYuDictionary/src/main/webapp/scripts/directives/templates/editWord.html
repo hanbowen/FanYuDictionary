@@ -1,6 +1,6 @@
 <div>
 <!--  <div class="col-xs-12"><h2 class="mt0">编辑词条</h2></div>-->
-<div class="form-group col-xs-12 mt20">
+<div class="form-group col-xs-12 mt10">
     <div class="col-xs-12 col-sm-5 pl0">
         <input type="text" class="form-control" placeholder="词汇名称" ng-model="createVM.word.word"
                ng-change="createVM.word.xici=createVM.word.word">
@@ -68,7 +68,7 @@
         </div>
     </div>
 </div>
-<div role="tabpanel" class="col-xs-12 mt20">
+<div role="tabpanel" class="col-xs-12 mt4">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" ng-class="(createVM.word.template=='pattern' || !createVM.word.template)?'active':''">
@@ -85,7 +85,7 @@
         <!-- 模板编辑-->
         <div role="tabpanel" id="patternTab_{{createVM.word.id}}"
              ng-class="(createVM.word.template=='pattern' || !createVM.word.template)?'tab-pane active':'tab-pane'">
-            <div class="form-group form-group-sm mt20 mb20">
+            <div class="form-group form-group-sm mt4 mb10">
                 <label class="text-info">【析词】</label>
 
                 <div class="row">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group form-group-sm mt20">
+            <div class="form-group form-group-sm mt4 mb4">
                 <label class="text-info">【对译词】</label>
 
                 <div class="row">
@@ -106,7 +106,7 @@
                         </select>
                     </div>
                     <div class="col-sm-5 pr0">
-                        <input type="text" class="form-control" placeholder="对应词"
+                        <input type="text" class="form-control" placeholder="对译词"
                                ng-model="createVM.newDuiyingciValue">
                     </div>
                     <div class="col-sm-1">
@@ -115,7 +115,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="row mt10">
+                <div class="row mt4">
                     <div class="col-sm-6">
                         <table class="table table-condensed table-bordered">
                             <tr ng-repeat="duiyingci in createVM.word.duiyingciList | orderBy:'name'">
@@ -131,7 +131,7 @@
                 </div>
             </div>
 
-            <div class="form-group  form-group-sm mt20 mb20">
+            <div class="form-group  form-group-sm mt4 mb10">
                 <label class="text-info">【词根来源】</label>
                 <div class="row">
                     <div class="col-sm-6 pr0">
@@ -140,7 +140,7 @@
                 </div>
             </div>
 
-            <div class="form-group mt30">
+            <div class="form-group mt4">
                 <label class="text-info">【释义】</label>
                 <textarea ng-init="createVM.tinymceOptions.height=100" ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.shiyi"></textarea>
 
@@ -151,7 +151,7 @@
                 </div>
             </div>
 
-            <div class="form-group form-group-sm mt20 mb20">
+            <div class="form-group form-group-sm mt4 mb4">
                 <label class="text-info">【关联词】</label>
 
                 <div class="row">
@@ -165,7 +165,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="row mt10 mb20">
+                <div class="row mt10 mb4">
                     <div class="col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -181,7 +181,7 @@
                 </div>
             </div>
 
-            <div class="form-group mt30">
+            <div class="form-group mt4">
                 <label class="text-info">【例句】</label>
                 <textarea ng-init="createVM.tinymceOptions.height=200" ui-tinymce="createVM.tinymceOptions" ng-model="createVM.word.liju"></textarea>
             </div>

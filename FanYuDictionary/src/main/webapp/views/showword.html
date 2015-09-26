@@ -11,15 +11,17 @@
                     <button has-permission="Admin" class="btn btn-success btn-xs hide" data-toggle="modal"
                             data-target="#pubulishWordConfirmModal"
                             ng-click="showWordVM.publishWordConfirm(word.id)"><span
-                            class="glyphicon glyphicon-upload"></span></button>
+                            class="glyphicon glyphicon-upload">发布</span></button>
                     <button has-permission="Admin Editor" is-editable="{{word}}" class="btn btn-warning btn-xs hide"
                             ng-init="word.isEdit=false"
-                            ng-click="word.isEdit = !word.isEdit"><span class="glyphicon glyphicon-edit"></span>
+                            ng-click="word.isEdit = !word.isEdit">
+                      <span ng-hide="word.isEdit" class="glyphicon glyphicon-edit">编辑</span>
+                      <span ng-hide="!word.isEdit" class="glyphicon glyphicon-remove-circle">取消</span>
                     </button>
                     <button has-permission="Admin Editor" is-editable="{{word}}" class="btn btn-danger btn-xs hide" data-toggle="modal"
                             data-target="#deleteWordConfirmModal"
                             ng-click="showWordVM.deleteWordConfirm(word.id)">
-                        <span class="glyphicon glyphicon-remove"></span></button>
+                        <span class="glyphicon glyphicon-remove">删除</span></button>
                 </div>
             </div>
             <div class="panel-body">
@@ -49,7 +51,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal">取消</button>
-        <button class="btn btn-danger" ng-click="vm.deleteWord()">删除</button>
+        <button class="btn btn-danger" ng-click="showWordVM.deleteWord()">删除</button>
         <!--<button class="btn btn-danger" ng-hide="!vm.isDeleteAll" ng-click="vm.deleteAll()">删除</button>
         <button class="btn btn-danger" ng-hide="vm.isDeleteAll" ng-click="vm.deleteWord()">删除</button>-->
       </div>
@@ -71,7 +73,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal">取消</button>
-        <button class="btn btn-danger" ng-click="vm.publishWord()">发布</button>
+        <button class="btn btn-danger" ng-click="showWordVM.publishWord()">发布</button>
         <!--<button class="btn btn-danger" ng-hide="!vm.isPublishAll" ng-click="vm.publishAll()">发布</button>
         <button class="btn btn-danger" ng-hide="vm.isPublishAll" ng-click="vm.publishWord()">发布</button>-->
       </div>

@@ -39,12 +39,11 @@
 
             /**** start add or edit by cy 0830 ******/
             function deleteWordConfirm(wordId) {
-                console.log('delete -----------');
                 vm.wordId = wordId;
                 //vm.isDeleteAll = false;
             }
 
-            function deleteWord(wordId){
+            function deleteWord(){
                 WordService.deleteWord(vm.wordId).then(function(data){
                     if (data === 'success') {
                         $('#deleteWordConfirmModal').modal('hide');
@@ -58,7 +57,7 @@
               //vm.isPublishAll = false;
             }
 
-            function publishWord(wordId){
+            function publishWord(){
                 WordService.publishWord(vm.wordId).then(function(data){
                     if (data === 'success') {
                         $('#pubulishWordConfirmModal').modal('hide');

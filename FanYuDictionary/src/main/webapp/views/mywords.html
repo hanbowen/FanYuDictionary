@@ -69,7 +69,9 @@
                             class="glyphicon glyphicon-remove">删除</span></button>
                     <button has-permission="Admin Editor" is-editable="{{word}}"
                             class="btn btn-warning btn-xs ml2 pull-right" ng-init="word.isEdit=false"
-                            ng-click="word.isEdit = !word.isEdit"><span class="glyphicon glyphicon-edit">编辑</span>
+                            ng-click="word.isEdit = !word.isEdit">
+                      <span ng-hide="word.isEdit" class="glyphicon glyphicon-edit">编辑</span>
+                      <span ng-hide="!word.isEdit" class="glyphicon glyphicon-remove-circle">取消</span>
                     </button>
                     <button has-permission="Admin" ng-hide="word.status=='published'"
                             class="btn btn-success btn-xs ml2 pull-right" data-toggle="modal"
