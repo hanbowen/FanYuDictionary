@@ -32,9 +32,21 @@
             $rootScope.$on('updateDicSequenceSuccess', getWordDetail);
 
             function getWordDetail() {
-                WordService.getWordDetail(vm.word).then(function (data) {
-                    vm.wordDetail = data;
-                });
+                if ($.cookie('currentUser') == '' || $.cookie('currentUser') == undefined) {
+                    WordService.getWordDetail(vm.word, 'N').then(function (data) {
+                       vm.wordDetail = data;
+                    });
+                } else {
+                    WordService.getWordDetail(vm.word, 'Y').then(function (data) {
+                      /*var wordList = data;
+                       for (var i in wordList) {
+                       if (wordList[i].status == 'published') {
+                       }
+                       }*/
+                      vm.wordDetail = data;
+                    });
+                }
+
             }
 
             /**** start add or edit by cy 0830 ******/

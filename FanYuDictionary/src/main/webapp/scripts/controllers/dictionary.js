@@ -15,6 +15,7 @@
 
         vm.searchResult = [];
 
+
         vm.typeSpecialChar = typeSpecialChar;
         vm.setSearchCode = setSearchCode;
         vm.setSearchMatch = setSearchMatch;
@@ -132,9 +133,15 @@
             $('#collapseSoftKeys').collapse('hide');
             $('#collapseSearchSettings').collapse('hide');
             if (searchValidation()) {
-                WordService.searchWord(vm.search).then(function (data) {
+                if ($.cookie('currentUser') == '' || $.cookie('currentUser') == undefined) {
+                  WordService.searchWord(vm.search, 'N').then(function (data) {
                     vm.searchResult = data;
-                });
+                  });
+                } else {
+                  WordService.searchWord(vm.search, 'Y').then(function (data) {
+                    vm.searchResult = data;
+                  });
+                }
             }
         }
 

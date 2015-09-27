@@ -26,8 +26,8 @@
         // Public API here
         return wordService;
 
-        function getWordDetail(word) {
-            return $http.get(wordURL + '/' + word)
+        function getWordDetail(word, login) {
+            return $http.get(wordURL + '/' + word  + '/' + login)
                 .then(getWordDetailComplete)
                 .catch(getWordDetailFailed);
 
@@ -147,9 +147,9 @@
         }
 
 
-        function searchWord(search) {
+        function searchWord(search, login) {
 
-            return $http.get(wordURL + "?search=" + search.searchWord + "&match=" + search.match + "&domain=" + search.domain + "&dictionaries=" + search.dictionaries)
+            return $http.get(wordURL + "?search=" + search.searchWord + "&match=" + search.match + "&domain=" + search.domain + "&dictionaries=" + search.dictionaries + "&logon=" + login)
                 .then(searchWordComplete)
                 .catch(searchWordFailed);
 

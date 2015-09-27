@@ -279,8 +279,8 @@
             <div class="input-group input-group-sm col-xs-12 mt10">
               <div class="col-xs-2"><label class="text-info mt4">昵称:</label></div>
               <div class="col-xs-6"><input type="text" name="nichen" class="form-control" ng-model="userVM.user.displayName"
-                                           placeholder="昵称" ng-minlength="4" ng-maxlength="16"/>
-                <p ng-show="userForm.nichen.$error.minlength" class="help-block">您输入的用户名不足四位</p>
+                                           placeholder="昵称" ng-minlength="2" ng-maxlength="16"/>
+                <p ng-show="userForm.nichen.$error.minlength" class="help-block">您输入的用户名不足两位</p>
                 <p ng-show="userForm.nichen.$error.maxlength" class="help-block">您输入的用户名超过了十六位</p>
               </div>
               <div class="col-xs-4"><label class="text-info mt4">支持中英文字符和数字</label></div>
