@@ -59,7 +59,7 @@ public class WordResource {
 	
 	
 	@GET
-	public Response getWords(@QueryParam("search") String word, @QueryParam("match") String match, @QueryParam("domain") String domain, @QueryParam("dictionaries") String dictionaries,  @QueryParam("period") String period, @QueryParam("periodCount") String periodCount, @QueryParam("userId") String userId, @QueryParam("page") String page , @QueryParam("pageSize") String pageSize) {
+	public Response getWords(@QueryParam("search") String word, @QueryParam("match") String match, @QueryParam("domain") String domain, @QueryParam("dictionaries") String dictionaries, @QueryParam("logon") String logon, @QueryParam("period") String period, @QueryParam("periodCount") String periodCount, @QueryParam("userId") String userId, @QueryParam("page") String page , @QueryParam("pageSize") String pageSize) {
 		
 		// 按照名字查询时不需要分页
 		if(word == null || "".equals(word)) {
@@ -88,6 +88,10 @@ public class WordResource {
 				return Response.status(412).entity("dictionaries 参数不允许为空").type("text/plain").build();
 			}
 			
+			if(logon == null || "".equals(logon)) {
+				return Response.status(412).entity("logon 参数不允许为空").type("text/plain").build();
+			}
+			
 			// 判断match参数是否超出规定的范围， 规定的范围是 shou/zhong/wei/jingque
 			if( !Arrays.asList(enumeration.MatchProperty.getValues()).contains(match) ) {
 				return Response.status(412).entity("match参数已超出规定的范围，请在以下查询范围中选择一种查询方式" + Arrays.asList(enumeration.MatchProperty.getShows())).type("text/plain").build();
@@ -98,7 +102,7 @@ public class WordResource {
 				return Response.status(412).entity("domain参数已超出规定的范围，请在以下查询范围中选择一种查询方式" + Arrays.asList(enumeration.DomainProperty.getShows())).type("text/plain").build();
 			}
 			
-			List<String> list = wordService.findByParams(word , match, domain , dictionaries);
+			List<String> list = wordService.findByParams(word , match, domain , dictionaries, logon);
 			LOGGER.info("成功返回词条列表");
 			return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
 		}
@@ -164,7 +168,8 @@ public class WordResource {
 		}
 		
 		word.setAuthor(new HashMap<String , Object>());
-		word.setId("");
+		String id = UUID.randomUUID().toString();
+		word.setId(id);
 		word.setStatus("published");
 		wordService.save(word);
 		
@@ -192,13 +197,13 @@ public class WordResource {
 	
 	
 	@GET
-	@Path("{wordName}")
-	public Response getWordByName(@PathParam("wordName") String wordName) {
+	@Path("{wordName}/{logon}")
+	public Response getWordByName(@PathParam("wordName") String wordName, @PathParam("logon") String logon) {
 		
 		if( wordName == null || "".equals(wordName) ) {
 			return Response.status(200).entity("").type("text/plain").build();
 		}
-		List<Word> list = wordService.findWordByName(wordName);
+		List<Word> list = wordService.findWordByName(wordName, logon);
 		
 		LOGGER.info("成功返回词条详情");
 		return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();

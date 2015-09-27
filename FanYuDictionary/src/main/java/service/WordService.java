@@ -46,7 +46,7 @@ public class WordService extends BaseService<Word>{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> findByParams(String word, String match , String domain , String dictionaries) {
+	public List<String> findByParams(String word, String match , String domain , String dictionaries , String logon) {
 		// word match domain 的非空性已在controller层校验过
 		
 		String[] dictionaryArray = dictionaries.split("@");
@@ -58,7 +58,6 @@ public class WordService extends BaseService<Word>{
 			sb.append("\"").append(s).append("\"");
 		} 
 		sb.append("]");*/
-		
 		for(enumeration.MatchProperty matchEnum : enumeration.MatchProperty.values()) {
 			if(match.equals(matchEnum.getValue())) {
 				for(enumeration.DomainProperty domainEnum : enumeration.DomainProperty.values()) {
@@ -71,11 +70,19 @@ public class WordService extends BaseService<Word>{
 							key = DomainProperty.getKey(domainEnum);
 							for(String item : key.split("-")) {
 //								values.add(new BasicDBObject(item,new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))));
-								values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")).append("dictionary.id", new BasicDBObject("$in" , dictionaryArray)));
+								if( logon.equals("N")  ) {
+									values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")).append("dictionary.id", new BasicDBObject("$in" , dictionaryArray)).append("status", "published"));
+								} else{
+									values.add(new BasicDBObject(item,new BasicDBObject("$regex",".*" + word + ".*")).append("dictionary.id", new BasicDBObject("$in" , dictionaryArray)));
+								}
 							}
 							queryCondition.put("$or", values);
 						} else {
-							queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))).append("dictionary.id", new BasicDBObject("$in", dictionaryArray));
+							if (logon.equals("N")) {
+								queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))).append("dictionary.id", new BasicDBObject("$in", dictionaryArray)).append("status", "published");
+							} else {
+								queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))).append("dictionary.id", new BasicDBObject("$in", dictionaryArray));
+							}
 						}
 						return mongoTemplate.getCollection(getCollectionName()).distinct("word", queryCondition);
 					}
@@ -204,7 +211,10 @@ public class WordService extends BaseService<Word>{
 	 * @param word
 	 * @return
 	 */
-	public List<Word> findWordByName(String word) {
+	public List<Word> findWordByName(String word, String logon) {
+		if ("N".equals(logon)) {
+			return super.find(query(where("word").is(word).and("status").is("published")));
+		}
 		return super.find(query(where("word").is(word)));
 	}
 	

@@ -27,7 +27,6 @@ public class LoginResource {
 	private static final Log LOGGER = LogFactory.getLog(LoginResource.class);
 	@Autowired
 	private UserService userService;
-	private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 	@POST
 	@Produces("text/plain")
 	public Response login(@QueryParam("authentication") String authentication) {
