@@ -44,6 +44,10 @@
 				# some example chain definitions:
 				/rest/** = customAuthenticationFilter
 				# more URL-to-FilterChain definitions here
+				/login.jsp = authc
+				/logout = logout
+				/authenticated.jsp = authc
+				/** = user
 			</value>
 		</property>
 	</bean>
@@ -52,6 +56,7 @@
 		<!-- Single realm app. If you have multiple realms, use the 'realms' property 
 			instead. -->
 		<property name="realm" ref="myRealm" />
+		<!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
 		<!-- By default the servlet container sessions will be used. Uncomment 
 			this line to use shiro's native sessions (see the JavaDoc for more): -->
 		<!-- <property name="sessionMode" value="native"/> -->
@@ -82,4 +87,17 @@
 		<!-- <property name="instances"> <set> <ref bean="testException" /> </set> 
 			</property> -->
 	</bean>
+	
+<!-- <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+       <constructor-arg value="rememberMe" />
+       <property name="httpOnly" value="true" />
+       默认记住7天（单位：秒）
+       <property name="maxAge" value="604800" />
+   </bean>
+   rememberMe管理器 
+   <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+       <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
+       <property name="cookie" ref="rememberMeCookie" />
+   </bean> -->	
+
 </beans>

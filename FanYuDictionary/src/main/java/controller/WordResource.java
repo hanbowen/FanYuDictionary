@@ -47,6 +47,9 @@ import entity.Word;
 import export.Export;
 import export.StringExport;
 
+import org.springframework.data.mongodb.core.query.Order;
+
+@SuppressWarnings("deprecation")
 @Path("/word")
 public class WordResource {
 	
@@ -136,7 +139,7 @@ public class WordResource {
 	@POST
 	@Produces("application/json")
 	public Response saveWord(String wordJson) {
-		
+//		wordService.ensureIndex(Word.class, "word", Order.ASCENDING);
 		Word word = wordService.jsonToEntity(wordJson, Word.class);
 		Date date = new Date();
 		String id = UUID.randomUUID().toString();
@@ -292,7 +295,7 @@ public class WordResource {
 			word.setLastEditDateTime(date.getTime());
 			jsonList.add(word);
 		}
-		
+//		wordService.ensureIndex(Word.class, "word", Order.ASCENDING);
 		wordService.insertAll(jsonList);;
 		return Response.status(200).entity(jsonList.size() + " ITEMS HAVE BEEN IMPORTED SUCCESSFULLY").type("text/plain").build(); 
 	}

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,8 +18,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import service.DictionaryService;
+import service.UserService;
 import service.WordService;
 import entity.Dictionary;
+import entity.User;
 
 @Path("/dictionary")
 public class DictionaryResource {
@@ -27,6 +30,8 @@ public class DictionaryResource {
 	private DictionaryService dictionaryService;
 	@Autowired
 	private WordService wordService;
+	@Autowired
+	private UserService userService;
 	private static final Log LOGGER = LogFactory
 			.getLog(DictionaryResource.class);
 
@@ -108,6 +113,19 @@ public class DictionaryResource {
 		LOGGER.info("成功删除词典信息");
 		wordService.removeByDictionaryId(dictionaryId);
 		LOGGER.info("成功删除字典所关联的词条");
+		List<User> users = userService.findUsersByAllowedDictionary(dictionaryId);
+		if (users != null && users.size() != 0) {
+			for (User user: users) {
+				List<Map<String, String>> allowedDictionaries = user.getAllowedDictionaries();
+				for(Map<String , String> map: allowedDictionaries) {
+					if (map.get("id").equals(dictionaryId)) {
+						allowedDictionaries.remove(map);
+						break;
+					}
+				}
+				userService.updateById(user.getId(), userService.entityToJson(user));
+			}
+		}
 		
 		return Response.status(200).entity("success").type("text/plain").build();
 	}

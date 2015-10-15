@@ -39,6 +39,7 @@ public class MongoRealm extends AuthorizingRealm{
 			AuthenticationToken token) throws AuthenticationException {
 		System.out.println("doGetAuthenticationInfo");
 		UsernamePasswordToken authToken=(UsernamePasswordToken) token;
+//		authToken.setRememberMe(true);
 		return new SimpleAuthenticationInfo(authToken.getUsername(),authToken.getPassword(),getName());
 	}
 

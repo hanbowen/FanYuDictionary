@@ -40,6 +40,15 @@ public class UserService extends BaseService<User>{
 		return super.findOne(criteria);
 	}
 	
+	/**
+	 * 查找允许编辑字典中含有指定字典id的用户列表
+	 * @param dictionaryId
+	 * @return
+	 */
+	public List<User> findUsersByAllowedDictionary(String dictionaryId) {
+		return super.find(query(where("allowedDictionaries.id").is(dictionaryId)));
+	}
+	
  	
 	/**
 	 * 根据pageNo 及 pageSize 查询每页信息

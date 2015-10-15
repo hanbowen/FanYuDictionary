@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -18,6 +19,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 
+import org.springframework.data.mongodb.core.query.Order;
+
+@SuppressWarnings("deprecation")
 public abstract class BaseService<T> {
 
 	@Autowired
@@ -38,6 +42,10 @@ public abstract class BaseService<T> {
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		String str = gson.toJson(entity);
 		return str;
+	}
+	
+	public void ensureIndex(Class<T> clazz, String key, Order order) {
+		mongoTemplate.indexOps(clazz).ensureIndex(new Index().on(key, order));
 	}
 	
 	/**
