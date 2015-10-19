@@ -349,7 +349,7 @@ public class WordResource {
 				}
 			}
 		}
-		RequestUtil.outStream( request ,response ,"export.zip" ,in );
+		RequestUtil.outStream( request ,response ,"export" + new Date().getTime()+ ".zip" ,in );
 		
 	}
 	

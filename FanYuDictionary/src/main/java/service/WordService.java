@@ -224,6 +224,9 @@ public class WordService extends BaseService<Word>{
 	 * @return
 	 */
 	public List<Word> findWordsByDictionaryName(String dictionaryName) {
+		if (dictionaryName.contains("_")) {
+			dictionaryName = dictionaryName.replace("_", " ");
+		}
 		return super.find(query(where("dictionary.displayName").is(dictionaryName)));
 	}
 	
