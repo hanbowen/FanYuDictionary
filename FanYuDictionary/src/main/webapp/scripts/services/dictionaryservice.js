@@ -20,7 +20,8 @@
         getDictionaryList: getDictionaryList,
         createDictionary: createDictionary,
         updateDictionary: updateDictionary,
-        deleteDictionary: deleteDictionary
+        deleteDictionary: deleteDictionary,
+        deleteWordsFromDictionary: deleteWordsFromDictionary
     };
     return service;
 
@@ -99,7 +100,18 @@
       }
     }
 
-
+    function deleteWordsFromDictionary(dictionaryId){
+      return $http.delete(dictURL + '/delwords/' + dictionaryId)
+        .then(deleteWordsFromDictionaryComplete)
+        .catch(deleteWordsFromDictionaryFailed);
+      function deleteWordsFromDictionaryComplete(response){
+        return response.data;
+        toastr.success('词条清除成功')
+      }
+      function deleteWordsFromDictionaryFailed(error){
+        console.error('XHR Failed for deleteWordsFromDictionaryFailed.' + error.data);
+      }
+    }
 
   };
 })();

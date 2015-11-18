@@ -28,6 +28,26 @@
   </div>
 </div>
 
+<!--delete user confirm modal-->
+<div class="modal fade" id="deleteWordsFromDictsModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h2 class=" mt0">词条清除确认</h2>
+      </div>
+      <div class="modal-body">
+        <div class="error-text"><span class="glyphicon glyphicon glyphicon-alert"></span>您确定要清除此词典里的全部词条吗？</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">取消</button>
+        <button class="btn btn-danger" ng-click="dictionaysVM.deleteWordsFromDicts()">清除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Add User Modal -->
 <div class="modal fade" id="dictionaryModal">
   <!-- /.modal-dialog -->
@@ -130,6 +150,9 @@
                   <!--<button type="button" class="btn btn-default btn-warning btn-xs" data-toggle="modal" data-target="#dictionaryModal" ng-click="dictionaysVM.editDictionary(dictionay)">
                     <span class="glyphicon glyphicon-edit">编辑</span>
                   </button>-->
+                  <button type="button" class="btn btn-default btn-warning btn-xs" data-toggle="modal" data-target="#deleteWordsFromDictsModal" ng-click="dictionaysVM.deleteWordsFromDictsConfirm(dictionay.id)">
+                    <span class="glyphicon glyphicon-remove">清除词条</span>
+                  </button>
                   <button type="button" class="btn btn-default btn-danger btn-xs" data-toggle="modal"
                           data-target="#deleteConfirmModal" ng-click="dictionaysVM.deleteConfirm(dictionay.id)">
                     <span class="glyphicon glyphicon-remove">删除</span>

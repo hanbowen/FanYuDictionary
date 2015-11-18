@@ -32,6 +32,9 @@
       vm.deleteDictionary = deleteDictionary;
       vm.updateDictionary = updateDictionary;
 
+      vm.deleteWordsFromDicts = deleteWordsFromDicts;
+      vm.deleteWordsFromDictsConfirm = deleteWordsFromDictsConfirm;
+
       getDictionaryList();
 
       function getDictionaryList() {
@@ -90,6 +93,22 @@
       }
 
       function deleteConfirm(dictionaryId) {
+        vm.dictionaryId = dictionaryId;
+      }
+
+      function deleteWordsFromDicts() {
+        DictionaryService.deleteWordsFromDictionary(vm.dictionaryId).then(function(data) {
+          if (data === 'success') {
+            $('#deleteWordsFromDictsModal').modal('hide');
+          } else if (data === 'error') {
+            alert('梵汉词汇表词条不允许清除');
+            $('#deleteWordsFromDictsModal').modal('hide');
+          }
+          getDictionaryList();
+        });
+      }
+
+      function deleteWordsFromDictsConfirm(dictionaryId) {
         vm.dictionaryId = dictionaryId;
       }
 
