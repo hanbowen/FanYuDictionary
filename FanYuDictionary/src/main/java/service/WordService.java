@@ -4,6 +4,8 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
@@ -84,6 +87,7 @@ public class WordService extends BaseService<Word>{
 								queryCondition = new BasicDBObject(DomainProperty.getKey(domainEnum), new BasicDBObject("$regex",MatchProperty.getRegex(matchEnum, word))).append("dictionary.id", new BasicDBObject("$in", dictionaryArray));
 							}
 						}
+						
 						return mongoTemplate.getCollection(getCollectionName()).distinct("word", queryCondition);
 					}
 				}
@@ -189,6 +193,17 @@ public class WordService extends BaseService<Word>{
 		super.updateById(id, jsonToUpdate);
 	}
 	
+	
+	/**
+	 * 根据多个属性进行更新
+	 * @param keys
+	 * @param word
+	 */
+	public void updateMulti(Map<String , Object> map, Word word) {
+		super.updateMulti(map, word);
+	}
+	
+	
 	/**
 	 * 发布对象
 	 * @param id
@@ -256,7 +271,7 @@ public class WordService extends BaseService<Word>{
 	/**
 	 * 批量保存数据
 	 */
-	public void insertAll(List<Word> objects) {
+	public void insertAll(Collection<Word> objects) {
 		super.insertAll(objects);
 	}
 	

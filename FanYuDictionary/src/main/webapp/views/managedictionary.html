@@ -72,7 +72,7 @@
                        ng-model="dictionaysVM.dictionary.displayName" placeholder="输入词典名" required/>
                 <p ng-show="dictForm.displayName.$invalid && !dictForm.displayName.$pristine" class="help-block">词典名必须输入</p>
               </div>
-              <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">如: 梵英大字典</label></div>
+              <div class="col-xs-4"><label class="text-info" style="margin-top: 4px">如: 梵汉词汇表</label></div>
             </div>
           </div>
 
@@ -145,7 +145,7 @@
             <tr ng-repeat="dictionay in dictionayGroup.dictionaries">
               <td class="col-xs-4">{{dictionay.displayName}}</td>
               <td class="col-xs-2">{{dictionay.shortName}}</td>
-              <td class="col-xs-1">
+              <td class="col-xs-2">
 <!--                <div class="btn-group btn-group-sm" role="group" aria-label="...">-->
                   <!--<button type="button" class="btn btn-default btn-warning btn-xs" data-toggle="modal" data-target="#dictionaryModal" ng-click="dictionaysVM.editDictionary(dictionay)">
                     <span class="glyphicon glyphicon-edit">编辑</span>

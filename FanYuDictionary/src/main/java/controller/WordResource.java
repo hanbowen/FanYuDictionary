@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -33,10 +36,13 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.json.JSONArray;
 import org.json.JSONObject;
+//import org.json.JSONArray;
+//import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import service.DictionaryService;
+import service.OrderService;
 import service.WordService;
 import utils.CompressUtil;
 import utils.Context;
@@ -44,6 +50,7 @@ import utils.Pagination;
 import utils.RequestUtil;
 import entity.Dictionary;
 import entity.Word;
+import entity.WordOrder;
 import export.Export;
 import export.StringExport;
 
@@ -57,6 +64,8 @@ public class WordResource {
 	private WordService wordService;
 	@Autowired
 	private DictionaryService dictionaryService;
+	@Autowired
+	private OrderService orderService;
 	private static final Log LOGGER = LogFactory.getLog(WordResource.class);
 	
 	
@@ -106,6 +115,7 @@ public class WordResource {
 			}
 			
 			List<String> list = wordService.findByParams(word , match, domain , dictionaries, logon);
+			list = orderService.getOrderedWords(list);
 			LOGGER.info("成功返回词条列表");
 			return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
 		}
@@ -261,18 +271,21 @@ public class WordResource {
 			return Response.status(404).entity("THE DICTIONARY NAME OF " +dictionaryName+ " IS NOT IN THE DATABASE, PLEASE DOUBLE CHECK THE DICTIONARY NAME AND IMPORT LATER").type("text/plain").build(); 
 		}
 		
-		Map<String , Object> dicMap = new HashMap<String , Object>();
- 		dicMap.put("id", dictionary.getId());
- 		dicMap.put("dicGroup", dictionary.getDicGroup());
- 		dicMap.put("displayName", dictionary.getDisplayName());
- 		dicMap.put("shortName", dictionary.getShortName());
- 		dicMap.put("status", dictionary.getStatus());
- 		dicMap.put("createDateTime", dictionary.getCreateDateTime());
- 		List<Word> jsonList = new ArrayList<Word>();
+		List<Word> oldWords = wordService.findWordsByDictionaryName(dictionaryName);
+		if (oldWords != null && oldWords.size() !=0 ){
+			return Response.status(409).entity("PLEASE CLEAN ALL THE VOCABULARY ENTRIES AND THEN IMPORT AGAIN.").type("text/plain").build();
+		}
+		
+		JSONArray jsonArray = new JSONArray();
  		
  		Context context = new Context();
+// 		Collection<Word> con = null;
  		try {
-			context.parseImport(dictionaryName + ".json");
+ 			long t1 = System.currentTimeMillis();
+// 			con = context.parseImport(dictionaryName + ".json");
+ 			jsonArray = context.parseImport(dictionaryName + ".json");
+			long t2 = System.currentTimeMillis();
+			System.out.println(t2-t1);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Response.status(404).entity("PLEASE MAKE SURE THE FILE OF " +dictionaryName+ ".JSON IS UPLOADED TO THE SERVER").type("text/plain").build();
@@ -282,22 +295,93 @@ public class WordResource {
  		if( syntax_error ) {
  			return Response.status(412).entity("THE DATA TO BE IMPORTED DOES NOT CONFORM TO THE JSON SPECIFICATION, PLEASE CHECK AND RE - IMPORT, ERROR MESSAGE: " + context.getErrorMessage()).type("text/plain").build(); 
  		}
- 		Map<String , JSONObject> map = context.getInport();
+// 		System.gc();
+ 		
+ 		Worker worker = new Worker(jsonArray, dictionary);
+ 		Thread t = new Thread(worker);
+ 		t.start();
+ 		
+ 		
+// 		Map<String , Object> dicMap = new HashMap<String , Object>();
+//		dicMap.put("id", dictionary.getId());
+//		dicMap.put("dicGroup", dictionary.getDicGroup());
+//		dicMap.put("displayName", dictionary.getDisplayName());
+//		dicMap.put("shortName", dictionary.getShortName());
+//		dicMap.put("status", dictionary.getStatus());
+//		dicMap.put("createDateTime", dictionary.getCreateDateTime());
+//		List<Word> jsonList = new ArrayList<Word>();
+//		
+//		for(int i=0; i< jsonArray.length();i ++) {
+//			Date date = new Date();
+//			JSONObject jsonObject = jsonArray.getJSONObject(i);
+//			jsonObject.put("dictionary", dicMap);
+//			Word word = wordService.jsonToEntity(jsonObject.toString(), Word.class);
+//			word.setStatus("published");
+//			word.setImportflag(true);
+//			word.setCreateDateTime(date.getTime());
+//			word.setLastEditDateTime(date.getTime());
+//			jsonList.add(word);
+//		}
+//		
+//		int limit = 10000;
+//		Integer size = jsonList.size();
+//		
+//		if ( limit < size ) {
+//			int part = size / limit;
+//			System.out.println("共有:" + size +"条， ！" + "分为: "+part+ "批");
+//			
+//			for(int i=0;i<part;i++ ) {
+//				List<Word> listPage = jsonList.subList(0, limit);
+//				wordService.insertAll(listPage);
+//				jsonList.subList(0, limit).clear();
+//			}
+//			
+//			if(!jsonList.isEmpty()) {
+//				wordService.insertAll(jsonList);
+//			}
+//		} else {
+//			wordService.insertAll(jsonList);
+//		}
 		
-		for(Map.Entry<String, JSONObject> entry : map.entrySet()) {
-			Date date = new Date();
-			JSONObject jsonObject = entry.getValue();
-			jsonObject.put("dictionary", dicMap);
-			Word word = wordService.jsonToEntity(jsonObject.toString(), Word.class);
-			word.setStatus("published");
-			word.setImportflag(true);
-			word.setCreateDateTime(date.getTime());
-			word.setLastEditDateTime(date.getTime());
-			jsonList.add(word);
-		}
 //		wordService.ensureIndex(Word.class, "word", Order.ASCENDING);
-		wordService.insertAll(jsonList);;
-		return Response.status(200).entity(jsonList.size() + " ITEMS HAVE BEEN IMPORTED SUCCESSFULLY").type("text/plain").build(); 
+//		long i = jsonList.size();
+		System.gc();
+		return Response.status(200).entity(jsonArray.length() + " ITEMS HAVE BEEN IMPORTED SUCCESSFULLY").type("text/plain").build(); 
+	}
+	
+	@GET
+	@Path("import/order/{fileName}")
+	public Response importOrder(@PathParam("fileName") String fileName) {
+		if(fileName == null || "".equals(fileName)) {
+			return Response.status(404).entity("FILE NAME CAN NOT BE EMPTY").type("text/plain").build(); 
+		}
+		
+		String blockName = "";
+		if (!fileName.contains("_")) {
+			return Response.status(404).entity("FILE NAME format IS WRONG, IT MUST START WITH THE BLOCK NAME, FOR EXAMPLE FAN_INDEX.TXT").type("text/plain").build(); 
+		} else {
+			String[] arr = fileName.split("_");
+			blockName = arr[0];
+		}
+		Context context = new Context();
+		List<String> words = new LinkedList<String>();
+		try {
+			long t1 = System.currentTimeMillis();
+			words = context.parseOrder(fileName + ".txt");
+			long t2 = System.currentTimeMillis();
+			System.out.println(t2-t1);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Response.status(404).entity("PLEASE MAKE SURE THE FILE OF " +fileName+ ".TXT IS UPLOADED TO THE SERVER").type("text/plain").build();
+		}
+		
+		Worker worker = new Worker( true, words, blockName);
+		Thread t = new Thread(worker);
+		t.start();
+		
+		long i = words.size();
+		System.gc();
+		return Response.status(200).entity(i + " ITEMS HAVE BEEN IMPORTED SUCCESSFULLY").type("text/plain").build(); 
 	}
 	
 	@GET
@@ -326,7 +410,7 @@ public class WordResource {
 			}
 			
 			List<Word> list = wordService.findWordsByDictionaryName(dictionaryName);
-			String json = wordService.listToJson(list, keys);
+			String json = wordService.listToJsonPretty(list, keys);
 			inmap.put(config.getString("name").trim()+".json",exportInputStream(json));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -337,7 +421,6 @@ public class WordResource {
 		try {
 			byte [] b = out.toByteArray();
 			in = new ByteArrayInputStream(b);
-			out = null ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -393,5 +476,89 @@ public class WordResource {
 		
 		// 我要给你返回什么？
 		return Response.status(200).entity("success").type("text/plain").build();
+	}
+	
+	class Worker implements Runnable{
+
+		private JSONArray jsonArray;
+		private Dictionary dictionary;
+		private boolean isOrder = false;
+		private List<String> words = new LinkedList<String>();
+		private String blockName ;
+		
+		public Worker(JSONArray jsonArray, Dictionary dictionary) {
+			this.jsonArray = jsonArray;
+			this.dictionary = dictionary;
+		}
+		
+		public Worker(boolean isOrder, List<String> words, String blockName) {
+			this.isOrder = isOrder;
+			this.words = words;
+			this.blockName = blockName;
+		}
+		
+		@Override
+		public void run() {
+
+			if ( !isOrder ) {
+		 		Map<String , Object> dicMap = new HashMap<String , Object>();
+				dicMap.put("id", dictionary.getId());
+				dicMap.put("dicGroup", dictionary.getDicGroup());
+				dicMap.put("displayName", dictionary.getDisplayName());
+				dicMap.put("shortName", dictionary.getShortName());
+				dicMap.put("status", dictionary.getStatus());
+				dicMap.put("createDateTime", dictionary.getCreateDateTime());
+				List<Word> jsonList = new ArrayList<Word>();
+				
+				for(int i=0; i< jsonArray.length();i ++) {
+					Date date = new Date();
+					JSONObject jsonObject = jsonArray.getJSONObject(i);
+					jsonObject.put("dictionary", dicMap);
+					Word word = wordService.jsonToEntity(jsonObject.toString(), Word.class);
+					word.setStatus("published");
+					word.setImportflag(true);
+					word.setCreateDateTime(date.getTime());
+					word.setLastEditDateTime(date.getTime());
+					jsonList.add(word);
+				}
+				
+				int limit = 10000;
+				Integer size = jsonList.size();
+				
+				if ( limit < size ) {
+					int part = size / limit;
+					System.out.println("共有:" + size +"条， ！" + "分为: "+part+ "批");
+					
+					for(int i=0;i<part;i++ ) {
+						List<Word> listPage = jsonList.subList(0, limit);
+						wordService.insertAll(listPage);
+						jsonList.subList(0, limit).clear();
+					}
+					
+					if(!jsonList.isEmpty()) {
+						wordService.insertAll(jsonList);
+					}
+				} else {
+					wordService.insertAll(jsonList);
+				}
+			} else{
+				Iterator<String> iter = words.iterator();
+				Long index = 1L;
+				List<WordOrder> orders = new LinkedList<WordOrder>();
+				while( iter.hasNext() ) {
+					String word = iter.next();
+					WordOrder order = new WordOrder();
+					order.setOrder(index);
+					order.setWord(word);
+					order.setBlockName(blockName);
+					index++;
+					orders.add(order);
+				}
+				orderService.ensureIndex(WordOrder.class, "word", Order.ASCENDING);
+				orderService.insertAll(orders);
+			}
+			System.gc();
+		}
+		
 	}
 }

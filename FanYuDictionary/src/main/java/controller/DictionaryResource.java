@@ -105,8 +105,8 @@ public class DictionaryResource {
 		}
 		
 		Dictionary dictionary = dictionaryService.findById(dictionaryId);
-		if( dictionary != null && "梵汉大字典".equals(dictionary.getDisplayName()) ) {
-			return Response.status(403).entity("error").type("text/plain").build();
+		if( dictionary != null && "梵汉词汇表".equals(dictionary.getDisplayName()) ) {
+			return Response.status(200).entity("error").type("text/plain").build();
 		}
 		
 		dictionaryService.removeById(dictionaryId);
@@ -126,6 +126,24 @@ public class DictionaryResource {
 				userService.updateById(user.getId(), userService.entityToJson(user));
 			}
 		}
+		
+		return Response.status(200).entity("success").type("text/plain").build();
+	}
+	
+	@DELETE
+	@Produces("text/plain")
+	@Path("delwords/{dictionaryId}")
+	/**
+	 * 清空词条
+	 * @param dictionaryId
+	 * @return
+	 */
+	public Response delDictionaryWords(@PathParam("dictionaryId") String dictionaryId) {
+		if( dictionaryId == null || "".equals(dictionaryId) ) {
+			return Response.status(412).entity("dictionaryId 不允许为空").type("text/plain").build();
+		}
+		wordService.removeByDictionaryId(dictionaryId);
+		LOGGER.info("成功删除字典所关联的词条");
 		
 		return Response.status(200).entity("success").type("text/plain").build();
 	}

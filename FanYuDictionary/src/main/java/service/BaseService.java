@@ -1,13 +1,17 @@
 package service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -16,10 +20,13 @@ import utils.Pagination;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
+import com.mongodb.WriteResult;
 
-import org.springframework.data.mongodb.core.query.Order;
+import entity.Word;
 
 @SuppressWarnings("deprecation")
 public abstract class BaseService<T> {
@@ -87,6 +94,21 @@ public abstract class BaseService<T> {
 		Gson gson = new GsonBuilder().setExclusionStrategies(new JsonKit(keys)).create();
 		return gson.toJson(list);
 	}
+	
+	/**
+	 * 以pretty方式返回json字符串
+	 * @param list
+	 * @param keys
+	 * @return
+	 */
+	public String listToJsonPretty(List<?> list ,String[] keys) {
+		Gson gson = new GsonBuilder().setExclusionStrategies(new JsonKit(keys)).disableHtmlEscaping().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(gson.toJson(list));
+		return gson.toJson(je);
+	}
+	
+	
 	
 	/**
 	 * 通过条件查询,查询分页结果
@@ -210,6 +232,59 @@ public abstract class BaseService<T> {
 	}
 	
 	/**
+	 * 根据多个属性进行更新
+	 * @param keys
+	 * @param word
+	 */
+	protected void updateMulti(Map<String, Object> map,  T bean) {
+
+		
+		boolean start = true;
+		Criteria criteria = new Criteria();
+		Update update = new Update();
+		for (Entry<String , Object> KV : map.entrySet()) {
+			char[] array = KV.getKey().toCharArray();
+			array[0] -= 32;
+			String methodName = "get" + String.valueOf(array);
+			Object value = new Object();
+			try {
+				value = getEntityClass().getDeclaredMethod(methodName)
+						.invoke(bean);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (start) {
+				// 构造查询条件
+				criteria = Criteria.where(KV.getKey()).is(KV.getValue());
+				// 构造更新 K V
+				update = Update.update(KV.getKey(), value);
+				start = false;
+			} else {
+				// 构造查询条件
+				criteria = criteria.and(KV.getKey()).is(KV.getValue());
+				// 构造更新 K V
+				update = update.set(KV.getKey(), value);
+			}
+		}
+		Query query = new Query(criteria);
+
+		mongoTemplate.updateMulti(query, update, getEntityClass());
+	}
+	
+	/**
 	 * 根据ID更新对象
 	 * @param id
 	 * @param params
@@ -288,7 +363,7 @@ public abstract class BaseService<T> {
 	 * 一次保存多条数据
 	 * @param objects
 	 */
-	protected void insertAll(List<T> objects) {
+	protected void insertAll(Collection<T> objects) {
 		mongoTemplate.insertAll(objects);
 	}
 	
@@ -298,6 +373,10 @@ public abstract class BaseService<T> {
 	 */
 	protected void insert(List<T> batchToSave) {
 		mongoTemplate.insert(batchToSave, getEntityClass());
+	}
+	
+	public WriteResult updateMulti(Query query, Update update) {
+		return mongoTemplate.updateMulti(query, update, getEntityClass());
 	}
 	
 	/**

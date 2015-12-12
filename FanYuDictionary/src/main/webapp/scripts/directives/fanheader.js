@@ -198,6 +198,7 @@
             //选中则添加到checklist
             if (event.target.checked) {
                 addCheckItem(dictionaryId);
+                removeOtherDicGroup(dictionaryId);
             } else {
                 removeCheckItem(dictionaryId);
             }
@@ -207,6 +208,72 @@
                 UserService.updateUser($rootScope.currentUser).then(function (data) {
                     $.cookie('currentUser', JSON.stringify($rootScope.currentUser));
                 });
+            }
+        }
+        
+        function removeOtherDicGroup(dictionaryId) {
+            var isId = 0;
+            for (var i1 in $rootScope.fan_dictionaryList) {
+               if ($rootScope.fan_dictionaryList[i1].id == dictionaryId) {
+                  isId = 1;
+               }
+            }
+            for (var i2 in $rootScope.ba_dictionaryList) {
+              if ($rootScope.ba_dictionaryList[i2].id == dictionaryId) {
+                isId = 2;
+              }
+            }
+            for (var i3 in $rootScope.zang_dictionaryList) {
+              if ($rootScope.zang_dictionaryList[i3].id == dictionaryId) {
+                isId = 3;
+              }
+            }
+            for (var i4 in $rootScope.han_dictionaryList) {
+              if ($rootScope.han_dictionaryList[i4].id == dictionaryId) {
+                isId = 4;
+              }
+            }
+
+            if (isId == 1) {
+                for (var i11 in $rootScope.ba_dictionaryList) {
+                    removeCheckItem($rootScope.ba_dictionaryList[i11].id);
+                }
+                for (var i12 in $rootScope.zang_dictionaryList) {
+                  removeCheckItem($rootScope.zang_dictionaryList[i12].id);
+                }
+                for (var i13 in $rootScope.han_dictionaryList) {
+                  removeCheckItem($rootScope.han_dictionaryList[i13].id);
+                }
+            } else if (isId == 2) {
+                for (var i21 in $rootScope.fan_dictionaryList) {
+                  removeCheckItem($rootScope.fan_dictionaryList[i21].id);
+                }
+                for (var i22 in $rootScope.zang_dictionaryList) {
+                  removeCheckItem($rootScope.zang_dictionaryList[i22].id);
+                }
+                for (var i23 in $rootScope.han_dictionaryList) {
+                  removeCheckItem($rootScope.han_dictionaryList[i23].id);
+                }
+            } else if (isId == 3) {
+              for (var i31 in $rootScope.fan_dictionaryList) {
+                removeCheckItem($rootScope.fan_dictionaryList[i31].id);
+              }
+              for (var i32 in $rootScope.ba_dictionaryList) {
+                removeCheckItem($rootScope.ba_dictionaryList[i32].id);
+              }
+              for (var i33 in $rootScope.han_dictionaryList) {
+                removeCheckItem($rootScope.han_dictionaryList[i33].id);
+              }
+            } else if (isId == 4) {
+              for (var i41 in $rootScope.fan_dictionaryList) {
+                removeCheckItem($rootScope.fan_dictionaryList[i41].id);
+              }
+              for (var i42 in $rootScope.ba_dictionaryList) {
+                removeCheckItem($rootScope.ba_dictionaryList[i42].id);
+              }
+              for (var i43 in $rootScope.zang_dictionaryList) {
+                removeCheckItem($rootScope.zang_dictionaryList[i43].id);
+              }
             }
         }
 

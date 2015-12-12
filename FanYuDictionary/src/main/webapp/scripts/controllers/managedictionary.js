@@ -85,8 +85,8 @@
           if (data === 'success') {
             $('#deleteConfirmModal').modal('hide');
           } else if (data === 'error') {
-            alert('梵汉词汇表不允许删除');
             $('#deleteConfirmModal').modal('hide');
+            alert('梵汉词汇表不允许删除');
           }
           getDictionaryList();
         });
@@ -101,8 +101,8 @@
           if (data === 'success') {
             $('#deleteWordsFromDictsModal').modal('hide');
           } else if (data === 'error') {
-            alert('梵汉词汇表词条不允许清除');
             $('#deleteWordsFromDictsModal').modal('hide');
+            alert('梵汉词汇表词条不允许清除');
           }
           getDictionaryList();
         });

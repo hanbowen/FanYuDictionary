@@ -7,8 +7,27 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+
+
+
+
+
+
+
+//import net.sf.json.JSONArray;
+//import net.sf.json.JSONException;
+//import net.sf.json.JSONObject;
+//import net.sf.json.util.JSONTokener;
+
+
+
+
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +35,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+
+import entity.Word;
 
 
 
@@ -40,7 +61,8 @@ public class Context {
 
 
 	// import 是关键字, 所以起名为inport
-	private Map<String, JSONObject> inport= null;
+//	private Map<String, JSONObject> inport= null;
+	private List<JSONObject> inport= null;
 	
 	private Map<String , JSONObject> export = null;
 	
@@ -68,7 +90,7 @@ public class Context {
 	}
 
 
-	private String jsonText;
+//	private String jsonText;
 	
 	/*public static Context getInstance() {
 		if(context == null){
@@ -92,7 +114,7 @@ public class Context {
 		}
 	}
 	
-	public void  parseImport(String string) throws IOException{
+	public JSONArray parseImport(String string) throws IOException{
 		String sjson = null;
 		string = string.trim();
 		DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
@@ -106,23 +128,30 @@ public class Context {
 		reader.close();
 		sjson =  sb.toString();
 		
+		JSONTokener jt = null;
+		JSONArray ja = null;
+//		Collection<Word> con = null;
 		// 判断格式合法性 以及判重
 		if(sjson != null ){
 			
 			// 判断json数据中是否有 
-			inport = new LinkedHashMap<String, JSONObject>();
-			JSONTokener jt = null;
-			JSONArray ja = null;
+//			inport = new LinkedList<JSONObject>();
 			try{
+				long t1 = System.currentTimeMillis();
 				jt = new JSONTokener(sjson);
 				ja = new JSONArray( jt );
+//				ja = JSONArray.fromObject(sjson);
+//				con = JSONArray.toCollection(ja, Word.class);
+				long t2 = System.currentTimeMillis();
+				System.out.println(t2-t1);
 			}catch( JSONException e) {
 				e.printStackTrace();
 				this.syntax_error = true;
 				this.setErrorMessage(e.getMessage());
-				return;
+				return null;
 			}
 			
+			/*long t3 = System.currentTimeMillis();
 			for(int i=0,size = ja.length(); i < size ;i++ ){
 				JSONObject json = ja.getJSONObject(i);
 				String id = null ;
@@ -133,9 +162,28 @@ public class Context {
 				}
 				inport.put(id, json);
 			}
+			long t4 = System.currentTimeMillis();
+			System.out.println(t4-t3);*/
 		}
 		
-		this.jsonText = sjson;
+		return ja;
+		
+//		this.jsonText = sjson;
+		
+	}
+	
+	public List<String> parseOrder(String fileName) throws IOException{
+		List<String> words = new LinkedList<String>();
+		fileName = fileName.trim();
+		DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+		File file = defaultResourceLoader.getResource("config-context/"+fileName).getFile();
+		BufferedReader reader = new BufferedReader(  new InputStreamReader( new FileInputStream(file))); 
+		String line = null;
+		while( (line = reader.readLine())!= null ){
+			words.add(line);
+		}
+		reader.close();
+		return words;
 		
 	}
 	
@@ -163,7 +211,8 @@ public class Context {
 		if(sjson != null ){
 			export = new LinkedHashMap<String, JSONObject>();
 			JSONTokener jt = new JSONTokener(sjson);
-			JSONArray  ja = new JSONArray( jt );
+//			JSONArray  ja = new JSONArray( sjson );
+			JSONArray  ja = new JSONArray( sjson );
 			for(int i=0,size = ja.length(); i < size ;i++ ){
 				JSONObject json = ja.getJSONObject(i);
 				String id = null ;
@@ -232,7 +281,7 @@ public class Context {
 		return properties.getProperty(key,defaultValue) ;
 	}
 	
-	public Map<String, JSONObject> getInport() {
+	public List<JSONObject> getInport() {
 		return inport;
 	}
 	
@@ -241,9 +290,9 @@ public class Context {
 	}
 
 
-	public String getJsonText() {
-		return jsonText;
-	}
+//	public String getJsonText() {
+//		return jsonText;
+//	}
 
 
 }
