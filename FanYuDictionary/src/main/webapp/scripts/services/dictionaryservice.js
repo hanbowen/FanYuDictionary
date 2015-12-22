@@ -25,8 +25,8 @@
     };
     return service;
 
-    function getDictionaryList() {
-      return $http.get(dictURL).then(function(response){
+    function getDictionaryList(flag) {
+    	return $http.get(dictURL + '?logon=' + flag).then(function(response){
           response = response.data;
           var dicGroups = [{name:'梵',id:1},{name:'巴',id:2},{name:'藏',id:3},{name:'汉',id:4}];
           var newResponse = [];

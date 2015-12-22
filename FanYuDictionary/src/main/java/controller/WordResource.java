@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,8 +24,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
@@ -39,6 +36,7 @@ import org.json.JSONObject;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import service.DictionaryService;
@@ -53,8 +51,6 @@ import entity.Word;
 import entity.WordOrder;
 import export.Export;
 import export.StringExport;
-
-import org.springframework.data.mongodb.core.query.Order;
 
 @SuppressWarnings("deprecation")
 @Path("/word")
@@ -115,7 +111,16 @@ public class WordResource {
 			}
 			
 			List<String> list = wordService.findByParams(word , match, domain , dictionaries, logon);
-			list = orderService.getOrderedWords(list);
+			
+			// 获取所选词典的区块，并获得对应索引前缀
+			String[] dictionaryArray = dictionaries.split("@");
+			String dicGroup = "";
+			if (dictionaryArray != null && dictionaryArray.length !=0) {
+				Dictionary dictionary = dictionaryService.findById(dictionaryArray[0]);
+				dicGroup = dictionary.getDicGroup();
+			}
+			String blockName = orderService.getBlockName(dicGroup);
+			list = orderService.getOrderedWords(list , blockName);
 			LOGGER.info("成功返回词条列表");
 			return Response.status(200).entity(wordService.listToJson(list)).type("application/json").build();
 		}
@@ -362,6 +367,7 @@ public class WordResource {
 		} else {
 			String[] arr = fileName.split("_");
 			blockName = arr[0];
+			blockName = blockName.trim();
 		}
 		Context context = new Context();
 		List<String> words = new LinkedList<String>();
@@ -374,6 +380,8 @@ public class WordResource {
 			e.printStackTrace();
 			return Response.status(404).entity("PLEASE MAKE SURE THE FILE OF " +fileName+ ".TXT IS UPLOADED TO THE SERVER").type("text/plain").build();
 		}
+		
+		
 		
 		Worker worker = new Worker( true, words, blockName);
 		Thread t = new Thread(worker);
@@ -433,6 +441,14 @@ public class WordResource {
 			}
 		}
 		RequestUtil.outStream( request ,response ,"export" + new Date().getTime()+ ".zip" ,in );
+		
+	}
+	
+	
+	@GET
+	@Path("delete/all/indexes")
+	public void removeAllTheIndex() {
+		this.orderService.removeAll();
 		
 	}
 	
@@ -542,6 +558,7 @@ public class WordResource {
 					wordService.insertAll(jsonList);
 				}
 			} else{
+				orderService.removeByBlockName(blockName);
 				Iterator<String> iter = words.iterator();
 				Long index = 1L;
 				List<WordOrder> orders = new LinkedList<WordOrder>();

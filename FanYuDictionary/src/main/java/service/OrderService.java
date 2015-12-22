@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import entity.Dictionary;
 import entity.WordOrder;
 
 @Service
@@ -21,10 +22,10 @@ public class OrderService extends BaseService<WordOrder>{
 	
 	
 	
-	public List<String> getOrderedWords(List<String> words) {
+	public List<String> getOrderedWords(List<String> words, String blockName) {
 		
 		// 此处最终要将Order对象的word拿出来重新形成数组
-		List<WordOrder> list = findOrderByWords(words);
+		List<WordOrder> list = findOrderByWords(words, blockName);
 		Collections.sort(list);
 		List<String> typos = new ArrayList<String>();
 		if (list == null) {
@@ -73,12 +74,12 @@ public class OrderService extends BaseService<WordOrder>{
 		super.insertAll(objects);
 	}
 	
-	private List<WordOrder> findOrderByWords(List<String> words) {
+	private List<WordOrder> findOrderByWords(List<String> words, String blockName) {
 		
 		List<WordOrder> wordOrders = new LinkedList<WordOrder>();
 		for(int i=0; i<words.size();i++) {
 			// 此处有一个问题，是否有同样的词，如果没有同样的词，则只能查出一个，如果有同样的词，则能查出多个
-			WordOrder wordOrder = findOneByWord(words.get(i));
+			WordOrder wordOrder = findOneByWord(words.get(i), blockName);
 			if( wordOrder == null) {
 				wordOrder = new WordOrder();
 				wordOrder.setWord(words.get(i));
@@ -94,9 +95,10 @@ public class OrderService extends BaseService<WordOrder>{
 	 * @param word
 	 * @return
 	 */
-	private WordOrder findOneByWord(String word) {
+	private WordOrder findOneByWord(String word, String blockName) {
 		Map<String , Object> params = new HashMap<String , Object>();
 		params.put("word", word);
+		params.put("blockName", blockName);
 		return super.findOne(params);
 	}
 	
@@ -114,6 +116,43 @@ public class OrderService extends BaseService<WordOrder>{
 	protected Class<WordOrder> getEntityClass() {
 		// TODO Auto-generated method stub
 		return WordOrder.class;
+	}
+	
+	/**
+	 * 删除所有索引文件
+	 */
+	public void removeAll() {
+		super.removeAll();
+	}
+	
+	/**
+	 * 根据blockName删除对象
+	 */
+	public void removeByBlockName(String blockName) {
+		super.removeByProperty(query(where("blockName").is(blockName)));;
+	}
+	
+	/**
+	 * 获取相应区块的索引前缀名
+	 * @return
+	 */
+	public String getBlockName(String dicGroup) {
+		
+		String blockName = "";
+		switch(dicGroup) {
+		case "巴":
+			blockName = "pali";
+			break;
+		case "藏":
+			blockName = "tib";
+			break;
+		case "汉":
+			blockName = "chn";
+			break;
+		default:
+			blockName = "skt";
+		}
+		return blockName;
 	}
 
 }

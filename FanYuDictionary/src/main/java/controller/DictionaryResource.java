@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
@@ -38,8 +40,21 @@ public class DictionaryResource {
 	@GET
 	@Produces("application/json")
 	//@RequiresRoles(value = { "Reader", "Admin" }, logical = Logical.OR)
-	public Response getDictionaries() {
+	public Response getDictionaries(@QueryParam("logon") String logon) {
 		List<Dictionary> dictionaryList = dictionaryService.findAll();
+		List<Integer> list = new ArrayList<Integer>();
+		if ("N".equals(logon)) {
+			for ( int i=0; i< dictionaryList.size(); i++) {
+				if(dictionaryList.get(i).getCopyRight() == 1) {
+					dictionaryList.remove(i);
+					i--;
+				}
+			}
+			
+			/*for(Integer i : list) {
+				
+			}*/
+		}
 
 		LOGGER.info("成功返回字典列表");
 		return Response.status(200).entity(dictionaryService.listToJson(dictionaryList))

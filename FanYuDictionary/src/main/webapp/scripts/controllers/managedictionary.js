@@ -19,6 +19,7 @@
       vm.dictionary = {};
       vm.dictionary.id = '';
       vm.dictionary.displayName = '';
+      vm.dictionary.copyRight = '';
       vm.dictionary.shortName = '';
       vm.dictionary.dicGroup = '';
       vm.dictionary.author = $rootScope.currentUser;
@@ -38,11 +39,11 @@
       getDictionaryList();
 
       function getDictionaryList() {
-        DictionaryService.getDictionaryList().then(function(data) {
-          vm.dictionaryList = data;
-        });
+	      DictionaryService.getDictionaryList('Y').then(function(data) {
+	        vm.dictionaryList = data;
+	      });
       }
-
+      
       function createDictionary() {
         if (vm.dictionary.displayName == null || vm.dictionary.displayName == '') {
           alert('词典名不能为空');

@@ -84,11 +84,19 @@
                       }
                     });
                 };
-
-                DictionaryService.getDictionaryList().then(function(){
-                    initUserDicSequence();
-                    initUserDicCheckList();
-                });
+                
+                if ($.cookie('currentUser') == '' || $.cookie('currentUser') == undefined) {
+                	DictionaryService.getDictionaryList('N').then(function(){
+                        initUserDicSequence();
+                        initUserDicCheckList();
+                    });
+                } else {
+                	DictionaryService.getDictionaryList('Y').then(function(){
+                        initUserDicSequence();
+                        initUserDicCheckList();
+                    });
+                }
+                
             }
         };
 

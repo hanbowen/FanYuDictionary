@@ -219,6 +219,14 @@ public abstract class BaseService<T> {
 	protected T findAndRemove(Query query) {
 		return this.mongoTemplate.findAndRemove(query, this.getEntityClass());
 	}
+	
+	/**
+	 * 按条件进行删除
+	 * @param query
+	 */
+	protected void removeByProperty(Query query) {
+		this.mongoTemplate.remove(query, getEntityClass());
+	}
 
 	/**
 	 * 通过条件查询更新数据
@@ -357,6 +365,13 @@ public abstract class BaseService<T> {
 	 */
 	protected void removeByCriteria(Query query) {
 		mongoTemplate.remove(query, this.getEntityClass());
+	}
+	
+	/**
+	 * 删除所有对象
+	 */
+	protected void removeAll() {
+		mongoTemplate.dropCollection(getEntityClass());
 	}
 	
 	/**
